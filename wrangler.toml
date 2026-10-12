@@ -1,0 +1,6 @@
+name = "loghog"
+compatibility_date = "2026-10-01"
+account_id = "72f8d3b84babd88667f79a241a520ec3"
+
+[assets]
+directory = "./pages"

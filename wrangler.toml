@@ -16,3 +16,8 @@ run_worker_first = ["/*", "!/img/*", "!/site.css", "!/favicon*", "!/apple-touch-
 GOOGLE_PLACE_ID = "ChIJpwgXSETdk0MRGU-5EXZfaC0"
 
 # Secret (not stored here): npx wrangler secret put GOOGLE_PLACES_API_KEY
+
+# Settings for preview builds of non-main branches (no API key there, so
+# previews show the built-in reviews).
+[previews.vars]
+GOOGLE_PLACE_ID = "ChIJpwgXSETdk0MRGU-5EXZfaC0"

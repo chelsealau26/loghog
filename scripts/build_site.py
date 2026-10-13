@@ -36,7 +36,7 @@ TEL = "tel:+18504264220"
 AREAS = [
     "Pensacola", "West Pensacola", "Pensacola Beach", "Gulf Breeze", "Perdido Key",
     "Warrington", "Myrtle Grove", "Bellview", "Brent", "Ensley", "Ferry Pass",
-    "Gonzalez", "Cantonment", "Muscogee", "McDavid", "Goulding", "Seminole",
+    "Gonzalez", "Cantonment", "Muscogee", "McDavid", "Goulding",
     "Pace", "Milton", "Lillian, AL",
 ]
 

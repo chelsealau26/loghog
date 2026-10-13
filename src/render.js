@@ -56,8 +56,8 @@ export function renderReviews(data, { limit = 4 } = {}) {
     ${summary}
     <div class="lhr-grid">${cards}</div>
     <div class="lhr-actions">
-      <a class="lhr-btn" href="${REVIEW_LINK}" target="_blank" rel="noopener">LEAVE US A REVIEW</a>
-      ${live ? `<a class="lhr-btn lhr-ghost" href="${esc(data.mapsUrl || REVIEW_LINK)}" target="_blank" rel="noopener">READ ALL REVIEWS ON GOOGLE</a>` : ""}
+      <a class="lhr-btn" href="${REVIEW_LINK}" target="_blank" rel="noopener">Leave us a review</a>
+      ${live ? `<a class="lhr-btn lhr-ghost" href="${esc(data.mapsUrl || REVIEW_LINK)}" target="_blank" rel="noopener">Read all reviews on Google</a>` : ""}
     </div>
     ${live ? `<p class="lhr-attr">Reviews from Google Maps</p>` : ""}
   </div>`;

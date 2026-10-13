@@ -18,7 +18,7 @@ const CACHE_SECONDS = 12 * 60 * 60;
 const FAIL_KEY = "https://loghog.internal/google-reviews-failed-v2";
 const SEARCH_QUERY = "Log Hog Tree Service";
 const PHONE_DIGITS = "8504264220";
-const PAGE_LIMITS = { home: 4, about: 3, service: 3 };
+const PAGE_LIMITS = { home: 3, about: 3, service: 3 };
 
 export default {
   async fetch(request, env, ctx) {
@@ -50,6 +50,12 @@ export default {
     return new HTMLRewriter()
       .on("[data-lh-rating]", {
         element(el) { if (ratingLink) el.setInnerContent(ratingLink, { html: true }); },
+      })
+      .on("[data-lh-score]", {
+        element(el) { if (ratingLink) el.setInnerContent(`${stars} ★`); },
+      })
+      .on("[data-lh-count]", {
+        element(el) { if (ratingLink) el.setInnerContent(`average from ${Number(data.count)} Google reviews`); },
       })
       .on("[data-lh-rating-short]", {
         element(el) { if (ratingLink) el.setInnerContent(`${stars} stars across ${Number(data.count)} reviews`); },

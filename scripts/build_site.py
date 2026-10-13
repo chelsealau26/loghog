@@ -302,6 +302,7 @@ def crumbs_html(trail):
 
 
 NAV = [("Services", "/#services"), ("About", "/about-us"), ("Service areas", "/service-areas"), ("Contact", "/contact")]
+ARROW = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 
 
 def header(current):
@@ -309,10 +310,10 @@ def header(current):
         f'<a href="{u}"{" aria-current=page" if u == current else ""}>{n}</a>' for n, u in NAV)
     return f"""<a class="skip" href="#main">Skip to content</a>
 <header class="site-header"><div class="wrap">
-<a class="brand" href="/"><img src="/img/logo-96.webp" width="54" height="54" alt=""><span>Log Hog Tree Service</span></a>
+<a class="brand" href="/"><img src="/img/logo-96.webp" width="46" height="46" alt=""><span>Log Hog Tree Service</span></a>
 <nav class="nav" id="nav" aria-label="Main">{links}</nav>
 <a class="head-call" href="{TEL}">{BIZ["phone_display"]}</a>
-<a class="btn btn-saw" href="{SMS}">{ICON["text"]}Text a photo</a>
+<a class="btn btn-primary" href="{SMS}">Get a free quote</a>
 <button class="menu-btn" aria-controls="nav" aria-expanded="false" aria-label="Menu">{ICON["menu"]}</button>
 </div></header>"""
 
@@ -320,24 +321,26 @@ def header(current):
 def footer():
     svc = "".join(f'<li><a href="/services/{s["slug"]}">{escape(s["name"].capitalize())}</a></li>' for s in SERVICES)
     return f"""<footer class="site-footer"><div class="wrap">
-<div class="foot-brand"><img src="/img/logo-192.webp" width="88" height="88" alt="Log Hog Tree Service logo" loading="lazy">
-<p>Veteran-owned, licensed and insured tree service in Pensacola, Florida.</p></div>
+<div class="foot-brand"><img src="/img/logo-192.webp" width="72" height="72" alt="Log Hog Tree Service logo" loading="lazy">
+<p>Veteran-owned, licensed and insured tree care for Pensacola and the surrounding area.</p></div>
 <div><h2>Services</h2><ul>{svc}</ul></div>
 <div><h2>Company</h2><ul><li><a href="/about-us">About Dave</a></li><li><a href="/service-areas">Service areas</a></li><li><a href="/contact">Get a free quote</a></li><li><a href="{BIZ["review"]}" rel="noopener">Leave a review</a></li></ul></div>
 <div><h2>Contact</h2><ul>
-<li><a href="{TEL}">{BIZ["phone_display"]}</a> (call or text)</li>
+<li><a href="{TEL}">{BIZ["phone_display"]}</a>, call or text</li>
 <li><a href="mailto:{BIZ["email"]}">{BIZ["email"]}</a></li>
 <li>{BIZ["hours"]}</li>
-<li>Pensacola, FL and surrounding areas</li>
-<li><a href="{BIZ["facebook"]}" rel="noopener">Facebook</a> &nbsp; <a href="{BIZ["instagram"]}" rel="noopener">Instagram</a></li>
+<li><a href="{BIZ["facebook"]}" rel="noopener">Facebook</a> · <a href="{BIZ["instagram"]}" rel="noopener">Instagram</a></li>
 </ul></div>
-<p class="foot-legal">© {date.today().year} Log Hog Tree Service. Licensed and insured.</p>
+<p class="foot-legal">© {date.today().year} Log Hog Tree Service, Pensacola, Florida. Licensed and insured.</p>
 </div></footer>
-<div class="mobile-bar"><a class="btn btn-line" href="{TEL}">{ICON["phone"]}Call</a><a class="btn btn-saw" href="{SMS}">{ICON["text"]}Text a photo</a></div>
+<div class="mobile-bar"><a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}Call</a><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text a photo</a></div>
 <script>
 (function(){{var b=document.querySelector('.menu-btn'),n=document.getElementById('nav');if(b)b.addEventListener('click',function(){{var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)}});
 document.querySelectorAll('[data-yt]').forEach(function(v){{v.addEventListener('click',function(){{v.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+v.dataset.yt+'?autoplay=1" title="'+v.getAttribute('aria-label')+'" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>'}},{{once:true}})}})}})();
 </script>"""
+
+
+FONTS = "https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap"
 
 
 def page(path, title, description, body, *, current=None, extra_schema=(), og_image="/img/og-image.jpg"):
@@ -352,7 +355,7 @@ def page(path, title, description, body, *, current=None, extra_schema=(), og_im
 <title>{escape(title)}</title>
 <meta name="description" content="{escape(description)}">
 <link rel="canonical" href="{canonical}">
-<meta name="theme-color" content="#24170f">
+<meta name="theme-color" content="#2b211a">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Log Hog Tree Service">
 <meta property="og:title" content="{escape(title)}">
@@ -365,7 +368,7 @@ def page(path, title, description, body, *, current=None, extra_schema=(), og_im
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;700&family=Big+Shoulders+Display:wght@800&display=swap">
+<link rel="stylesheet" href="{FONTS}">
 <link rel="stylesheet" href="/site.css?v={CSS_VERSION}">
 {ld}
 </head>
@@ -380,18 +383,25 @@ def page(path, title, description, body, *, current=None, extra_schema=(), og_im
 """
 
 
-def reviews_block(page_key, limit, heading="What customers say", intro=None, tint=True):
-    intro_html = f"<p>{intro}</p>" if intro else ""
-    return f"""<section class="section{' tint' if tint else ''}" id="reviews"><div class="wrap">
-<div class="section-head"><h2>{heading}</h2>{intro_html}</div>
+RATING_FALLBACK = f'<a href="{BIZ["maps"]}" rel="noopener">Read our Google reviews</a>'
+
+
+def rating_line():
+    return f'<p class="rating-line"><span class="stars" aria-hidden="true">★★★★★</span><span data-lh-rating>{RATING_FALLBACK}</span></p>'
+
+
+def reviews_block(page_key, limit, heading="What our customers say", kicker="Reviews", stone=True):
+    return f"""<section class="section{' stone' if stone else ''}" id="reviews"><div class="wrap">
+<div class="section-head"><p class="kicker">{kicker}</p><h2>{heading}</h2></div>
 <div data-lh-reviews="{page_key}">{FALLBACK[limit]}</div>
 </div></section>"""
 
 
-def quote_band(heading="Get your free quote", text="Text a photo of the tree and your address. We'll text you back with a price."):
-    return f"""<section class="band"><div class="wrap">
+def band(heading="Don't wait for the next storm to decide for you",
+         text="Dead limbs and leaning trees only get more dangerous, and more expensive, with time. A photo and a text today gets you a clear, free quote."):
+    return f"""<section class="band dark"><div class="wrap">
 <div><h2>{heading}</h2><p>{text}</p></div>
-<div class="btns"><a class="btn btn-saw" href="{SMS}">{ICON["text"]}Text a photo</a><a class="btn btn-line" href="{TEL}">{ICON["phone"]}Call {BIZ["phone_display"]}</a></div>
+<div class="btns"><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text a photo for a quote</a><a class="btn btn-quiet" href="{TEL}">Call {BIZ["phone_display"]}</a></div>
 </div></section>"""
 
 
@@ -404,15 +414,15 @@ def faq_html(faq):
         f"<details><summary>{escape(q)}</summary><p>{escape(a)}</p></details>" for q, a in faq) + "</div>"
 
 
-RATING_FALLBACK = f'<a href="{BIZ["maps"]}" rel="noopener">See our Google reviews</a>'
+def cta_pair(primary="Text a photo for a quote"):
+    return f'<div class="btns"><a class="btn btn-primary" href="{SMS}">{ICON["text"]}{primary}</a><a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}Call {BIZ["phone_display"]}</a></div>'
 
 
-def trust_row():
-    return f"""<ul class="trust">
-<li>{ICON["flag"]}Veteran-owned</li>
-<li>{ICON["shield"]}Licensed &amp; insured</li>
-<li>{ICON["star"]}<span data-lh-rating>{RATING_FALLBACK}</span></li>
-</ul>"""
+PLAN = f"""<ol class="plan">
+<li><h3>Text us a photo</h3><p>Send a photo of the tree or job and your address to {BIZ["phone_display"]}. No forms, no waiting for someone to come measure.</p></li>
+<li><h3>Get a clear, free quote</h3><p>Dave looks it over and texts you back a straightforward price, with no obligation.</p></li>
+<li><h3>Enjoy your yard again</h3><p>We show up when we say we will, do the work safely, and leave your yard clean.</p></li>
+</ol>"""
 
 
 # ---------------------------------------------------------------- pages
@@ -428,70 +438,111 @@ HOME_FAQ = [
 
 def home():
     services = "".join(
-        f'<a class="service" href="/services/{s["slug"]}"><h3>{escape(s["name"].capitalize())}</h3><p>{escape(s["short"])}</p></a>'
+        f'<a class="svc" href="/services/{s["slug"]}"><h3>{escape(s["name"].capitalize())}</h3><p>{escape(s["short"])}</p><span class="arrow">{ARROW}</span></a>'
         for s in SERVICES)
     body = f"""
-<section class="hero on-dark"><div class="wrap">
+<section class="hero"><div class="hero-grid">
+<div class="hero-copy">
+<p class="kicker">Tree service in Pensacola, Florida</p>
+<h1>A safe, beautiful yard, without the hassle</h1>
+<p class="lede">Tree removal, trimming and stump grinding from a veteran-owned company that shows up on time and leaves your yard cleaner than we found it.</p>
+{cta_pair()}
+{rating_line()}
+</div>
+<div class="hero-media">{img("dave-climbing-oak", "Dave Lau of Log Hog Tree Service climbing a live oak in Pensacola", "(max-width: 980px) 100vw, 48vw", [480, 880], eager=True, w=880, h=1184)}</div>
+</div></section>
+
+<section class="section"><div class="wrap">
+<p class="kicker">Sound familiar?</p>
+<p class="statement">Overgrown trees, dead limbs and old stumps can make your yard feel more like a hazard than a haven. Every storm brings the same worry, and doing the work yourself isn't worth the risk.</p>
+<div class="trio">
+<div><h3>The limb over the roof</h3><p>Dead and overhanging branches are the first things to come down in a storm, onto your roof, your car or your fence.</p></div>
+<div><h3>The tree that's starting to lean</h3><p>A tree leaning toward the house is hard to stop thinking about, and harder to ignore after hurricane season starts.</p></div>
+<div><h3>Not knowing who to trust</h3><p>You want someone insured, careful and honest about price, who won't leave a mess for you to clean up.</p></div>
+</div>
+</div></section>
+
+<section class="section stone"><div class="wrap guide">
+{img("dave-lau-founder", "Dave Lau, founder of Log Hog Tree Service, with his climbing gear", "(max-width: 900px) 100vw, 520px", [640, 1100], w=520, h=650)}
 <div>
-<h1>Tree removal and trimming in Pensacola</h1>
-<p class="lede">Log Hog is Dave Lau, a retired Navy Chief who runs every job himself. Text a photo of your tree and get a free quote.</p>
-<div class="btns"><a class="btn btn-saw" href="{SMS}">{ICON["text"]}Text a photo for a quote</a><a class="btn btn-line" href="{TEL}">{ICON["phone"]}Call {BIZ["phone_display"]}</a></div>
-{trust_row()}
+<p class="kicker">Your guide</p>
+<h2>We understand. Your yard should be the place you relax, not the thing you worry about.</h2>
+<p class="muted">Log Hog is led by Dave Lau, who served 22 years in the U.S. Navy and retired as a Chief. Years as an aviation mechanic taught him to work carefully, safely and right the first time, and that's how he takes care of every tree and every yard.</p>
+<div class="creds">
+<div><strong>22 years</strong><span>U.S. Navy, retired Chief</span></div>
+<div><strong>Licensed</strong><span>and fully insured</span></div>
+<div><strong data-lh-score>5-star</strong><span data-lh-count>reviews on Google</span></div>
 </div>
-<div class="hero-photo">
-{img("dave-climbing-oak", "Dave Lau of Log Hog Tree Service climbing a live oak", "(max-width: 960px) 360px, 440px", [480, 880], eager=True, w=440, h=587)}
-<div class="thread" aria-label="Example of a text message quote request">
-<div class="thread-head"><span>Example</span><span>Log Hog</span></div>
-<p class="bubble out photo">{img("pine-takedown", "Photo of a tall pine sent for a quote", "150px", [480], w=150, h=112)}</p>
-<p class="bubble out">This pine is leaning toward the house. I'm off 9th Ave in Pensacola. Can you take a look?</p>
-<p class="bubble in">Got it, thanks for the photo! I'll text you a quote shortly.</p>
+<a class="text-link" href="/about-us">More about Dave</a>
 </div>
-</div>
+</div></section>
+
+<section class="section dark"><div class="wrap">
+<div class="section-head"><p class="kicker">The plan</p><h2>Getting your yard back takes three simple steps</h2></div>
+{PLAN}
+<div class="btns"><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text a photo for a quote</a></div>
 </div></section>
 
 <section class="section" id="services"><div class="wrap">
-<div class="section-head"><h2>Tree services</h2><p>From one dead limb to clearing a whole lot. Every job includes cleanup.</p></div>
-<div class="services">{services}</div>
+<div class="section-head"><p class="kicker">What we do</p><h2>Tree services for Pensacola homes</h2><p class="lede">Every job includes cleanup and hauling, so all that's left is the view.</p></div>
+<div class="svc-list">{services}</div>
 </div></section>
 
-<section class="section dark on-dark"><div class="wrap">
-<div class="section-head"><h2>How to get a quote</h2><p>No forms, no waiting for someone to come measure.</p></div>
-<ol class="steps">
-<li><h3>Text a photo</h3><p>Send a photo or two of the tree, stump or mess to {BIZ["phone_display"]}, along with your address.</p></li>
-<li><h3>Get your price</h3><p>Dave looks it over and texts you back a free, no-obligation quote.</p></li>
-<li><h3>We do the work</h3><p>We show up when we say we will, do the job safely, and haul everything away.</p></li>
-</ol>
-<p style="margin-top:36px"><a class="btn btn-saw" href="{SMS}">{ICON["text"]}Text a photo now</a></p>
-</div></section>
+{reviews_block("home", 3, "Neighbors who got their yards back")}
 
-<section class="section"><div class="wrap split">
-{img("dave-lau-founder", "Dave Lau, founder of Log Hog Tree Service, sitting in a front yard with his climbing gear", "(max-width: 860px) 100vw, 580px", [640, 1100], w=580, h=527)}
+<section class="section"><div class="wrap success">
+{img("dave-in-tree-selfie", "Dave Lau smiling while working high in a tree canopy", "(max-width: 900px) 100vw, 560px", [640, 1200], w=560, h=448)}
 <div>
-<h2>A Navy Chief up your tree</h2>
-<p>Dave Lau was born and raised in Mobile, Alabama, and served 22 years in the U.S. Navy, retiring as a Chief. Years as an aviation mechanic taught him to do things carefully, safely and right the first time, and that's how he runs Log Hog.</p>
-<p>When you hire Log Hog, Dave is on the job. Customers mention the same things again and again: he's on time, he's professional, and the yard looks better when he leaves than when he arrived.</p>
-<p><a class="btn btn-line" href="/about-us">More about Dave</a></p>
+<p class="kicker">Picture this</p>
+<h2>A yard you can enjoy, and sleep through the next storm</h2>
+<ul class="checks">
+<li>No more dead limbs hanging over the house</li>
+<li>Stumps gone, lawn smooth and easy to mow</li>
+<li>Healthy, well-shaped trees that make the whole property look cared for</li>
+<li>A clean yard the same day, with nothing left for you to haul</li>
+</ul>
+{cta_pair("Get my free quote")}
 </div>
 </div></section>
 
-{reviews_block("home", 4, "What Pensacola customers say")}
+{band()}
 
-<section class="section dark on-dark" id="areas"><div class="wrap">
-<div class="section-head"><h2>Serving Pensacola and nearby</h2><p>Escambia and Santa Rosa counties and the edge of Baldwin County, Alabama. Not sure if we come to you? Just ask.</p></div>
+<section class="section stone" id="areas"><div class="wrap">
+<div class="section-head"><p class="kicker">Service area</p><h2>Proudly serving Pensacola and nearby communities</h2></div>
 {areas_list()}
-<a class="btn btn-line" href="/service-areas">See all service areas</a>
+<a class="text-link" href="/service-areas">More about our service area</a>
 </div></section>
 
 <section class="section"><div class="wrap narrow">
-<h2>Common questions</h2>
+<div class="section-head"><p class="kicker">Questions</p><h2>Common questions</h2></div>
 {faq_html(HOME_FAQ)}
 </div></section>
-
-{quote_band()}
 """
     return page("/", "Tree Removal & Trimming in Pensacola, FL | Log Hog Tree Service",
                 "Veteran-owned tree service in Pensacola, FL. Tree removal, trimming, stump grinding, storm cleanup and palm trimming. Licensed & insured. Text a photo to (850) 426-4220 for a free quote.",
                 body, current="/", extra_schema=[schema_faq(HOME_FAQ)])
+
+
+def inner_hero(trail, h1, lede, *, ctas=True, rating=True):
+    return f"""<section class="page-hero"><div class="wrap">
+{crumbs_html(trail)}
+<h1>{escape(h1)}</h1>
+<p class="lede">{escape(lede)}</p>
+{cta_pair() if ctas else ""}
+{rating_line() if rating else ""}
+</div></section>"""
+
+
+def aside(photo=None, links_title=None, links=""):
+    pic = img(*photo) if photo else ""
+    more = f'<div class="aside-links"><h3>{links_title}</h3><ul>{links}</ul></div>' if links_title else ""
+    return f"""<aside class="aside">{pic}
+<div class="aside-box"><h2>Free quote by text</h2>
+<p>Send a photo and your address. Dave will text you back with a clear price.</p>
+<a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text a photo</a>
+<a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}{BIZ["phone_display"]}</a>
+<p style="margin:12px 0 0">{BIZ["hours"]}. Licensed and insured.</p></div>
+{more}</aside>"""
 
 
 def service_page(s):
@@ -500,39 +551,29 @@ def service_page(s):
                      for o in SERVICES if o is not s)
     p_name, p_alt, p_w = s["photo"]
     body = f"""
-<section class="page-hero on-dark"><div class="wrap">
-{crumbs_html(trail)}
-<h1>{escape(s["title"])}</h1>
-<p class="lede">{escape(s["lede"])}</p>
-<div class="btns"><a class="btn btn-saw" href="{SMS}">{ICON["text"]}Text a photo for a quote</a><a class="btn btn-line" href="{TEL}">{ICON["phone"]}Call {BIZ["phone_display"]}</a></div>
-{trust_row()}
-</div></section>
+{inner_hero(trail, s["title"], s["lede"])}
 
 <section class="section"><div class="wrap with-aside">
 <article class="prose">{s["body"].replace("{SMS}", SMS)}
 <h2>Questions about {escape(s["name"].lower())}</h2>
 {faq_html(s["faq"])}
 </article>
-<aside class="aside">
-{img(p_name, p_alt, "(max-width: 960px) 100vw, 340px", p_w)}
-<h2>Free quote by text</h2>
-<p>Send a photo and your address. Dave will text you back with a price.</p>
-<a class="btn btn-saw" href="{SMS}">{ICON["text"]}Text a photo</a>
-<a class="btn btn-line" href="{TEL}">{ICON["phone"]}{BIZ["phone_display"]}</a>
-<p>{BIZ["hours"]}<br>Licensed &amp; insured</p>
-<h3>Other services</h3>
-<ul>{others}</ul>
-</aside>
+{aside((p_name, p_alt, "(max-width: 980px) 100vw, 340px", p_w), "Other services", others)}
+</div></section>
+
+<section class="section dark"><div class="wrap">
+<div class="section-head"><p class="kicker">How it works</p><h2>Three simple steps</h2></div>
+{PLAN}
 </div></section>
 
 {reviews_block("service", 3)}
 
 <section class="section"><div class="wrap">
-<div class="section-head"><h2>{escape(s["name"].capitalize())} near you</h2><p>We serve Pensacola and these nearby communities:</p></div>
+<div class="section-head"><p class="kicker">Service area</p><h2>{escape(s["name"].capitalize())} across the Pensacola area</h2></div>
 {areas_list()}
 </div></section>
 
-{quote_band()}
+{band()}
 """
     service_schema = {
         "@context": "https://schema.org", "@type": "Service",
@@ -551,31 +592,32 @@ def service_page(s):
 def about():
     trail = [("Home", "/"), ("About", "/about-us")]
     body = f"""
-<section class="page-hero on-dark"><div class="wrap">
-{crumbs_html(trail)}
-<h1>Meet Dave Lau, the man behind Log Hog</h1>
-<p class="lede">22 years in the U.S. Navy, now taking care of trees across Pensacola, one yard at a time.</p>
-</div></section>
+{inner_hero(trail, "Meet Dave Lau, the man behind Log Hog", "Twenty-two years in the U.S. Navy. Now he takes care of trees across Pensacola, one yard at a time.", ctas=False, rating=False)}
 
-<section class="section"><div class="wrap split">
-{img("dave-lau-founder", "Dave Lau, founder of Log Hog Tree Service", "(max-width: 860px) 100vw, 580px", [640, 1100], w=580, h=527)}
+<section class="section"><div class="wrap guide">
+{img("dave-lau-founder", "Dave Lau, founder of Log Hog Tree Service", "(max-width: 900px) 100vw, 520px", [640, 1100], w=520, h=650)}
 <div class="prose">
-<p class="lede" style="color:var(--ink)">Dave Lau was born and raised in Mobile, Alabama, and served 22 years in the U.S. Navy, retiring as a Navy Chief.</p>
+<p class="statement" style="font-size:clamp(24px,2.6vw,32px);margin-bottom:28px">Dave Lau was born and raised in Mobile, Alabama, and served 22 years in the U.S. Navy, retiring as a Navy Chief.</p>
 <p>With a background in aviation mechanics, he brings precision, safety and hard work to every tree job. For Dave, tree care is more than a job. It's a passion: he loves making trees look their best and seeing customers happy with their yards.</p>
 <p>A devoted Christian, Dave aims to serve every customer with integrity and respect. When you hire Log Hog, you get a skilled, reliable partner who cares about the beauty and safety of your property.</p>
-<ul class="checks"><li>Retired U.S. Navy Chief, 22 years of service</li><li>Licensed and insured</li><li>Christian and veteran-owned</li><li>Rated {"<span data-lh-rating-short>highly</span>"} on Google</li></ul>
+<div class="creds">
+<div><strong>22 years</strong><span>U.S. Navy, retired Chief</span></div>
+<div><strong>Licensed</strong><span>and fully insured</span></div>
+<div><strong data-lh-score>5-star</strong><span data-lh-count>reviews on Google</span></div>
+</div>
+{cta_pair()}
 </div>
 </div></section>
 
-<section class="section tint"><div class="wrap narrow">
-<h2>See Log Hog at work</h2>
+<section class="section stone"><div class="wrap narrow">
+<div class="section-head"><p class="kicker">Video</p><h2>See Log Hog at work</h2></div>
 <button class="video" type="button" data-yt="zsXi8T0tEgA" aria-label="Play video: Log Hog Tree Service at work">
 <img src="https://i.ytimg.com/vi/zsXi8T0tEgA/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span>{ICON["play"]}</span></button>
 </div></section>
 
-{reviews_block("about", 3, "What customers say about Dave", tint=False)}
+{reviews_block("about", 3, "What customers say about Dave", stone=False)}
 
-{quote_band("Ready to get your yard back?", "Text a photo of the job and your address to get a free quote.")}
+{band("Ready to get your yard back?", "Text a photo of the job and your address. You'll get a clear, free quote, with no pressure and no obligation.")}
 """
     return page("/about-us", "About Log Hog | Veteran-Owned Tree Service in Pensacola, FL",
                 "Meet Dave Lau, the retired Navy Chief behind Log Hog Tree Service. Licensed and insured tree removal, trimming and stump grinding in Pensacola and surrounding areas.",
@@ -585,21 +627,17 @@ def about():
 def contact():
     trail = [("Home", "/"), ("Contact", "/contact")]
     body = f"""
-<section class="page-hero on-dark"><div class="wrap">
-{crumbs_html(trail)}
-<h1>Get a free tree service quote</h1>
-<p class="lede">The fastest way is a text with a photo. No forms, no waiting on a callback.</p>
-</div></section>
+{inner_hero(trail, "Get a free tree service quote", "The fastest way is a text with a photo. No forms, and no waiting on a callback.", ctas=False)}
 
 <section class="section"><div class="wrap">
 <div class="ways">
-<div class="way main"><h2>Text a photo</h2><p>Send a photo or two of the tree or job, plus your address, to {BIZ["phone_display"]}. We'll text you back with a price.</p><a class="btn btn-saw" href="{SMS}">{ICON["text"]}Text {BIZ["phone_display"]}</a></div>
-<div class="way"><h2>Call</h2><p>Prefer to talk it through? Call Dave directly, {BIZ["hours"]}.</p><a class="btn btn-line" href="{TEL}">{ICON["phone"]}Call {BIZ["phone_display"]}</a></div>
-<div class="way"><h2>Email</h2><p>Photos by email work too. Include your address and phone number.</p><a class="btn btn-line" href="mailto:{BIZ["email"]}">{BIZ["email"]}</a></div>
+<div class="way main"><h2>Text a photo</h2><p>Send a photo or two of the tree or job, plus your address, to {BIZ["phone_display"]}. We'll text you back with a price.</p><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text {BIZ["phone_display"]}</a></div>
+<div class="way"><h2>Call</h2><p>Prefer to talk it through? Call Dave directly, {BIZ["hours"]}.</p><a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}Call {BIZ["phone_display"]}</a></div>
+<div class="way"><h2>Email</h2><p>Photos by email work too. Include your address and phone number.</p><a class="btn btn-quiet" href="mailto:{BIZ["email"]}">Email us</a></div>
 </div>
 </div></section>
 
-<section class="section tint"><div class="wrap split" style="align-items:start">
+<section class="section stone"><div class="wrap two-col">
 <div class="prose">
 <h2>What to send for an accurate quote</h2>
 <ul class="checks">
@@ -607,17 +645,19 @@ def contact():
 <li>A photo of the base or stump</li>
 <li>Anything nearby: the house, fence, pool, driveway or power lines</li>
 <li>Your address</li>
-<li>What you'd like done (removed, trimmed, stump ground, hauled)</li>
+<li>What you'd like done: removed, trimmed, stump ground or hauled</li>
 <li>Access notes, like a locked gate and how wide it is</li>
 </ul>
 </div>
 <div class="prose">
-<h2>Hours and area</h2>
+<h2>Hours and service area</h2>
 <p><strong>{BIZ["hours"]}</strong></p>
-<p>We serve Pensacola, Gulf Breeze, Pensacola Beach, Perdido Key, Cantonment, Pace, Milton, Lillian, AL and the communities in between. <a href="/service-areas">See all service areas</a>.</p>
+<p>We serve Pensacola, Gulf Breeze, Pensacola Beach, Perdido Key, Cantonment, Pace, Milton, Lillian, AL and the communities in between. <a href="/service-areas">See the full service area</a>.</p>
 <p>Licensed and insured.</p>
 </div>
 </div></section>
+
+{reviews_block("service", 3, "Why Pensacola homeowners call Log Hog", stone=False)}
 """
     return page("/contact", "Free Tree Service Quote | Call or Text Log Hog in Pensacola, FL",
                 "Text a photo of your tree and your address to (850) 426-4220 for a fast, free quote. Tree removal, trimming and stump grinding in Pensacola. Mon–Sat 8am–5pm.",
@@ -628,11 +668,7 @@ def areas_page():
     trail = [("Home", "/"), ("Service areas", "/service-areas")]
     svc = "".join(f'<li><a href="/services/{s["slug"]}">{escape(s["name"].capitalize())}</a></li>' for s in SERVICES)
     body = f"""
-<section class="page-hero on-dark"><div class="wrap">
-{crumbs_html(trail)}
-<h1>Tree service across the Pensacola area</h1>
-<p class="lede">Based in Pensacola and serving Escambia and Santa Rosa counties, plus Lillian, Alabama.</p>
-</div></section>
+{inner_hero(trail, "Tree service across the Pensacola area", "Based in Pensacola and serving Escambia and Santa Rosa counties, plus Lillian, Alabama.")}
 
 <section class="section"><div class="wrap with-aside">
 <div class="prose">
@@ -644,17 +680,11 @@ def areas_page():
 <h2>Services in every area</h2>
 <ul>{svc}</ul>
 </div>
-<aside class="aside">
-<h2>Free quote by text</h2>
-<p>Send a photo and your address. Dave will text you back with a price.</p>
-<a class="btn btn-saw" href="{SMS}">{ICON["text"]}Text a photo</a>
-<a class="btn btn-line" href="{TEL}">{ICON["phone"]}{BIZ["phone_display"]}</a>
-<p>{BIZ["hours"]}</p>
-</aside>
+{aside()}
 </div></section>
 
 {reviews_block("service", 3)}
-{quote_band()}
+{band()}
 """
     return page("/service-areas", "Service Areas | Log Hog Tree Service, Pensacola FL",
                 "Log Hog Tree Service serves Pensacola, Gulf Breeze, Pensacola Beach, Perdido Key, Cantonment, Pace, Milton, Lillian AL and nearby communities. Text a photo for a free quote.",
@@ -663,10 +693,10 @@ def areas_page():
 
 def not_found():
     body = f"""
-<section class="page-hero on-dark"><div class="wrap">
-<h1>This page fell over</h1>
-<p class="lede">The page you're looking for doesn't exist anymore. Try the homepage, or text us a photo for a free quote.</p>
-<div class="btns"><a class="btn btn-saw" href="/">Go to the homepage</a><a class="btn btn-line" href="{SMS}">Text a photo</a></div>
+<section class="page-hero"><div class="wrap">
+<h1>This page has fallen over</h1>
+<p class="lede">The page you're looking for doesn't exist anymore. Head to the homepage, or text us a photo for a free quote.</p>
+<div class="btns"><a class="btn btn-primary" href="/">Go to the homepage</a><a class="btn btn-quiet" href="{SMS}">Text a photo</a></div>
 </div></section>"""
     html = page("/404", "Page not found | Log Hog Tree Service", "Page not found.", body)
     return html.replace('<link rel="canonical" href="https://loghogtreeservice.com/404">', '<meta name="robots" content="noindex">')

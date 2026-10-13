@@ -1,5 +1,6 @@
-// Serves the static site from ./pages and, on pages that have a reviews
-// section, swaps in live reviews from Google (Places API).
+// Serves the static site from ./pages and swaps in live Google data (Places
+// API): the reviews sections ([data-lh-reviews]) and the star rating
+// ([data-lh-rating], [data-lh-rating-short]).
 //
 // Setup (one time):
 //   npx wrangler secret put GOOGLE_PLACES_API_KEY
@@ -17,7 +18,7 @@ const CACHE_SECONDS = 12 * 60 * 60;
 const FAIL_KEY = "https://loghog.internal/google-reviews-failed-v2";
 const SEARCH_QUERY = "Log Hog Tree Service";
 const PHONE_DIGITS = "8504264220";
-const PAGE_LIMITS = { home: 4, about: 3 };
+const PAGE_LIMITS = { home: 4, about: 3, service: 3 };
 
 export default {
   async fetch(request, env, ctx) {
@@ -41,7 +42,18 @@ export default {
     }
     if (!data?.reviews?.length) return res;
 
+    const stars = Number(data.rating).toFixed(1);
+    const ratingLink = data.rating && data.count
+      ? `<a href="${escapeAttr(data.mapsUrl || "")}" rel="noopener">Rated ${stars} from ${Number(data.count)} Google reviews</a>`
+      : null;
+
     return new HTMLRewriter()
+      .on("[data-lh-rating]", {
+        element(el) { if (ratingLink) el.setInnerContent(ratingLink, { html: true }); },
+      })
+      .on("[data-lh-rating-short]", {
+        element(el) { if (ratingLink) el.setInnerContent(`${stars} stars across ${Number(data.count)} reviews`); },
+      })
       .on("[data-lh-reviews]", {
         element(el) {
           const page = el.getAttribute("data-lh-reviews");
@@ -52,6 +64,8 @@ export default {
       .transform(res);
   },
 };
+
+const escapeAttr = (v) => String(v).replace(/[&"<>]/g, (c) => ({ "&": "&amp;", '"': "&quot;", "<": "&lt;", ">": "&gt;" })[c]);
 
 async function getReviews(env, ctx) {
   if (!env.GOOGLE_PLACES_API_KEY) throw new Error("GOOGLE_PLACES_API_KEY not set");

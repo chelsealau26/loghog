@@ -340,7 +340,7 @@ document.querySelectorAll('[data-yt]').forEach(function(v){{v.addEventListener('
 </script>"""
 
 
-FONTS = "https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap"
+FONTS = "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Zilla+Slab:wght@500;700&display=swap"
 
 
 def page(path, title, description, body, *, current=None, extra_schema=(), og_image="/img/og-image.jpg"):
@@ -355,7 +355,7 @@ def page(path, title, description, body, *, current=None, extra_schema=(), og_im
 <title>{escape(title)}</title>
 <meta name="description" content="{escape(description)}">
 <link rel="canonical" href="{canonical}">
-<meta name="theme-color" content="#2b211a">
+<meta name="theme-color" content="#2a1e19">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Log Hog Tree Service">
 <meta property="og:title" content="{escape(title)}">

@@ -14,7 +14,7 @@ import { renderReviews, fromPlaces } from "./render.js";
 
 const CACHE_KEY = "https://loghog.internal/google-reviews-v1";
 const CACHE_SECONDS = 12 * 60 * 60;
-const FAIL_KEY = "https://loghog.internal/google-reviews-failed-v1";
+const FAIL_KEY = "https://loghog.internal/google-reviews-failed-v2";
 const SEARCH_QUERY = "Log Hog Tree Service";
 const PHONE_DIGITS = "8504264220";
 const PAGE_LIMITS = { home: 4, about: 3 };

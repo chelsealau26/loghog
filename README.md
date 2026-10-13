@@ -49,3 +49,15 @@ Updating this toolkit
 Commit the fix to migrate.sh here. Every client repo created from the template after that picks it up. Repos already created keep the version they started with, which is what you want — a migration in progress should not change underneath the person running it.
 
 When you change the toolkit, check that the "You should see" samples in the Trainual course still match what the script prints.
+## Live Google reviews (Log Hog)
+The homepage and About page show live reviews from the Google Business Profile.
+`src/index.js` (Cloudflare Worker) fetches them from the Google Places API, caches them
+for 12 hours, and drops them into the `[data-lh-reviews]` sections. If Google can't be
+reached or no key is set, the built-in reviews baked into the HTML are shown instead.
+
+One-time setup:
+1. Google Cloud console → enable **Places API (New)** → create an API key restricted to that API.
+2. `npx wrangler secret put GOOGLE_PLACES_API_KEY` (or Cloudflare dashboard → loghog → Settings → Variables and Secrets).
+3. Optional: put the Place ID in `GOOGLE_PLACE_ID` in wrangler.toml (otherwise it's looked up by name).
+
+Change the built-in reviews: edit `scripts/build-fallback.mjs`, then run `node scripts/build-fallback.mjs`.

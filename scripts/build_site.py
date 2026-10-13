@@ -37,7 +37,7 @@ AREAS = [
     "Pensacola", "West Pensacola", "Pensacola Beach", "Gulf Breeze", "Perdido Key",
     "Warrington", "Myrtle Grove", "Bellview", "Brent", "Ensley", "Ferry Pass",
     "Gonzalez", "Cantonment", "Muscogee", "McDavid", "Goulding",
-    "Pace", "Milton", "Lillian, AL",
+    "Pace", "Milton", "Lillian, AL", "Seminole, AL",
 ]
 
 ICON = {

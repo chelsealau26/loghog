@@ -14,7 +14,9 @@ import { renderReviews, fromPlaces } from "./render.js";
 
 const CACHE_KEY = "https://loghog.internal/google-reviews-v1";
 const CACHE_SECONDS = 12 * 60 * 60;
-const SEARCH_QUERY = "Log Hog Tree Service Pensacola FL";
+const FAIL_KEY = "https://loghog.internal/google-reviews-failed-v1";
+const SEARCH_QUERY = "Log Hog Tree Service";
+const PHONE_DIGITS = "8504264220";
 const PAGE_LIMITS = { home: 4, about: 3 };
 
 export default {
@@ -61,29 +63,54 @@ async function getReviews(env, ctx) {
   const base = env.PLACES_ENDPOINT || "https://places.googleapis.com/v1";
   const headers = { "X-Goog-Api-Key": env.GOOGLE_PLACES_API_KEY };
 
-  let placeId = env.GOOGLE_PLACE_ID;
-  if (!placeId) {
-    const r = await fetch(`${base}/places:searchText`, {
-      method: "POST",
-      headers: { ...headers, "Content-Type": "application/json", "X-Goog-FieldMask": "places.id,places.displayName" },
-      body: JSON.stringify({ textQuery: SEARCH_QUERY, pageSize: 1 }),
+  // A recent failure is remembered for 30 minutes so a problem can't turn
+  // every page view into a paid Google request.
+  const failed = await cache.match(FAIL_KEY);
+  if (failed) throw new Error("recent failure: " + (await failed.text()));
+
+  try {
+    const placeId = env.GOOGLE_PLACE_ID || (await findPlaceId(base, headers));
+    const r = await fetch(`${base}/places/${encodeURIComponent(placeId)}`, {
+      headers: { ...headers, "X-Goog-FieldMask": "id,rating,userRatingCount,googleMapsUri,reviews" },
     });
-    if (!r.ok) throw new Error(`place search failed: ${r.status} ${await r.text()}`);
-    const found = (await r.json()).places?.[0];
-    if (!found || !/log\s*hog/i.test(found.displayName?.text || "")) throw new Error("business not found by search");
-    placeId = found.id;
+    if (!r.ok) throw new Error(`place details failed: ${r.status} ${(await r.text()).slice(0, 300)}`);
+    const data = { ...fromPlaces(await r.json()), placeId };
+    ctx.waitUntil(put(cache, CACHE_KEY, JSON.stringify(data), CACHE_SECONDS));
+    return data;
+  } catch (e) {
+    ctx.waitUntil(put(cache, FAIL_KEY, String(e.message || e), 30 * 60));
+    throw e;
   }
+}
 
-  const r = await fetch(`${base}/places/${encodeURIComponent(placeId)}`, {
-    headers: { ...headers, "X-Goog-FieldMask": "id,rating,userRatingCount,googleMapsUri,reviews" },
+// Find the business on Google: match the phone number first, then the name.
+async function findPlaceId(base, headers) {
+  const r = await fetch(`${base}/places:searchText`, {
+    method: "POST",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json",
+      "X-Goog-FieldMask": "places.id,places.displayName,places.nationalPhoneNumber,places.internationalPhoneNumber",
+    },
+    body: JSON.stringify({
+      textQuery: SEARCH_QUERY,
+      pageSize: 10,
+      locationBias: { circle: { center: { latitude: 30.4213, longitude: -87.2169 }, radius: 50000 } },
+    }),
   });
-  if (!r.ok) throw new Error(`place details failed: ${r.status} ${await r.text()}`);
-  const data = { ...fromPlaces(await r.json()), placeId };
+  if (!r.ok) throw new Error(`place search failed: ${r.status} ${(await r.text()).slice(0, 300)}`);
+  const places = (await r.json()).places || [];
+  const digits = (s) => String(s || "").replace(/\D/g, "").slice(-10);
+  const found =
+    places.find((p) => [p.nationalPhoneNumber, p.internationalPhoneNumber].some((n) => digits(n) === PHONE_DIGITS)) ||
+    places.find((p) => /log\s*hog/i.test(p.displayName?.text || ""));
+  if (!found) {
+    const seen = places.map((p) => `${p.displayName?.text} ${p.nationalPhoneNumber || ""}`).join("; ");
+    throw new Error(`business not found by search (saw: ${seen || "nothing"})`);
+  }
+  return found.id;
+}
 
-  ctx.waitUntil(
-    cache.put(CACHE_KEY, new Response(JSON.stringify(data), {
-      headers: { "content-type": "application/json", "cache-control": `public, max-age=${CACHE_SECONDS}` },
-    })),
-  );
-  return data;
+function put(cache, key, body, seconds) {
+  return cache.put(key, new Response(body, { headers: { "cache-control": `public, max-age=${seconds}` } }));
 }

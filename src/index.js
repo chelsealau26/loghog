@@ -95,7 +95,9 @@ async function findPlaceId(base, headers) {
     body: JSON.stringify({
       textQuery: SEARCH_QUERY,
       pageSize: 10,
-      locationBias: { circle: { center: { latitude: 30.4213, longitude: -87.2169 }, radius: 50000 } },
+      // Log Hog has no public address (service-area business); Google leaves
+      // those out of search results unless asked.
+      includePureServiceAreaBusinesses: true,
     }),
   });
   if (!r.ok) throw new Error(`place search failed: ${r.status} ${(await r.text()).slice(0, 300)}`);

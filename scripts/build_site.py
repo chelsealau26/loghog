@@ -340,7 +340,7 @@ document.querySelectorAll('[data-yt]').forEach(function(v){{v.addEventListener('
 </script>"""
 
 
-FONTS = "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Zilla+Slab:wght@500;700&display=swap"
+FONTS = "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
 
 
 def page(path, title, description, body, *, current=None, extra_schema=(), og_image="/img/og-image.jpg"):

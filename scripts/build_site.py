@@ -652,7 +652,7 @@ def contact():
 <div class="prose">
 <h2>Hours and service area</h2>
 <p><strong>{BIZ["hours"]}</strong></p>
-<p>We serve Pensacola, Gulf Breeze, Pensacola Beach, Perdido Key, Cantonment, Pace, Milton, Lillian, AL and the communities in between. <a href="/service-areas">See the full service area</a>.</p>
+<p>We serve Pensacola, Gulf Breeze, Pensacola Beach, Perdido Key, Cantonment, Pace, Milton, Lillian and Seminole, AL, and the communities in between. <a href="/service-areas">See the full service area</a>.</p>
 <p>Licensed and insured.</p>
 </div>
 </div></section>
@@ -668,7 +668,7 @@ def areas_page():
     trail = [("Home", "/"), ("Service areas", "/service-areas")]
     svc = "".join(f'<li><a href="/services/{s["slug"]}">{escape(s["name"].capitalize())}</a></li>' for s in SERVICES)
     body = f"""
-{inner_hero(trail, "Tree service across the Pensacola area", "Based in Pensacola and serving Escambia and Santa Rosa counties, plus Lillian, Alabama.")}
+{inner_hero(trail, "Tree service across the Pensacola area", "Based in Pensacola and serving Escambia and Santa Rosa counties, plus Lillian and Seminole, Alabama.")}
 
 <section class="section"><div class="wrap with-aside">
 <div class="prose">

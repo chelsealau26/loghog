@@ -200,22 +200,22 @@ SERVICES = [
     },
     {
         "slug": "palm-tree-trimming",
-        "name": "Palm trimming & skinning",
-        "title": "Palm Tree Trimming & Skinning in Pensacola, FL",
-        "short": "Dead fronds and seed pods cut back, trunks skinned clean, bushes and shrubs shaped.",
-        "lede": "Brown fronds and seed pods make a palm look tired. We trim palms back to healthy green, skin the trunks clean, and shape your bushes and shrubs while we're there.",
+        "name": "Palm & bush trimming",
+        "title": "Palm Tree & Bush Trimming in Pensacola, FL",
+        "short": "Dead fronds and seed pods cut back, bushes and shrubs shaped.",
+        "lede": "Brown fronds and seed pods make a palm look tired. We trim palms back to healthy green and shape your bushes and shrubs while we're there.",
         "photo": ("before-after-palm-trim", "A palm tree before and after trimming", [480, 900]),
         "body": """
 <h2>Palm trimming</h2>
 <p>We cut off dead and dying fronds, seed pods and flower stalks, which keeps palms looking clean and stops heavy fronds from dropping on cars, roofs and people. We leave the healthy green fronds alone: over-trimming (the “hurricane cut”) weakens palms.</p>
-<h2>Palm skinning</h2>
-<p>Skinning removes the old frond bases (the “boots”) to give the trunk a smooth, clean look. It's popular on sabal and Canary Island date palms around Pensacola and the beaches.</p>
+<h2>Palm skinning, only if you want it</h2>
+<p>Skinning removes the old frond bases (the “boots”) for a smooth trunk. We don't skin palms as part of a normal trim. If you're interested, just ask and we'll talk it through with you before any work starts.</p>
 <h2>Bushes and shrubs</h2>
 <p>We shape overgrown hedges, bushes and shrubs and cut back anything crowding the house, walkways or windows.</p>
 <h2>What's included</h2>
 <ul class="checks">
 <li>Dead frond, seed pod and flower stalk removal</li>
-<li>Trunk skinning on request</li>
+<li>Trunk skinning only if we've agreed on it ahead of time</li>
 <li>Hedge, bush and shrub shaping</li>
 <li>Cleanup and hauling of everything we cut</li>
 </ul>
@@ -224,6 +224,7 @@ SERVICES = [
             ("How often should palms be trimmed?", "Most palms look best with a trim once or twice a year. Trimming out seed pods before they drop saves a lot of mess."),
             ("Is it bad to cut off green fronds?", "Yes. Palms feed through their green fronds, so we leave them on. We only remove dead, dying and hanging fronds unless they're in the way."),
             ("Do you trim tall palms?", "Yes. Send a photo and let us know roughly how tall it is."),
+            ("Do you skin palm trunks?", "Only if you ask for it and we agree on it ahead of time. It's not part of a normal palm trim."),
         ],
     },
     {
@@ -265,7 +266,7 @@ def schema_business():
         "logo": f"{SITE}/img/logo-192.png",
         "image": [f"{SITE}/img/og-image.jpg", f"{SITE}/img/dave-climbing-oak-880.webp"],
         "telephone": BIZ["phone_e164"],
-        "description": "Christian and veteran-owned, licensed and insured tree service in Pensacola, FL: tree removal, trimming and pruning, storm cleanup, palm trimming and skinning, stump grinding, and debris hauling.",
+        "description": "Christian and veteran-owned, licensed and insured tree service in Pensacola, FL: tree removal, trimming and pruning, storm cleanup, palm and bush trimming, stump grinding, and debris hauling.",
         "founder": {"@type": "Person", "name": "Dave Lau"},
         "address": {"@type": "PostalAddress", "addressLocality": "Pensacola", "addressRegion": "FL", "addressCountry": "US"},
         "areaServed": [{"@type": "AdministrativeArea", "name": "Escambia County, FL"},

@@ -962,7 +962,7 @@ def areas_page():
     body = f"""
 {inner_hero(trail, "Taking care of trees all around Pensacola", "We're based in Pensacola and work throughout Escambia and Santa Rosa counties, plus Lillian and Seminole, Alabama.", photo=("oaks-trimmed-front-yard", "Freshly trimmed oaks over a Pensacola front yard", [480, 900]))}
 
-<section class="section dark areas-sec"><div class="wrap areas-grid">
+<section class="section areas-sec light"><div class="wrap areas-grid">
 <div>
 <div class="section-head"><h2>Where <em>we work</em></h2><p class="lede">Tap a town to find it on the map.</p></div>
 {area_chips()}

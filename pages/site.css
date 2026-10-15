@@ -835,3 +835,17 @@ h2 em{font-style:italic;color:var(--orange)}
 .facts strong{display:block;font:800 26px/1.2 var(--serif);color:var(--ink);margin-bottom:8px}
 .facts p{margin:0;font-size:16px;line-height:1.6;color:var(--muted)}
 @media (max-width:900px){.shotlist{grid-template-columns:1fr;gap:40px}.viewfinder{max-width:420px}.facts-row{grid-template-columns:1fr}.facts-row>div{padding:32px 0}.facts-row>div+div{border-left:0;border-top:1px solid var(--line)}}
+
+/* Map section: plain dark (no rings), plus a light version */
+.section.dark.areas-sec{background:#1c130f}
+.areas-sec.light{background:var(--stone)}
+.areas-sec.light .area-chips button{color:var(--ink);background:#fff;border-color:var(--line)}
+.areas-sec.light .area-chips button:hover,.areas-sec.light .area-chips button.on{color:#fff;background:var(--orange);border-color:var(--orange)}
+.areas-sec.light .text-link{color:var(--ink)}
+.areas-sec.light .area-map .lens-bg{fill:var(--espresso)}
+.areas-sec.light .area-map .lens-edge{stroke:var(--espresso);stroke-width:6}
+.areas-sec.light .area-map svg{filter:drop-shadow(0 30px 40px rgba(31,23,18,.3))}
+.areas-sec.light .area-map .dot.lbl text{fill:rgba(255,255,255,.7)}
+.areas-sec.light .area-map .dot text{fill:rgba(255,255,255,0)}
+.areas-sec.light .area-map .dot.home text,.areas-sec.light .area-map .dot.on text{fill:#fff}
+.areas-sec.light .area-map .dot.on text{paint-order:stroke;stroke:var(--espresso);stroke-width:4px}

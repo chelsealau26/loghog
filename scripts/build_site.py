@@ -345,9 +345,9 @@ var b=document.querySelector('.menu-btn'),n=document.getElementById('nav');if(b)
 document.querySelectorAll('.ba-range').forEach(function(r){{var f=r.parentNode;var set=function(){{f.style.setProperty('--pos',r.value+'%')}};r.addEventListener('input',set);set()}});
 var pk=document.querySelector('[data-picker]');if(pk){{var base='{SMS_BASE}';var chips=pk.querySelectorAll('.chip');var note=pk.querySelector('.picker-note');
 var upd=function(){{var sel=[].map.call(pk.querySelectorAll('.chip[aria-pressed=true]'),function(c){{return c.dataset.pick}});
-var msg=sel.length?"Hi Log Hog! I'd like a free quote for "+sel.join(', ')+'. My address is: ':"Hi Log Hog! I'd like a free quote. My address is: ";
-document.querySelectorAll('a[href^="sms:"]').forEach(function(a){{a.href=base+encodeURIComponent(msg)}});
-note.textContent=sel.length?'Got it: '+sel.join(', ')+'. Tap Text us a photo and add your picture.':"Tap what you need and we'll start the text for you. Just add a photo."}};
+var lst=sel.length>1?sel.slice(0,-1).join(', ')+' and '+sel[sel.length-1]:sel[0];var msg=sel.length?"Hi Log Hog! I'd like a free quote for "+lst+'. My address is: ':"Hi Log Hog! I'd like a free quote. My address is: ";
+document.querySelectorAll('a[href^="sms:"]').forEach(function(a){{a.href=base+encodeURIComponent(msg)}});var pv=pk.querySelector('[data-preview]');if(pv){{pv.textContent=msg;pv.classList.remove('pop');void pv.offsetWidth;pv.classList.add('pop')}}
+note.textContent=sel.length?'Got it: '+lst+'. Tap Text us a photo and add your picture.':"Tap what you need and we'll start the text for you. Just add a photo."}};
 chips.forEach(function(c){{c.addEventListener('click',function(){{c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')!=='true');upd()}})}})}}
 var rv=document.querySelectorAll('[data-reveal]');if('IntersectionObserver' in window){{var io=new IntersectionObserver(function(es){{es.forEach(function(e){{if(e.isIntersecting){{e.target.classList.add('in');io.unobserve(e.target)}}}})}},{{threshold:.3}});rv.forEach(function(el){{io.observe(el)}})}}else rv.forEach(function(el){{el.classList.add('in')}});
 document.querySelectorAll('.areas-sec').forEach(function(sec){{var hi=function(k,on){{sec.querySelectorAll('[data-area="'+k+'"]').forEach(function(el){{el.classList.toggle('on',on)}})}};
@@ -415,12 +415,17 @@ def reviews_block(page_key, limit, heading="What your <em>neighbors</em> are say
 </div></section>"""
 
 
-def band(heading="Got a tree on your mind?",
+def band(heading="Got a tree on <em>your mind?</em>",
          text="Don't wait for the next storm to make the decision for you. Snap a photo, send it over, and we'll get back to you with a free quote."):
-    return f"""<section class="band dark"><div class="wrap">
-<div><h2>{heading}</h2><p>{text}</p></div>
-<div class="btns"><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text us a photo</a><a class="btn btn-quiet" href="{TEL}">Call {BIZ["phone_display"]}</a></div>
-</div></section>"""
+    return f"""<section class="band2" data-reveal>
+<div class="band2-bg" aria-hidden="true"><img src="/img/hero-climb-wide-960.webp" srcset="/img/hero-climb-wide-960.webp 960w, /img/hero-climb-wide-1536.webp 1536w" sizes="100vw" alt="" loading="lazy" decoding="async"></div>
+<div class="wrap band2-inner">
+<h2>{heading}</h2>
+<p>{text}</p>
+<div class="btns"><a class="btn btn-primary btn-glow" href="{SMS}">{ICON["text"]}Text us a photo</a><a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}Call {BIZ["phone_display"]}</a></div>
+<ul class="band2-trust"><li>{ICON["shield"]}Licensed &amp; insured</li><li>{ICON["flag"]}Veteran-owned</li><li>{ICON["star"]}{BIZ["hours"]}</li></ul>
+</div>
+</section>"""
 
 
 AREA_LL = {
@@ -556,15 +561,33 @@ def quote_section():
 </div></section>"""
 
 
+PICK_ICONS = {
+    "Tree removal": '<path d="M12 2 6 10h3l-4 6h5v6h4v-6h5l-4-6h3z"/>',
+    "Trimming": '<path d="M6 3a3 3 0 1 0 2.2 5l2.4 2.4L4 17l1.4 1.4L12 12l6.6 6.6L20 17 8.2 5.2A3 3 0 0 0 6 3zm0 2a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm9.4 2.2L13.4 9.2l1.4 1.4 5.6-5.6L19 3.6z"/>',
+    "Stump grinding": '<path d="M12 4C7 4 3 5.8 3 8v8c0 2.2 4 4 9 4s9-1.8 9-4V8c0-2.2-4-4-9-4zm0 2c4.4 0 7 1.4 7 2s-2.6 2-7 2-7-1.4-7-2 2.6-2 7-2zm0 1.2c-2 0-3.4.4-3.4.8s1.4.8 3.4.8 3.4-.4 3.4-.8-1.4-.8-3.4-.8z"/>',
+    "Storm cleanup": '<path d="M7 11a5 5 0 0 1 9.6-1.9A4 4 0 1 1 17 17H7a3 3 0 0 1 0-6zm6 7-2 4h2l-1 3 4-5h-2l1-2z"/>',
+    "Debris hauling": '<path d="M2 6h12v9H2zm13 3h4l3 3v3h-7zM5.5 16a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm12 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/>',
+    "Palms & bushes": '<path d="M12 9c-1.5-3-5-4-8-3 2 .3 4 1.5 5 3-2-.5-5 0-7 2 2.5-.8 5-.6 7 .3L8 22h3l1.2-10.5C14 10.6 17 10.4 20 11c-2-2-5-2.5-7-2 1-1.5 3-2.7 5-3-3-1-6.5 0-6 3z"/>',
+}
+
+
 def quote_picker():
     chips = "".join(
-        f'<button type="button" class="chip" aria-pressed="false" data-pick="{escape(p.lower())}">{escape(p)}</button>'
+        f'<button type="button" class="chip" aria-pressed="false" data-pick="{escape(p.lower())}">'
+        f'<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor">{PICK_ICONS[p]}</g></svg><span>{escape(p)}</span><i aria-hidden="true"></i></button>'
         for p in PICKS)
     return f"""<div class="picker" data-picker>
-<p class="picker-q" id="picker-q">Start your text: what do you need help with?</p>
+<div class="picker-left">
+<p class="picker-step">Build your text</p>
+<p class="picker-q" id="picker-q">What do you need help with?</p>
 <div class="chips" role="group" aria-labelledby="picker-q">{chips}</div>
+</div>
+<div class="picker-right">
+<p class="picker-step">Your message</p>
+<div class="picker-preview"><span class="pp-to">To: Log Hog Tree Service</span><p class="pp-bubble" data-preview>Hi Log Hog! I'd like a free quote. My address is: </p><span class="pp-photo">{ICON["camera"]}Add your photo</span></div>
 {cta_pair()}
 <p class="picker-note" aria-live="polite">Tap what you need and we'll start the text for you. Just add a photo.</p>
+</div>
 </div>"""
 
 
@@ -708,7 +731,6 @@ def home():
 </div>
 </div></section>
 
-{band()}
 
 <section class="section dark areas-sec" id="areas"><div class="wrap areas-grid">
 <div>
@@ -723,6 +745,8 @@ def home():
 <div class="section-head"><h2>Questions folks <em>ask us</em></h2></div>
 {faq_html(HOME_FAQ)}
 </div></section>
+
+{band()}
 """
     return page("/", "Tree Removal & Trimming in Pensacola, FL | Log Hog Tree Service",
                 "Veteran-owned tree service in Pensacola, FL. Tree removal, trimming, stump grinding, storm cleanup and palm trimming. Licensed & insured. Text a photo to (850) 426-4220 for a free quote.",
@@ -881,7 +905,7 @@ def about():
 
 {quote_section()}
 
-{band("Ready to get your yard back?", "Text us a photo of the job and your address. You'll get a fair, free quote, with no pressure.")}
+{band("Ready to get your <em>yard back?</em>", "Text us a photo of the job and your address. You'll get a fair, free quote, with no pressure.")}
 """
     return page("/about-us", "About Log Hog | Veteran-Owned Tree Service in Pensacola, FL",
                 "Log Hog Tree Service is a local, veteran-owned tree company in Pensacola, FL, owned by retired Navy Chief Dave Lau. Licensed and insured tree removal, trimming and stump grinding.",

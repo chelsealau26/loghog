@@ -340,6 +340,7 @@ def footer():
 </ul></div>
 <p class="foot-legal">© {date.today().year} Log Hog Tree Service, Pensacola, Florida. Licensed and insured.</p>
 </div></footer>
+<dialog class="vbox" aria-label="Time-lapse video"><button type="button" class="vbox-x" aria-label="Close">&times;</button><video controls playsinline preload="none"></video></dialog>
 <div class="mobile-bar"><a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}Call</a><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text a photo</a></div>
 <script>
 (function(){{var m=document.querySelector('.masthead');if(document.body.classList.contains('home')&&m){{var on=function(){{m.classList.toggle('stuck',window.scrollY>140)}};window.addEventListener('scroll',on,{{passive:true}});on()}}
@@ -355,6 +356,9 @@ var rv=document.querySelectorAll('[data-reveal]');if('IntersectionObserver' in w
 document.querySelectorAll('.areas-sec').forEach(function(sec){{var hi=function(k,on){{sec.querySelectorAll('[data-area="'+k+'"]').forEach(function(el){{el.classList.toggle('on',on)}})}};
 sec.querySelectorAll('[data-area]').forEach(function(el){{var k=el.dataset.area;['mouseenter','focus'].forEach(function(ev){{el.addEventListener(ev,function(){{hi(k,true)}})}});['mouseleave','blur'].forEach(function(ev){{el.addEventListener(ev,function(){{hi(k,false)}})}});
 el.addEventListener('click',function(){{sec.querySelectorAll('.on').forEach(function(o){{o.classList.remove('on')}});hi(k,true)}})}})}});
+var vb=document.querySelector('.vbox');if(vb){{var vv=vb.querySelector('video');var shut=function(){{vv.pause();vv.removeAttribute('src');vv.load();if(vb.open)vb.close()}};
+document.querySelectorAll('[data-video]').forEach(function(t){{t.addEventListener('click',function(){{vv.src=t.dataset.video;var im=t.querySelector('img');if(im)vv.poster=im.currentSrc||im.src;else vv.removeAttribute('poster');vb.showModal();var p=vv.play();if(p&&p.catch)p.catch(function(){{}})}})}});
+vb.querySelector('.vbox-x').addEventListener('click',shut);vb.addEventListener('click',function(e){{if(e.target===vb)shut()}});vb.addEventListener('close',function(){{vv.pause()}})}}
 document.querySelectorAll('[data-yt]').forEach(function(v){{v.addEventListener('click',function(){{v.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+v.dataset.yt+'?autoplay=1" title="'+v.getAttribute('aria-label')+'" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>'}},{{once:true}})}})}})();
 </script>"""
 
@@ -749,7 +753,11 @@ def home():
 <div class="cards">{cards}</div>
 </div></section>
 
+{LIFT_BLOCK}
+
 {work_gallery()}
+
+{watch_section(["1074760131659950", "1659355478552803", "1529463255849855"])}
 
 {reviews_block("home", 3)}
 
@@ -856,6 +864,8 @@ def service_page(s):
 {aside(None, "Other ways we can help", others)}
 </div></section>
 
+{watch_section([SVC_VIDEO[s["slug"]]], "Here's a real job from start to finish. Tap to watch.") if s["slug"] in SVC_VIDEO else ""}
+
 {quote_section(SLUG_PICK[s["slug"]], s["slug"])}
 
 {reviews_block("service", 3)}
@@ -900,13 +910,47 @@ TIMELAPSES = [
 ]
 
 
-def timelapse_grid():
-    items = "".join(
-        f'''<a class="tl" href="https://www.facebook.com/reel/{vid}/" target="_blank" rel="noopener">
-<span class="tl-media"><img src="/img/timelapse-{vid}-640.webp" alt="" width="640" height="360" loading="lazy"><span class="tl-play">{ICON["play"]}</span><span class="tl-time">{t}</span></span>
-<span class="tl-cap">{escape(cap)}</span></a>'''
-        for vid, cap, t in TIMELAPSES)
-    return f'<div class="tls">{items}</div>'
+TL_CAP = {vid: (cap, t) for vid, cap, t in TIMELAPSES}
+SVC_VIDEO = {"tree-removal": "1074760131659950", "tree-trimming": "1659355478552803",
+             "storm-cleanup": "1529463255849855", "debris-hauling": "1473657861010235"}
+
+
+def video_card(vid, big=False):
+    cap, t = TL_CAP[vid]
+    return f'''<button type="button" class="tl{' tl-big' if big else ''}" data-video="/vid/tl-{vid}.mp4" aria-label="Play time-lapse: {escape(cap)}">
+<span class="tl-media"><img src="/img/poster-{vid}-960.webp" alt="" width="960" height="540" loading="lazy"><span class="tl-play">{ICON["play"]}</span><span class="tl-time">{t}</span></span>
+<span class="tl-cap">{escape(cap)}</span></button>'''
+
+
+def timelapse_grid(ids=None):
+    ids = ids or [v for v, _, _ in TIMELAPSES]
+    return '<div class="tls">' + "".join(video_card(v) for v in ids) + "</div>"
+
+
+def watch_section(ids, lede="Real time-lapses from real jobs around Pensacola. Tap one to watch.", more=True):
+    link = '<p class="tls-more"><a class="text-link" href="/about-us#watch">See more of our work</a></p>' if more else ""
+    return f"""<section class="section watch" id="watch"><div class="wrap">
+<div class="section-head"><h2>Watch us <em>work</em></h2><p class="lede">{lede}</p></div>
+{timelapse_grid(ids)}
+{link}
+</div></section>"""
+
+
+LIFT_BLOCK = f"""<section class="section stone lift-sec"><div class="wrap lift-grid">
+<div class="lift-photos" data-reveal>
+<div class="lp-a">{img("lift-oak", "Log Hog's lift raised into a big live oak in a backyard", "(max-width: 900px) 100vw, 600px", [640, 1200], w=640, h=360)}</div>
+<div class="lp-b">{img("dave-climbing-oak", "A Log Hog climber roped into an oak", "260px", [480], w=480, h=640)}</div>
+</div>
+<div>
+<h2 class="hd">We climb <em>and</em> we lift</h2>
+<p>Some trees are best climbed. Others are faster and safer from the bucket of our lift. We bring both, so we can use the right tool for your tree, your yard and your budget.</p>
+<ul class="lift-list">
+<li><strong>Climbing</strong><span>For tight backyards, trees over roofs and spots the lift can't reach.</span></li>
+<li><strong>Our lift</strong><span>For big canopies and tall trees where a bucket gets us there quicker.</span></li>
+</ul>
+<button type="button" class="text-link lift-watch" data-video="/vid/tl-1074760131659950.mp4">{ICON["play"]}Watch the lift in action</button>
+</div>
+</div></section>"""
 
 
 def about():
@@ -930,10 +974,10 @@ def about():
 </div>
 </div></section>
 
-<section class="section"><div class="wrap">
-<div class="section-head"><h2>Watch us <em>work</em></h2><p class="lede">A few of our favorite time-lapses. Tap one to watch it on our Facebook page.</p></div>
+<section class="section watch" id="watch"><div class="wrap">
+<div class="section-head"><h2>Watch us <em>work</em></h2><p class="lede">A few of our favorite time-lapses. Tap one to watch.</p></div>
 {timelapse_grid()}
-<p style="margin-top:28px"><a class="text-link" href="{BIZ["facebook"]}" rel="noopener">See more on Facebook</a></p>
+<p class="tls-more"><a class="text-link" href="{BIZ["facebook"]}" rel="noopener">See more on Facebook</a></p>
 </div></section>
 
 {reviews_block("about", 3, "What folks say about <em>working with us</em>", "Straight from our Google reviews.")}

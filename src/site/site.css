@@ -866,3 +866,41 @@ h2 em{font-style:italic;color:var(--orange)}
 .soc-btn.ig{background:linear-gradient(45deg,#f09433,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888)}
 .soc-btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
 @media (max-width:640px){.tb-social{padding-left:14px}}
+
+/* Watch us work: on-site video */
+.watch{background:#140d0a;color:rgba(255,255,255,.85)}
+.watch h2{color:#fff}.watch h2 em{color:#e9875a}.watch .lede{color:rgba(255,255,255,.7)}
+.tl{appearance:none;border:0;background:none;padding:0;text-align:left;cursor:pointer;font:inherit;color:#fff;width:100%}
+.watch .tl-cap{color:#fff}
+.tl-media{border-radius:18px;box-shadow:0 24px 48px -24px rgba(0,0,0,.8)}
+.tl-media::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.45),transparent 45%);pointer-events:none}
+.tl-play{width:68px;height:68px;background:var(--orange);z-index:1;transition:transform .25s;box-shadow:0 0 0 10px rgba(186,90,52,.3)}
+.tl-play svg{color:#fff}
+.tl-time{z-index:1}
+.tl:hover .tl-play{transform:scale(1.1)}
+.tl:hover .tl-cap{color:#e9875a}
+.tls:has(>.tl:only-child){grid-template-columns:1fr;max-width:920px}
+.tls-more{margin:32px 0 0}
+.watch .text-link{color:#fff}
+.vbox{padding:0;border:0;background:transparent;max-width:min(1100px,94vw);width:100%;overflow:visible}
+.vbox::backdrop{background:rgba(10,6,4,.88);backdrop-filter:blur(4px)}
+.vbox video{display:block;width:100%;max-height:86vh;border-radius:14px;background:#000}
+.vbox-x{position:absolute;top:-48px;right:0;width:40px;height:40px;border-radius:50%;border:0;background:#fff;color:var(--ink);font-size:26px;line-height:1;cursor:pointer}
+
+/* We climb and we lift */
+.lift-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:80px;align-items:center}
+.lift-photos{position:relative;padding:0 0 70px 0}
+.lp-a img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:22px;box-shadow:0 30px 60px -24px rgba(31,23,18,.45)}
+.lp-b{position:absolute;right:-24px;bottom:0;width:34%;border:8px solid #fff;border-radius:18px;overflow:hidden;transform:rotate(3deg);box-shadow:0 22px 44px -12px rgba(31,23,18,.4);background:#fff}
+.lp-b img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover}
+.lift-sec p{font-size:18px;line-height:1.7}
+.lift-list{list-style:none;padding:0;margin:24px 0 28px;display:grid;gap:14px}
+.lift-list li{padding-left:18px;border-left:3px solid var(--orange)}
+.lift-list strong{display:block;font-size:18px}
+.lift-list span{color:var(--muted);font-size:16px}
+.lift-watch{display:inline-flex;align-items:center;gap:8px;background:none;border:0;border-bottom:1px solid currentColor;padding:0 0 2px;font:700 16px var(--sans);color:var(--ink);cursor:pointer}
+.lift-watch svg{width:16px;height:16px;color:var(--orange)}
+.lift-photos[data-reveal] .lp-b{opacity:0;transform:translate(30px,30px) rotate(9deg);transition:all .9s .2s cubic-bezier(.2,.7,.2,1)}
+.lift-photos.in .lp-b{opacity:1;transform:rotate(3deg)}
+@media (max-width:900px){.lift-grid{grid-template-columns:1fr;gap:48px}.lp-b{right:0}}
+.vbox video{aspect-ratio:16/9;object-fit:contain}

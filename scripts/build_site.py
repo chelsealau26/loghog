@@ -424,7 +424,7 @@ def faq_html(faq):
 
 
 def cta_pair(primary="Text us a photo"):
-    return f'<div class="btns"><a class="btn btn-primary" href="{SMS}">{ICON["text"]}{primary}</a><a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}Call<span class="num">&nbsp;{BIZ["phone_display"]}</span></a></div>'
+    return f'<div class="btns"><a class="btn btn-primary" href="{SMS}">{ICON["text"]}{primary}</a><a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}<span>Call<span class="num"> {BIZ["phone_display"]}</span></span></a></div>'
 
 
 PLAN = f"""<ol class="plan">

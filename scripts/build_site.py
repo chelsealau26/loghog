@@ -733,7 +733,7 @@ def home():
 <section class="section stone meet"><div class="wrap meet-grid">
 <div class="meet-photos" data-reveal>
 <div class="meet-main">{img("dave-lau-founder", "Dave Lau, owner of Log Hog Tree Service, smiling in a customer's yard with his climbing gear", "(max-width: 900px) 100vw, 560px", [640, 1100], w=640, h=800)}</div>
-<div class="meet-inset">{img("dave-climbing-oak", "Dave climbing an oak tree in a Log Hog shirt", "220px", [480], w=480, h=640)}</div>
+<div class="meet-inset">{img("lift-portrait", "Log Hog's lift raised into a big live oak", "260px", [480, 810], w=480, h=640)}</div>
 <div class="meet-badge"><svg viewBox="0 0 120 120"><defs><path id="mbc" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs><text><textPath href="#mbc">VETERAN-OWNED · LICENSED &amp; INSURED · </textPath></text></svg><span>{ICON["flag"]}</span></div>
 </div>
 <div class="meet-copy">
@@ -938,7 +938,7 @@ def watch_section(ids, lede="Real time-lapses from real jobs around Pensacola. T
 
 LIFT_BLOCK = f"""<section class="section stone lift-sec"><div class="wrap lift-grid">
 <div class="lift-photos" data-reveal>
-<div class="lp-a">{img("lift-oak", "Log Hog's lift raised into a big live oak in a backyard", "(max-width: 900px) 100vw, 600px", [640, 1200], w=640, h=360)}</div>
+<div class="lp-a">{img("lift-porch", "Log Hog's lift reaching over a home to trim a big oak", "(max-width: 900px) 100vw, 600px", [640, 1200], w=640, h=360)}</div>
 <div class="lp-b">{img("dave-climbing-oak", "A Log Hog climber roped into an oak", "260px", [480], w=480, h=640)}</div>
 </div>
 <div>

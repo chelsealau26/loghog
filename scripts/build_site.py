@@ -548,6 +548,14 @@ PHONE = f"""<div class="phone" aria-hidden="true"><div class="phone-screen">
 PICKS = ["Tree removal", "Trimming", "Stump grinding", "Storm cleanup", "Debris hauling", "Palms & bushes"]
 
 
+def ticker():
+    items = [("shield", "Licensed &amp; insured"), ("flag", "Veteran-owned"), ("star", "5-star rated on Google"),
+             ("text", "Free quotes by text"), ("home", "We clean up every job"), ("pin", "Pensacola &amp; nearby")]
+    row = "".join(f'<li>{ICON[i]}{t}</li>' for i, t in items)
+    return f"""<section class="ticker" aria-label="Licensed and insured, veteran-owned, 5-star rated, free quotes by text">
+<div class="ticker-track" aria-hidden="true"><ul>{row}</ul><ul>{row}</ul></div></section>"""
+
+
 def quote_section():
     return f"""<section class="section dark quote-sec"><div class="wrap">
 <div class="quote-grid">
@@ -666,12 +674,7 @@ def home():
 </div>
 </section>
 
-<section class="trust" aria-label="Why homeowners choose Log Hog"><div class="wrap"><ul class="trust-grid">
-<li><span class="ti">{ICON["shield"]}</span><span><strong>Licensed &amp; insured</strong><small>Fully covered on every job</small></span></li>
-<li><span class="ti">{ICON["flag"]}</span><span><strong>Veteran-owned</strong><small>Led by a retired Navy Chief</small></span></li>
-<li><span class="ti">{ICON["star"]}</span><span><strong data-lh-score>5-star rated</strong><small>by neighbors on Google</small></span></li>
-<li><span class="ti">{ICON["text"]}</span><span><strong>Free quotes by text</strong><small>Send a photo, get a price</small></span></li>
-</ul></div></section>
+{ticker()}
 
 <section class="section pains-sec"><div class="wrap pains">
 <div class="pains-intro">
@@ -758,7 +761,6 @@ def inner_hero(trail, h1, lede, *, ctas=True, rating=True, photo=None, side=""):
         side = f'<div class="ph-photo">{img(photo[0], photo[1], "(max-width: 900px) 100vw, 520px", photo[2], eager=True)}</div>'
     return f"""<section class="page-hero{' split' if side else ''}"><div class="wrap">
 <div class="ph-copy">
-{crumbs_html(trail)}
 <h1>{escape(h1)}</h1>
 <p class="lede">{escape(lede)}</p>
 {cta_pair() if ctas else ""}

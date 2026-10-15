@@ -311,7 +311,7 @@ def header(current):
     return f"""<a class="skip" href="#main">Skip to content</a>
 <div class="topbar"><div class="wrap"><span>Veteran-owned · Licensed &amp; insured</span><a href="{TEL}">Call or text <strong>{BIZ["phone_display"]}</strong></a></div></div>
 <header class="site-header"><div class="wrap">
-<a class="brand" href="/"><img src="/img/logo-96.webp" width="46" height="46" alt=""><span>Log Hog Tree Service</span></a>
+<a class="brand" href="/"><img src="/img/logo-192.webp" width="84" height="84" alt="Log Hog Tree Service, home"></a>
 <nav class="nav" id="nav" aria-label="Main">{links}</nav>
 <a class="head-call" href="{TEL}">{BIZ["phone_display"]}</a>
 <a class="btn btn-primary" href="{SMS}">Text for a free quote</a>

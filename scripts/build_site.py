@@ -301,7 +301,7 @@ def crumbs_html(trail):
     return f'<nav class="crumbs" aria-label="Breadcrumb"><ol>{items}</ol></nav>'
 
 
-NAV = [("Services", "/#services"), ("About Dave", "/about-us"), ("Service areas", "/service-areas"), ("Contact", "/contact")]
+NAV = [("Services", "/#services"), ("About us", "/about-us"), ("Service areas", "/service-areas"), ("Contact", "/contact")]
 ARROW = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 
 
@@ -324,7 +324,7 @@ def footer():
 <div class="foot-brand"><img src="/img/logo-192.webp" width="72" height="72" alt="Log Hog Tree Service logo" loading="lazy">
 <p>Veteran-owned tree care for Pensacola and our neighbors nearby, one yard at a time.</p></div>
 <div><h2>Services</h2><ul>{svc}</ul></div>
-<div><h2>Log Hog</h2><ul><li><a href="/about-us">About Dave</a></li><li><a href="/service-areas">Where we work</a></li><li><a href="/contact">Get a free quote</a></li><li><a href="{BIZ["review"]}" rel="noopener">Leave us a review</a></li></ul></div>
+<div><h2>Log Hog</h2><ul><li><a href="/about-us">About us</a></li><li><a href="/service-areas">Where we work</a></li><li><a href="/contact">Get a free quote</a></li><li><a href="{BIZ["review"]}" rel="noopener">Leave us a review</a></li></ul></div>
 <div><h2>Say hello</h2><ul>
 <li><a href="{TEL}">{BIZ["phone_display"]}</a>, call or text</li>
 <li><a href="mailto:{BIZ["email"]}">{BIZ["email"]}</a></li>
@@ -469,8 +469,8 @@ def home():
 <section class="hero"><div class="hero-grid">
 <div class="hero-copy">
 <p class="kicker">Pensacola's veteran-owned tree service</p>
-<h1>Tree work done right, by a neighbor you can trust</h1>
-<p class="lede">Hi, I'm Dave Lau. After 22 years in the Navy, I started Log Hog to take care of trees, and the families who live under them, all around Pensacola. Send us a photo of your tree and we'll get you a free quote.</p>
+<h1>Tree work done right, by neighbors you can trust</h1>
+<p class="lede">Log Hog is a local, veteran-owned tree service led by owner Dave Lau, a retired Navy Chief. Dave and our crew take care of trees, and the families who live under them, all around Pensacola. Send us a photo of your tree and we'll get you a free quote.</p>
 {cta_pair()}
 {rating_line()}
 </div>
@@ -488,14 +488,14 @@ def home():
 </div></section>
 
 <section class="section stone"><div class="wrap letter">
-{img("dave-in-tree-selfie", "Dave Lau smiling while working high up in a tree", "(max-width: 900px) 100vw, 480px", [640, 1200], w=480, h=600)}
+{img("cleanup-by-fence", "A Log Hog crew member cleaning up branches along a backyard fence", "(max-width: 900px) 100vw, 480px", [480, 900], w=480, h=600)}
 <div>
-<h2>A note from Dave</h2>
-<p>I grew up in Mobile and spent 22 years in the U.S. Navy, retiring as a Chief. Most of that time I worked on aircraft, where you do the job carefully and get it right the first time, every time. I run Log Hog the same way.</p>
-<p>I love this work. There's nothing better than raking up the last of the branches and watching a customer step outside and smile at their yard. I'm a man of faith, and I treat every home like it belongs to family.</p>
-<p>If there's a tree that's been worrying you, send us a picture. You'll get a straight answer and a fair price.</p>
-<p class="signoff"><strong>Dave Lau</strong><span>Owner, Log Hog Tree Service · Retired U.S. Navy Chief</span></p>
+<h2>Meet Log Hog</h2>
+<p>We're a small, local crew, and we take every job personally. Log Hog is owned by Dave Lau, who grew up in Mobile and served 22 years in the U.S. Navy, retiring as a Chief. He spent that career working on aircraft, where you do the job carefully and get it right the first time. That's how our whole crew works.</p>
+<p>We show up when we say we will, treat your home like it belongs to family, and leave the yard cleaner than we found it. If there's a tree that's been worrying you, send us a picture. You'll get a straight answer and a fair price.</p>
+<blockquote class="pull">“There's nothing better than raking up the last of the branches and watching a customer step outside and smile at their yard.”<cite>Dave Lau, owner</cite></blockquote>
 {CREDS}
+<a class="text-link" href="/about-us">More about us</a>
 </div>
 </div></section>
 
@@ -515,7 +515,7 @@ def home():
 {reviews_block("home", 3)}
 
 <section class="section"><div class="wrap success">
-{img("trimmed-palms-front-yard", "Freshly trimmed palms in front of a brick home in Pensacola", "(max-width: 900px) 100vw, 560px", [480, 900], w=560, h=420)}
+{img("oaks-trimmed-front-yard", "Big oak trees freshly trimmed over a green front lawn and brick home", "(max-width: 900px) 100vw, 480px", [480, 900], w=480, h=640)}
 <div>
 <h2>Picture your yard next weekend</h2>
 <ul class="checks">
@@ -612,35 +612,54 @@ def service_page(s):
                 extra_schema=[service_schema, schema_breadcrumbs(trail), schema_faq(s["faq"])])
 
 
+TIMELAPSES = [
+    ("1074760131659950", "Getting a big tree away from the house", "0:29"),
+    ("1659355478552803", "An oak that kept dropping deadwood on a pole barn", "0:33"),
+    ("1473657861010235", "Five trees in less than an hour", "0:28"),
+    ("1277852727578886", "Taking down a sycamore on a beautiful day", "0:21"),
+    ("1344567180867580", "Fewer leaves on the roof", "0:29"),
+    ("1529463255849855", "Clearance and peace of mind", "0:31"),
+]
+
+
+def timelapse_grid():
+    items = "".join(
+        f'''<a class="tl" href="https://www.facebook.com/reel/{vid}/" target="_blank" rel="noopener">
+<span class="tl-media"><img src="/img/timelapse-{vid}-640.webp" alt="" width="640" height="360" loading="lazy"><span class="tl-play">{ICON["play"]}</span><span class="tl-time">{t}</span></span>
+<span class="tl-cap">{escape(cap)}</span></a>'''
+        for vid, cap, t in TIMELAPSES)
+    return f'<div class="tls">{items}</div>'
+
+
 def about():
-    trail = [("Home", "/"), ("About Dave", "/about-us")]
+    trail = [("Home", "/"), ("About us", "/about-us")]
     body = f"""
-{inner_hero(trail, "Hi, I'm Dave.", "Navy veteran, man of faith, and the owner of Log Hog Tree Service here in Pensacola.", ctas=False, rating=False)}
+{inner_hero(trail, "About Log Hog Tree Service", "A local, veteran-owned tree service in Pensacola. Owner Dave Lau and our crew take care of your trees like they were our own.", ctas=False, rating=False)}
 
 <section class="section"><div class="wrap letter">
 {img("dave-lau-founder", "Dave Lau, owner of Log Hog Tree Service", "(max-width: 900px) 100vw, 480px", [640, 1100], w=480, h=600)}
 <div>
-<p>I was born and raised in Mobile, Alabama, and served 22 years in the U.S. Navy, retiring as a Navy Chief. I spent my career as an aviation mechanic, where precision, safety and hard work aren't optional. I bring that same mindset to every tree job.</p>
-<p>Tree care isn't just a job for me. It's something I love. I enjoy making trees look their best, and I really enjoy seeing customers happy with their yards when we're done.</p>
-<p>My faith is a big part of who I am, and it shapes how I do business: with honesty, integrity and respect for you and your home. When you hire Log Hog, you're getting someone who cares about your property like it was his own.</p>
-<p class="signoff"><strong>Dave Lau</strong><span>Owner, Log Hog Tree Service · Retired U.S. Navy Chief</span></p>
+<h2>Led by a retired Navy Chief</h2>
+<p>Log Hog is owned by Dave Lau, who was born and raised in Mobile, Alabama, and served 22 years in the U.S. Navy, retiring as a Navy Chief. He spent his career as an aviation mechanic, where precision, safety and hard work aren't optional. That same mindset runs through every job our crew does.</p>
+<p>Tree care isn't just a job for us. We love making trees look their best, and we really enjoy seeing customers happy with their yards when we're done.</p>
+<p>Faith is a big part of who Dave is, and it shapes how we do business: with honesty, integrity and respect for you and your home. When you hire Log Hog, you're getting a crew that cares about your property like it was our own.</p>
 {CREDS}
 {cta_pair()}
 </div>
 </div></section>
 
-<section class="section stone"><div class="wrap narrow">
-<div class="section-head"><h2>See us at work</h2></div>
-<button class="video" type="button" data-yt="zsXi8T0tEgA" aria-label="Play video: Log Hog Tree Service at work">
-<img src="https://i.ytimg.com/vi/zsXi8T0tEgA/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span>{ICON["play"]}</span></button>
+<section class="section stone"><div class="wrap">
+<div class="section-head"><h2>Watch us work</h2><p class="lede">A few of our favorite time-lapses. Tap one to watch it on our Facebook page.</p></div>
+{timelapse_grid()}
+<p style="margin-top:28px"><a class="text-link" href="{BIZ["facebook"]}" rel="noopener">See more on Facebook</a></p>
 </div></section>
 
-{reviews_block("about", 3, "What folks say about working with Dave", "Straight from our Google reviews.", stone=False)}
+{reviews_block("about", 3, "What folks say about working with us", "Straight from our Google reviews.", stone=False)}
 
 {band("Ready to get your yard back?", "Text us a photo of the job and your address. You'll get a fair, free quote, with no pressure.")}
 """
-    return page("/about-us", "About Dave Lau | Veteran-Owned Tree Service in Pensacola, FL",
-                "Meet Dave Lau, the retired Navy Chief behind Log Hog Tree Service. Licensed and insured tree removal, trimming and stump grinding in Pensacola and surrounding areas.",
+    return page("/about-us", "About Log Hog | Veteran-Owned Tree Service in Pensacola, FL",
+                "Log Hog Tree Service is a local, veteran-owned tree company in Pensacola, FL, owned by retired Navy Chief Dave Lau. Licensed and insured tree removal, trimming and stump grinding.",
                 body, current="/about-us", extra_schema=[schema_breadcrumbs(trail)])
 
 

@@ -303,3 +303,20 @@ p{margin:0 0 1.1em}
 .work-item img{width:100%;height:auto;border-radius:14px}
 .work-item figcaption{font-weight:600;font-size:16px;margin-top:12px;color:var(--ink)}
 @media (max-width:900px){.work{grid-template-columns:1fr 1fr}}
+
+/* Pull quote */
+.pull{margin:28px 0 0;padding:4px 0 4px 22px;border-left:3px solid var(--orange);font:600 19px/1.55 var(--serif);color:var(--ink)}
+.pull cite{display:block;margin-top:8px;font:500 15px/1.4 var(--sans);font-style:normal;color:var(--muted)}
+/* Time-lapse grid */
+.tls{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.tl{display:block;text-decoration:none;color:var(--ink)}
+.tl-media{position:relative;display:block;border-radius:14px;overflow:hidden;background:#000}
+.tl-media img{width:100%;aspect-ratio:16/9;object-fit:cover;transition:transform .3s}
+.tl:hover .tl-media img{transform:scale(1.03)}
+.tl-play{position:absolute;inset:0;margin:auto;width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center}
+.tl-play svg{width:22px;height:22px;color:var(--ink);margin-left:3px}
+.tl-time{position:absolute;right:10px;bottom:10px;background:rgba(0,0,0,.65);color:#fff;font-size:13px;font-weight:600;padding:3px 8px;border-radius:6px}
+.tl-cap{display:block;font-weight:600;font-size:16px;margin-top:12px}
+.tl:hover .tl-cap{color:var(--orange-dark)}
+@media (max-width:900px){.tls{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.tls{grid-template-columns:1fr}}

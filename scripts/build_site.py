@@ -90,14 +90,14 @@ SERVICES = [
 <p>Once the tree is down, we cut up the wood, haul off the branches and debris, and rake up so the yard is clean when we leave.</p>
 <h2>What's included</h2>
 <ul class="checks">
-<li>A free quote from a photo, with no obligation</li>
+<li>A free quote, with no obligation</li>
 <li>Careful sectional takedown near homes, fences and lines</li>
 <li>Cleanup and hauling of branches and debris</li>
 <li>Stump grinding available in the same visit if you want the stump gone too</li>
 <li>Licensed and insured work</li>
 </ul>
 <h2>Getting a quote</h2>
-<p>Text a photo of the whole tree and your address to <a href="{SMS}">(850) 426-4220</a>. A second photo of the base and of anything it's close to (house, fence, wires) helps us give you an accurate price without a visit.</p>
+<p>Text a photo of the whole tree and your address to <a href="{SMS}">(850) 426-4220</a>. A second photo of the base and of anything it's close to (house, fence, wires) shows us exactly which tree you mean. Sometimes that's enough for a price. Most of the time we'll stop by to look at it in person, then text or call you back with a free quote.</p>
 """,
         "faq": [
             ("Do I need a permit to remove a tree in Pensacola?", "Some trees do, depending on where you live and the type and size of the tree. Rules differ between the City of Pensacola, Escambia County and Santa Rosa County. Ask us when you send your photos and we'll tell you what we know, but check with your city or county before work starts."),
@@ -196,7 +196,7 @@ SERVICES = [
 <li>If a tree is on your house, take photos for your insurance company before anything is moved.</li>
 </ul>
 <h2>How to get on the schedule</h2>
-<p>Text photos of the damage and your address to <a href="{SMS}">(850) 426-4220</a>. Photos let us see what equipment the job needs and give you a price without a site visit, which matters when everyone's phone is ringing after a storm.</p>
+<p>Text photos of the damage and your address to <a href="{SMS}">(850) 426-4220</a>. Photos show us what we're dealing with and help us plan the visit, which matters when everyone's phone is ringing after a storm. We'll come take a look, then text or call you back with a free quote.</p>
 <p>Want to avoid the storm damage in the first place? <a href="/services/tree-trimming">Trimming out dead and weak limbs</a> before hurricane season is the best prevention.</p>
 """,
         "faq": [
@@ -533,7 +533,8 @@ def cta_pair(primary="Text us a photo"):
 
 PLAN = f"""<ol class="plan">
 <li><span class="plan-ico">{ICON["camera"]}</span><h3>Snap a photo</h3><p>Take a picture of the tree, stump or mess. Add your address and text it to {BIZ["phone_display"]}.</p></li>
-<li><span class="plan-ico">{ICON["chat"]}</span><h3>Get a fair price</h3><p>We'll look it over and text you back a free quote. No pressure and no obligation.</p></li>
+<li><span class="plan-ico">{ICON["pin"]}</span><h3>We take a look</h3><p>Sometimes the photo is all we need. Most of the time it shows us which trees you mean, and we stop by to see them in person.</p></li>
+<li><span class="plan-ico">{ICON["chat"]}</span><h3>Get a fair price</h3><p>We text or call you back with a free quote. No pressure and no obligation.</p></li>
 <li><span class="plan-ico">{ICON["home"]}</span><h3>Enjoy your yard</h3><p>We show up when we say we will, do the job safely, and clean up like we were never there.</p></li>
 </ol>"""
 
@@ -545,19 +546,19 @@ CREDS = f"""<div class="creds">
 
 PHONE_CHATS = {
     None: ("storm", "Hi! Can you take a look at this oak? It split in the storm. We're off Scenic Hwy.",
-           "Thanks for the photo! We can cut that up and haul it all off. I'll text your free quote shortly."),
+           "Thanks for the photo! We can cut that up and haul it all off. We'll swing by to take a look and get you a free quote."),
     "storm-cleanup": ("storm", "Hi! Can you take a look at this oak? It split in the storm. We're off Scenic Hwy.",
-                      "Thanks for the photo! We can cut that up and haul it all off. I'll text your free quote shortly."),
+                      "Thanks for the photo! We can cut that up and haul it all off. We'll swing by to take a look and get you a free quote."),
     "tree-removal": ("removal", "Hi! Can you take down the tall tree on the left? It's getting too close to the house.",
-                     "Thanks for the photo! We can take that down in sections and haul it all off. I'll text your free quote shortly."),
+                     "Thanks for the photo! We can take that down in sections and haul it all off. We'll swing by to take a look and get you a free quote."),
     "tree-trimming": ("trimming", "Hi! These oaks are hanging low over the yard. Can you trim them up?",
-                      "Thanks for the photo! We can lift and thin those and clean everything up. I'll text your free quote shortly."),
+                      "Thanks for the photo! We can lift and thin those and clean everything up. We'll swing by to take a look and get you a free quote."),
     "stump-grinding": ("stump", "Hi! How much to grind this stump? It's in the backyard and the gate is about 4 ft wide.",
-                       "Thanks for the photo and the gate size! I'll text your free quote shortly."),
+                       "Thanks for the photo and the gate size! We'll swing by to take a look and get you a free quote."),
     "palm-tree-trimming": ("palm", "Hi! Can you trim the dead fronds and seed pods off this palm?",
-                           "Thanks for the photo! We can clean that up and haul off the fronds. I'll text your free quote shortly."),
+                           "Thanks for the photo! We can clean that up and haul off the fronds. We'll swing by to take a look and get you a free quote."),
     "debris-hauling": ("debris", "Hi! A tree came down in our yard. Can you cut it up and haul it all away?",
-                       "Thanks for the photo! We can cut that up, load it and haul it off. I'll text your free quote shortly."),
+                       "Thanks for the photo! We can cut that up, load it and haul it off. We'll swing by to take a look and get you a free quote."),
 }
 
 
@@ -592,7 +593,7 @@ def quote_section(pre=None, slug=None):
     return f"""<section class="section dark quote-sec"><div class="wrap">
 <div class="quote-grid">
 <div>
-<div class="section-head"><h2>Getting a quote is <em>easy</em></h2><p class="lede">No forms, and no waiting around for someone to come measure.</p></div>
+<div class="section-head"><h2>Getting a quote is <em>easy</em></h2><p class="lede">No forms and no phone tag. It all starts with a photo.</p></div>
 {PLAN}
 </div>
 <div class="phone-wrap" data-reveal>{phone(slug)}<p class="phone-cap">It really is this simple.</p></div>
@@ -667,7 +668,7 @@ def work_gallery():
 
 # ---------------------------------------------------------------- pages
 HOME_FAQ = [
-    ("How do I get a quote?", "Text a photo of the tree or job and your address to (850) 426-4220, or give us a call. Quotes are free and there's no obligation."),
+    ("How do I get a quote?", "Text a photo of the tree or job and your address to (850) 426-4220, or give us a call. Sometimes we can quote right from the photo. Most of the time, the photo shows us which trees you mean, and we stop by to look at them in person before we text or call you back with a price. Quotes are free and there's no obligation."),
     ("Are you licensed and insured?", "Yes. Log Hog Tree Service is licensed and insured."),
     ("Do you clean up after the job?", "Always. We haul away the branches and debris and rake up, so your yard is clean when we leave."),
     ("Can you grind the stump when you remove a tree?", "Yes. Stump grinding can be added to any tree removal. Just mention it when you ask for your quote."),
@@ -844,7 +845,7 @@ def aside(photo=None, links_title=None, links=""):
     more = f'<div class="aside-links"><h3>{links_title}</h3><ul>{links}</ul></div>' if links_title else ""
     return f"""<aside class="aside">{pic}
 <div class="aside-box quote-card"><span class="ti">{ICON["text"]}</span><h2>Text us a photo</h2>
-<p>Send a picture and your address. We'll text you back with a fair, free quote.</p>
+<p>Send a picture and your address. We'll take a look and get back to you with a fair, free quote.</p>
 <a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text a photo</a>
 <a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}{BIZ["phone_display"]}</a>
 <p style="margin:12px 0 0">{BIZ["hours"]}. Licensed and insured.</p></div>
@@ -998,7 +999,7 @@ def contact():
 
 <section class="section"><div class="wrap">
 <div class="ways">
-<div class="way main"><span class="ti">{ICON["text"]}</span><h2>Text us a photo</h2><p>Send a picture or two of the tree or job, plus your address, to {BIZ["phone_display"]}. We'll text you back with a price.</p><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text {BIZ["phone_display"]}</a></div>
+<div class="way main"><span class="ti">{ICON["text"]}</span><h2>Text us a photo</h2><p>Send a picture or two of the tree or job, plus your address, to {BIZ["phone_display"]}. Sometimes that's enough for a price. Usually we'll stop by to see the trees in person, then text or call you back with a free quote.</p><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text {BIZ["phone_display"]}</a></div>
 <div class="way"><span class="ti">{ICON["phone"]}</span><h2>Give us a call</h2><p>Rather talk it through? Call us {BIZ["hours"]}.</p><a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}Call {BIZ["phone_display"]}</a></div>
 </div>
 </div></section>
@@ -1007,7 +1008,7 @@ def contact():
 <div class="viewfinder" aria-hidden="true">{img("storm-damaged-oak", "", "(max-width: 900px) 100vw, 480px", [480, 900])}<span class="vf c1"></span><span class="vf c2"></span><span class="vf c3"></span><span class="vf c4"></span><span class="vf-rec">● Photo for Log Hog</span></div>
 <div>
 <h2 class="hd">What to <em>send us</em></h2>
-<p class="muted">The more we can see, the more accurate your quote. Here's the shot list:</p>
+<p class="muted">Photos show us exactly which trees you mean before we come take a look. Here's the shot list:</p>
 <ol class="shots">
 <li>A photo of the whole tree, from far enough back to see the top</li>
 <li>A photo of the base or stump</li>

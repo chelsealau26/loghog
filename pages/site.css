@@ -320,3 +320,31 @@ p{margin:0 0 1.1em}
 .tl:hover .tl-cap{color:var(--orange-dark)}
 @media (max-width:900px){.tls{grid-template-columns:1fr 1fr}}
 @media (max-width:560px){.tls{grid-template-columns:1fr}}
+
+/* Quote picker */
+.picker{margin-top:4px}
+.picker-q{font-weight:700;font-size:15px;color:rgba(255,255,255,.9);margin:0 0 12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 22px}
+.chip{font:600 15px/1 var(--sans);color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:11px 16px;cursor:pointer;transition:background .15s,border-color .15s,transform .1s}
+.chip:hover{border-color:#fff}
+.chip:active{transform:scale(.97)}
+.chip[aria-pressed=true]{background:var(--orange);border-color:var(--orange)}
+.chip[aria-pressed=true]::before{content:"✓ "}
+.picker-note{font-size:14px;color:rgba(255,255,255,.65);margin:14px 0 0;min-height:1.4em}
+/* Before / after sliders */
+.bas{display:grid;grid-template-columns:2fr .75fr;gap:24px;align-items:start}
+.ba{margin:0}
+.ba-frame{position:relative;aspect-ratio:var(--ar);border-radius:14px;overflow:hidden;background:var(--stone-2);touch-action:pan-y}
+.ba-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;user-select:none;-webkit-user-drag:none}
+.ba-before{clip-path:inset(0 calc(100% - var(--pos)) 0 0)}
+.ba-handle{position:absolute;top:0;bottom:0;left:var(--pos);width:3px;margin-left:-1.5px;background:#fff;pointer-events:none;box-shadow:0 0 8px rgba(0,0,0,.35)}
+.ba-handle span{position:absolute;top:50%;left:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+.ba-handle span::before,.ba-handle span::after{content:"";position:absolute;top:50%;width:0;height:0;margin-top:-6px;border:6px solid transparent}
+.ba-handle span::before{left:8px;border-right-color:var(--orange)}
+.ba-handle span::after{right:8px;border-left-color:var(--orange)}
+.ba-range{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize}
+.ba-range:focus-visible+.ba-handle,.ba-frame:focus-within .ba-handle span{outline:3px solid var(--orange);outline-offset:2px}
+.ba figcaption{font-weight:600;font-size:16px;margin-top:12px}
+@media (max-width:860px){.bas{grid-template-columns:1fr}}
+.ba-tag{position:absolute;top:12px;z-index:2;background:rgba(31,23,18,.78);color:#fff;font-size:13px;font-weight:700;letter-spacing:.04em;padding:5px 10px;border-radius:6px;pointer-events:none}
+.ba-tag-b{left:12px}.ba-tag-a{right:12px}

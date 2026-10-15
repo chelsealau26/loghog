@@ -29,7 +29,8 @@ BIZ = {
     "facebook": "https://www.facebook.com/profile.php?id=100085501815881",
     "instagram": "https://www.instagram.com/log_hog_tree_debris/",
 }
-SMS = "sms:+18504264220?&body=" + "Hi%20Log%20Hog%21%20I%27d%20like%20a%20free%20quote.%20My%20address%20is%3A%20"
+SMS_BASE = "sms:+18504264220?&body="
+SMS = SMS_BASE + "Hi%20Log%20Hog%21%20I%27d%20like%20a%20free%20quote.%20My%20address%20is%3A%20"
 TEL = "tel:+18504264220"
 
 # Keep in sync with the Google Business Profile service areas.
@@ -336,6 +337,13 @@ def footer():
 <div class="mobile-bar"><a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}Call</a><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text a photo</a></div>
 <script>
 (function(){{var b=document.querySelector('.menu-btn'),n=document.getElementById('nav');if(b)b.addEventListener('click',function(){{var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)}});
+document.querySelectorAll('.ba-range').forEach(function(r){{var f=r.parentNode;var set=function(){{f.style.setProperty('--pos',r.value+'%')}};r.addEventListener('input',set);set()}});
+var pk=document.querySelector('[data-picker]');if(pk){{var base='{SMS_BASE}';var chips=pk.querySelectorAll('.chip');var note=pk.querySelector('.picker-note');
+var upd=function(){{var sel=[].map.call(pk.querySelectorAll('.chip[aria-pressed=true]'),function(c){{return c.dataset.pick}});
+var msg=sel.length?"Hi Log Hog! I'd like a free quote for "+sel.join(', ')+'. My address is: ':"Hi Log Hog! I'd like a free quote. My address is: ";
+document.querySelectorAll('a[href^="sms:"]').forEach(function(a){{a.href=base+encodeURIComponent(msg)}});
+note.textContent=sel.length?'Got it: '+sel.join(', ')+'. Tap Text us a photo and add your picture.':"Tap what you need and we'll start the text for you. Just add a photo."}};
+chips.forEach(function(c){{c.addEventListener('click',function(){{c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')!=='true');upd()}})}})}}
 document.querySelectorAll('[data-yt]').forEach(function(v){{v.addEventListener('click',function(){{v.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+v.dataset.yt+'?autoplay=1" title="'+v.getAttribute('aria-label')+'" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>'}},{{once:true}})}})}})();
 </script>"""
 
@@ -432,21 +440,47 @@ CREDS = """<div class="creds">
 </div>"""
 
 
-WORK = [
-    ("before-after-fallen-tree", "A fallen tree cleared from a front yard, before and after", "Fallen tree, cleared and hauled off"),
-    ("before-after-oak-trim", "Oak trees before and after trimming", "Oaks trimmed and lifted off the house"),
-    ("before-after-palm-trim", "A palm tree before and after trimming", "Palm trimmed back to healthy green"),
-    ("before-after-sago-palm", "A sago palm before and after trimming", "Sago palm cleaned up"),
+PICKS = ["Tree removal", "Trimming", "Stump grinding", "Storm cleanup", "Debris hauling", "Palms & bushes"]
+
+
+def quote_picker():
+    chips = "".join(
+        f'<button type="button" class="chip" aria-pressed="false" data-pick="{escape(p.lower())}">{escape(p)}</button>'
+        for p in PICKS)
+    return f"""<div class="picker" data-picker>
+<p class="picker-q" id="picker-q">What do you need help with?</p>
+<div class="chips" role="group" aria-labelledby="picker-q">{chips}</div>
+{cta_pair()}
+<p class="picker-note" aria-live="polite">Tap what you need and we'll start the text for you. Just add a photo.</p>
+</div>"""
+
+
+SLIDERS = [
+    ("ba-fallen", "A fallen tree across a front yard", "The same yard, cleared and cleaned up", "Fallen tree, cleared and hauled off", 880, 440),
+    ("ba-oaks", "Oak trees with low, heavy limbs", "The same oaks trimmed and lifted", "Oaks trimmed and lifted", 544, 725),
 ]
 
 
+def ba_slider(key, alt_before, alt_after, cap, w, h):
+    src = lambda side: f'/img/{key}-{side}-600.webp'
+    srcset = lambda side: f'/img/{key}-{side}-600.webp 600w, /img/{key}-{side}-1000.webp 1000w'
+    return f"""<figure class="ba" style="--ar:{w}/{h}">
+<div class="ba-frame" style="--pos:50%">
+<img class="ba-after" src="{src('after')}" srcset="{srcset('after')}" sizes="(max-width: 860px) 100vw, 700px" alt="{escape(alt_after)}" width="{w}" height="{h}" loading="lazy" decoding="async">
+<img class="ba-before" src="{src('before')}" srcset="{srcset('before')}" sizes="(max-width: 860px) 100vw, 700px" alt="{escape(alt_before)}" width="{w}" height="{h}" loading="lazy" decoding="async">
+<span class="ba-tag ba-tag-b" aria-hidden="true">Before</span><span class="ba-tag ba-tag-a" aria-hidden="true">After</span>
+<span class="ba-handle" aria-hidden="true"><span></span></span>
+<input class="ba-range" type="range" min="0" max="100" value="50" aria-label="Drag to compare before and after: {escape(cap)}">
+</div>
+<figcaption>{escape(cap)}</figcaption>
+</figure>"""
+
+
 def work_gallery():
-    items = "".join(
-        f'<figure class="work-item">{img(n, alt, "(max-width: 700px) 50vw, 280px", [480, 900])}<figcaption>{escape(cap)}</figcaption></figure>'
-        for n, alt, cap in WORK)
+    items = "".join(ba_slider(*x) for x in SLIDERS)
     return f"""<section class="section"><div class="wrap">
-<div class="section-head"><h2>Recent work around Pensacola</h2><p class="lede">A few before-and-afters from jobs we've done for our neighbors. There's more on <a href="{BIZ["facebook"]}" rel="noopener">our Facebook page</a>.</p></div>
-<div class="work">{items}</div>
+<div class="section-head"><h2>See the difference</h2><p class="lede">Drag the slider on real jobs we've done around Pensacola. There's more on <a href="{BIZ["facebook"]}" rel="noopener">our Facebook page</a>.</p></div>
+<div class="bas">{items}</div>
 </div></section>"""
 
 
@@ -468,10 +502,10 @@ def home():
     body = f"""
 <section class="hero"><div class="hero-grid">
 <div class="hero-copy">
-<p class="kicker">Pensacola's veteran-owned tree service</p>
+<p class="kicker">Veteran-owned tree service</p>
 <h1>Tree work done right, by neighbors you can trust</h1>
 <p class="lede">Owner Dave Lau and our crew handle the tree work, so you don't have to. Text us a photo for a free quote.</p>
-{cta_pair()}
+{quote_picker()}
 {rating_line()}
 </div>
 <div class="hero-media">{img("dave-lau-founder", "Dave Lau, owner of Log Hog Tree Service, smiling in a customer's front yard with his climbing gear", "(max-width: 980px) 100vw, 48vw", [640, 1100], eager=True, w=1100, h=1001)}</div>

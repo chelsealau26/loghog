@@ -424,7 +424,7 @@ def faq_html(faq):
 
 
 def cta_pair(primary="Text us a photo"):
-    return f'<div class="btns"><a class="btn btn-primary" href="{SMS}">{ICON["text"]}{primary}</a><a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}Call {BIZ["phone_display"]}</a></div>'
+    return f'<div class="btns"><a class="btn btn-primary" href="{SMS}">{ICON["text"]}{primary}</a><a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}Call<span class="num">&nbsp;{BIZ["phone_display"]}</span></a></div>'
 
 
 PLAN = f"""<ol class="plan">
@@ -513,7 +513,7 @@ def home():
 <div class="wrap hero-inner">
 <p class="kicker">Veteran-owned tree service</p>
 <h1><span>Tree work done right,</span> <em>by neighbors you can trust</em></h1>
-<p class="lede">Owner Dave Lau and our crew handle the tree work, so you don't have to. Text us a photo for a free quote.</p>
+<p class="lede">We handle the tree work, so you don't have to. Text us a photo for a free quote.</p>
 {cta_pair()}
 {rating_line()}
 </div>

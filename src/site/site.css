@@ -425,3 +425,22 @@ h2 em{font-style:italic;color:var(--orange)}
 
 /* Picker on the dark plan section */
 .section.dark .picker{margin-top:48px;padding:28px;border:1px solid rgba(255,255,255,.18);border-radius:18px;background:rgba(255,255,255,.04)}
+
+/* Hero fits above the fold at any screen height */
+.hero-full{min-height:100vh;min-height:100svh;align-items:center}
+.hero-inner{padding-top:clamp(112px,15vh,150px);padding-bottom:clamp(28px,5vh,64px)}
+.hero-full h1{font-size:clamp(36px,min(6.2vw,9.2vh),88px);margin-bottom:clamp(12px,2.4vh,24px)}
+.hero-full .kicker{margin-bottom:clamp(8px,1.6vh,16px)}
+.hero-full .lede{font-size:clamp(16px,2.3vh,20px);margin-bottom:clamp(16px,3vh,30px)}
+.hero-full .btn{min-height:clamp(44px,6vh,52px)}
+.hero-full .rating-line{margin-top:clamp(14px,3vh,34px)}
+@media (max-width:760px){
+  .hero-full{min-height:calc(100svh - 68px);align-items:flex-end}
+  .hero-inner{padding-top:120px;padding-bottom:24px}
+  .hero-full h1{font-size:clamp(32px,min(10vw,6.2vh),46px)}
+  .hero-full .btns{flex-wrap:nowrap;gap:8px}
+  .hero-full .btns .btn{flex:1;padding:12px 10px;font-size:15px;min-width:0}
+  .hero-full .btn svg{width:16px;height:16px}
+}
+@media (max-width:760px){.hero-full .num{display:none}
+  .hero-full::after{background:linear-gradient(0deg,rgba(26,18,14,.96) 0%,rgba(26,18,14,.82) 55%,rgba(26,18,14,.55) 80%,rgba(26,18,14,.45) 100%)}}

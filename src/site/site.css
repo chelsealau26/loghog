@@ -849,3 +849,20 @@ h2 em{font-style:italic;color:var(--orange)}
 .areas-sec.light .area-map .dot text{fill:rgba(255,255,255,0)}
 .areas-sec.light .area-map .dot.home text,.areas-sec.light .area-map .dot.on text{fill:#fff}
 .areas-sec.light .area-map .dot.on text{paint-order:stroke;stroke:var(--espresso);stroke-width:4px}
+
+/* Social links */
+.tb-right{display:flex;align-items:center;gap:18px}
+.tb-social{display:flex !important;gap:8px;padding-left:18px;border-left:1px solid rgba(255,255,255,.18)}
+.topbar .soc{display:inline-flex;width:24px;height:24px;align-items:center;justify-content:center;border-radius:6px;transition:transform .2s}
+.topbar .soc svg{width:16px;height:16px}
+.soc.fb{background:#1877f2;border-radius:50%}
+.soc.ig{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fd5949 45%,#d6249f 60%,#285aeb 90%)}
+.soc.ig svg{width:14px;height:14px}
+.topbar .soc:hover{transform:translateY(-1px) scale(1.08)}
+.foot-social{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.soc-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 14px 9px 10px;border-radius:999px;color:#fff !important;text-decoration:none;font-weight:600;font-size:14px;transition:transform .2s,filter .2s}
+.soc-btn svg{width:18px;height:18px}
+.soc-btn.fb{background:#1877f2}
+.soc-btn.ig{background:linear-gradient(45deg,#f09433,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888)}
+.soc-btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+@media (max-width:640px){.tb-social{padding-left:14px}}

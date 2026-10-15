@@ -52,6 +52,8 @@ ICON = {
     "chat": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2C6.5 2 2 6 2 10.9c0 2.6 1.3 5 3.4 6.6L4.6 22l4.6-2.6c.9.2 1.8.3 2.8.3 5.5 0 10-4 10-8.8S17.5 2 12 2zm-1 13-4-4 1.4-1.4 2.6 2.6 5.6-5.6L18 8l-7 7z"/></svg>',
     "home": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3 2 11.5l1.3 1.5L5 11.6V21h5v-6h4v6h5v-9.4l1.7 1.4 1.3-1.5L12 3z"/></svg>',
     "pin": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>',
+    "facebook": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M24 12a12 12 0 1 0-13.9 11.9v-8.4h-3V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12z"/></svg>',
+    "instagram": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.2-4.4-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.9 1.4 1.4 0 0 0 0-2.9z"/></svg>',
     "play": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 4v16l13-8z"/></svg>',
 }
 
@@ -314,7 +316,7 @@ def header(current):
     links = "".join(
         f'<a href="{u}"{" aria-current=page" if u == current else ""}>{n}</a>' for n, u in NAV)
     return f"""<a class="skip" href="#main">Skip to content</a>
-<div class="topbar"><div class="wrap"><span>Veteran-owned · Licensed &amp; insured</span><a href="{TEL}">Call or text <strong>{BIZ["phone_display"]}</strong></a></div></div>
+<div class="topbar"><div class="wrap"><span>Veteran-owned · Licensed &amp; insured</span><div class="tb-right"><a href="{TEL}">Call or text <strong>{BIZ["phone_display"]}</strong></a><span class="tb-social"><a class="soc fb" href="{BIZ["facebook"]}" rel="noopener" aria-label="Log Hog on Facebook">{ICON["facebook"]}</a><a class="soc ig" href="{BIZ["instagram"]}" rel="noopener" aria-label="Log Hog on Instagram">{ICON["instagram"]}</a></span></div></div></div>
 <header class="site-header"><div class="wrap">
 <a class="brand" href="/"><img src="/img/logo-192.webp" width="84" height="84" alt="Log Hog Tree Service, home"></a>
 <nav class="nav" id="nav" aria-label="Main">{links}</nav>
@@ -334,7 +336,7 @@ def footer():
 <div><h2>Say hello</h2><ul>
 <li><a href="{TEL}">{BIZ["phone_display"]}</a>, call or text</li>
 <li>{BIZ["hours"]}</li>
-<li><a href="{BIZ["facebook"]}" rel="noopener">Facebook</a> · <a href="{BIZ["instagram"]}" rel="noopener">Instagram</a></li>
+<li class="foot-social"><a class="soc-btn fb" href="{BIZ["facebook"]}" rel="noopener">{ICON["facebook"]}Facebook</a><a class="soc-btn ig" href="{BIZ["instagram"]}" rel="noopener">{ICON["instagram"]}Instagram</a></li>
 </ul></div>
 <p class="foot-legal">© {date.today().year} Log Hog Tree Service, Pensacola, Florida. Licensed and insured.</p>
 </div></footer>

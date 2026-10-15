@@ -22,7 +22,6 @@ BIZ = {
     "name": "Log Hog Tree Service",
     "phone_display": "(850) 426-4220",
     "phone_e164": "+18504264220",
-    "email": "loghogllc@gmail.com",
     "hours": "Mon–Sat, 8am–5pm",
     "maps": "https://maps.google.com/?cid=3271970089992802073",
     "review": "https://g.page/r/CRlPuRF2X2gtEBM/review",
@@ -266,7 +265,6 @@ def schema_business():
         "logo": f"{SITE}/img/logo-192.png",
         "image": [f"{SITE}/img/og-image.jpg", f"{SITE}/img/dave-climbing-oak-880.webp"],
         "telephone": BIZ["phone_e164"],
-        "email": BIZ["email"],
         "description": "Christian and veteran-owned, licensed and insured tree service in Pensacola, FL: tree removal, trimming and pruning, storm cleanup, palm trimming and skinning, stump grinding, and debris hauling.",
         "founder": {"@type": "Person", "name": "Dave Lau"},
         "address": {"@type": "PostalAddress", "addressLocality": "Pensacola", "addressRegion": "FL", "addressCountry": "US"},
@@ -310,6 +308,7 @@ def header(current):
     links = "".join(
         f'<a href="{u}"{" aria-current=page" if u == current else ""}>{n}</a>' for n, u in NAV)
     return f"""<a class="skip" href="#main">Skip to content</a>
+<div class="topbar"><div class="wrap"><span>Veteran-owned · Licensed &amp; insured</span><a href="{TEL}">Call or text <strong>{BIZ["phone_display"]}</strong></a></div></div>
 <header class="site-header"><div class="wrap">
 <a class="brand" href="/"><img src="/img/logo-96.webp" width="46" height="46" alt=""><span>Log Hog Tree Service</span></a>
 <nav class="nav" id="nav" aria-label="Main">{links}</nav>
@@ -328,7 +327,6 @@ def footer():
 <div><h2>Log Hog</h2><ul><li><a href="/about-us">About us</a></li><li><a href="/service-areas">Where we work</a></li><li><a href="/contact">Get a free quote</a></li><li><a href="{BIZ["review"]}" rel="noopener">Leave us a review</a></li></ul></div>
 <div><h2>Say hello</h2><ul>
 <li><a href="{TEL}">{BIZ["phone_display"]}</a>, call or text</li>
-<li><a href="mailto:{BIZ["email"]}">{BIZ["email"]}</a></li>
 <li>{BIZ["hours"]}</li>
 <li><a href="{BIZ["facebook"]}" rel="noopener">Facebook</a> · <a href="{BIZ["instagram"]}" rel="noopener">Instagram</a></li>
 </ul></div>
@@ -336,7 +334,8 @@ def footer():
 </div></footer>
 <div class="mobile-bar"><a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}Call</a><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text a photo</a></div>
 <script>
-(function(){{var b=document.querySelector('.menu-btn'),n=document.getElementById('nav');if(b)b.addEventListener('click',function(){{var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)}});
+(function(){{var m=document.querySelector('.masthead');if(document.body.classList.contains('home')&&m){{var on=function(){{m.classList.toggle('stuck',window.scrollY>140)}};window.addEventListener('scroll',on,{{passive:true}});on()}}
+var b=document.querySelector('.menu-btn'),n=document.getElementById('nav');if(b)b.addEventListener('click',function(){{var o=n.classList.toggle('open');b.setAttribute('aria-expanded',o)}});
 document.querySelectorAll('.ba-range').forEach(function(r){{var f=r.parentNode;var set=function(){{f.style.setProperty('--pos',r.value+'%')}};r.addEventListener('input',set);set()}});
 var pk=document.querySelector('[data-picker]');if(pk){{var base='{SMS_BASE}';var chips=pk.querySelectorAll('.chip');var note=pk.querySelector('.picker-note');
 var upd=function(){{var sel=[].map.call(pk.querySelectorAll('.chip[aria-pressed=true]'),function(c){{return c.dataset.pick}});
@@ -351,7 +350,7 @@ document.querySelectorAll('[data-yt]').forEach(function(v){{v.addEventListener('
 FONTS = "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
 
 
-def page(path, title, description, body, *, current=None, extra_schema=(), og_image="/img/og-image.jpg"):
+def page(path, title, description, body, *, current=None, extra_schema=(), og_image="/img/og-image.jpg", body_class=""):
     canonical = f"{SITE}{path}"
     schemas = [schema_business(), *extra_schema]
     ld = "\n".join(f'<script type="application/ld+json">{json.dumps(s, ensure_ascii=False)}</script>' for s in schemas)
@@ -380,8 +379,8 @@ def page(path, title, description, body, *, current=None, extra_schema=(), og_im
 <link rel="stylesheet" href="/site.css?v={CSS_VERSION}">
 {ld}
 </head>
-<body>
-{header(current)}
+<body class="{body_class}">
+<div class="masthead">{header(current)}</div>
 <main id="main">
 {body}
 </main>
@@ -398,7 +397,7 @@ def rating_line():
     return f'<p class="rating-line"><span class="stars" aria-hidden="true">★★★★★</span><span data-lh-rating>{RATING_FALLBACK}</span></p>'
 
 
-def reviews_block(page_key, limit, heading="What your neighbors are saying",
+def reviews_block(page_key, limit, heading="What your <em>neighbors</em> are saying",
                   intro="Real reviews from homeowners around Pensacola.", stone=True):
     return f"""<section class="section{' stone' if stone else ''}" id="reviews"><div class="wrap">
 <div class="section-head"><h2>{heading}</h2><p class="lede">{intro}</p></div>
@@ -448,7 +447,7 @@ def quote_picker():
         f'<button type="button" class="chip" aria-pressed="false" data-pick="{escape(p.lower())}">{escape(p)}</button>'
         for p in PICKS)
     return f"""<div class="picker" data-picker>
-<p class="picker-q" id="picker-q">What do you need help with?</p>
+<p class="picker-q" id="picker-q">Start your text: what do you need help with?</p>
 <div class="chips" role="group" aria-labelledby="picker-q">{chips}</div>
 {cta_pair()}
 <p class="picker-note" aria-live="polite">Tap what you need and we'll start the text for you. Just add a photo.</p>
@@ -479,7 +478,7 @@ def ba_slider(key, alt_before, alt_after, cap, w, h):
 def work_gallery():
     items = "".join(ba_slider(*x) for x in SLIDERS)
     return f"""<section class="section"><div class="wrap">
-<div class="section-head"><h2>See the difference</h2><p class="lede">Drag the slider on real jobs we've done around Pensacola. There's more on <a href="{BIZ["facebook"]}" rel="noopener">our Facebook page</a>.</p></div>
+<div class="section-head"><h2>See the <em>difference</em></h2><p class="lede">Drag the slider on real jobs we've done around Pensacola. There's more on <a href="{BIZ["facebook"]}" rel="noopener">our Facebook page</a>.</p></div>
 <div class="bas">{items}</div>
 </div></section>"""
 
@@ -495,24 +494,32 @@ HOME_FAQ = [
 ]
 
 
+CARD_IMG = {'tree-removal': ('card-removal', [480, 800]), 'tree-trimming': ('card-trimming', [480, 800]), 'stump-grinding': ('stump-ready-to-grind', [480, 900]), 'storm-cleanup': ('storm-damaged-oak', [480, 900]), 'palm-tree-trimming': ('trimmed-palms-front-yard', [480, 900]), 'debris-hauling': ('debris-trailer', [480, 900])}
+
+
 def home():
-    services = "".join(
-        f'<a class="svc" href="/services/{s["slug"]}"><h3>{escape(s["name"].capitalize())}</h3><p>{escape(s["short"])}</p><span class="arrow">{ARROW}</span></a>'
+    cards = "".join(
+        f'''<a class="card-link" href="/services/{s["slug"]}"><span class="card">{img(CARD_IMG[s["slug"]][0], "", "(max-width: 700px) 100vw, 380px", CARD_IMG[s["slug"]][1])}
+<span class="card-body"><span class="card-title">{escape(s["name"])}</span><span class="card-text">{escape(s["short"])}</span></span></span>
+<span class="card-go" aria-hidden="true">{ARROW}</span></a>'''
         for s in SERVICES)
     body = f"""
-<section class="hero"><div class="hero-grid">
-<div class="hero-copy">
+<section class="hero-full">
+<picture>
+<source media="(max-width: 760px)" srcset="/img/hero-climb-tall-600.webp 600w, /img/hero-climb-tall-900.webp 900w" sizes="100vw">
+<img src="/img/hero-climb-wide-1536.webp" srcset="/img/hero-climb-wide-960.webp 960w, /img/hero-climb-wide-1536.webp 1536w" sizes="100vw" alt="A Log Hog climber working high in a pine tree" width="1536" height="864" fetchpriority="high">
+</picture>
+<div class="wrap hero-inner">
 <p class="kicker">Veteran-owned tree service</p>
-<h1>Tree work done right, by neighbors you can trust</h1>
+<h1><span>Tree work done right,</span> <em>by neighbors you can trust</em></h1>
 <p class="lede">Owner Dave Lau and our crew handle the tree work, so you don't have to. Text us a photo for a free quote.</p>
-{quote_picker()}
+{cta_pair()}
 {rating_line()}
 </div>
-<div class="hero-media">{img("dave-lau-founder", "Dave Lau, owner of Log Hog Tree Service, smiling in a customer's front yard with his climbing gear", "(max-width: 980px) 100vw, 48vw", [640, 1100], eager=True, w=1100, h=1001)}</div>
-</div></section>
+</section>
 
 <section class="section"><div class="wrap">
-<h2>Sound familiar?</h2>
+<div class="section-head"><h2>Sound <em>familiar?</em></h2></div>
 <p class="statement">The big limb hanging over the roof. The pine that leans a little more after every storm. The stump you've been mowing around for three years. We get it, and you shouldn't have to climb a ladder with a chainsaw to deal with it.</p>
 <div class="trio">
 <div><h3>Hurricane season worries</h3><p>Every time a storm rolls in off the Gulf, you're watching that one tree out the window.</p></div>
@@ -524,7 +531,7 @@ def home():
 <section class="section stone"><div class="wrap letter">
 {img("cleanup-by-fence", "A Log Hog crew member cleaning up branches along a backyard fence", "(max-width: 900px) 100vw, 480px", [480, 900], w=480, h=600)}
 <div>
-<h2>Meet Log Hog</h2>
+<h2 class="hd">Meet <em>Log Hog</em></h2>
 <p>We're a small, local crew, and we take every job personally. Log Hog is owned by Dave Lau, who grew up in Mobile and served 22 years in the U.S. Navy, retiring as a Chief. He spent that career working on aircraft, where you do the job carefully and get it right the first time. That's how our whole crew works.</p>
 <p>We show up when we say we will, treat your home like it belongs to family, and leave the yard cleaner than we found it. If there's a tree that's been worrying you, send us a picture. You'll get a straight answer and a fair price.</p>
 <blockquote class="pull">“There's nothing better than raking up the last of the branches and watching a customer step outside and smile at their yard.”<cite>Dave Lau, owner</cite></blockquote>
@@ -534,24 +541,24 @@ def home():
 </div></section>
 
 <section class="section dark"><div class="wrap">
-<div class="section-head"><h2>Getting a quote is easy</h2><p class="lede">No forms, and no waiting around for someone to come measure.</p></div>
+<div class="section-head"><h2>Getting a quote is <em>easy</em></h2><p class="lede">No forms, and no waiting around for someone to come measure.</p></div>
 {PLAN}
-<div class="btns"><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text us a photo</a></div>
+{quote_picker()}
+</div></section>
+
+<section class="section" id="services"><div class="wrap">
+<div class="section-head"><h2>How we can <em>help</em></h2><p class="lede">Every job ends with cleanup. We haul it all off so you don't have to.</p></div>
+<div class="cards">{cards}</div>
 </div></section>
 
 {work_gallery()}
-
-<section class="section" id="services"><div class="wrap">
-<div class="section-head"><h2>How we can help</h2><p class="lede">Every job ends with cleanup. We haul it all off so you don't have to.</p></div>
-<div class="svc-list">{services}</div>
-</div></section>
 
 {reviews_block("home", 3)}
 
 <section class="section"><div class="wrap success">
 {img("oaks-trimmed-front-yard", "Big oak trees freshly trimmed over a green front lawn and brick home", "(max-width: 900px) 100vw, 480px", [480, 900], w=480, h=640)}
 <div>
-<h2>Picture your yard next weekend</h2>
+<h2 class="hd">Picture your yard <em>next weekend</em></h2>
 <ul class="checks">
 <li>No more watching that dead limb every time the wind picks up</li>
 <li>A smooth lawn where that old stump used to be</li>
@@ -565,19 +572,19 @@ def home():
 {band()}
 
 <section class="section stone" id="areas"><div class="wrap">
-<div class="section-head"><h2>Proud to serve Pensacola and our neighbors nearby</h2></div>
+<div class="section-head"><h2>Proud to serve <em>our neighbors</em></h2><p class="lede">Pensacola, Escambia and Santa Rosa counties, and nearby Alabama.</p></div>
 {areas_list()}
 <a class="text-link" href="/service-areas">More about where we work</a>
 </div></section>
 
 <section class="section"><div class="wrap narrow">
-<div class="section-head"><h2>Questions folks ask us</h2></div>
+<div class="section-head"><h2>Questions folks <em>ask us</em></h2></div>
 {faq_html(HOME_FAQ)}
 </div></section>
 """
     return page("/", "Tree Removal & Trimming in Pensacola, FL | Log Hog Tree Service",
                 "Veteran-owned tree service in Pensacola, FL. Tree removal, trimming, stump grinding, storm cleanup and palm trimming. Licensed & insured. Text a photo to (850) 426-4220 for a free quote.",
-                body, current="/", extra_schema=[schema_faq(HOME_FAQ)])
+                body, current="/", extra_schema=[schema_faq(HOME_FAQ)], body_class="home")
 
 
 def inner_hero(trail, h1, lede, *, ctas=True, rating=True):
@@ -619,7 +626,7 @@ def service_page(s):
 </div></section>
 
 <section class="section dark"><div class="wrap">
-<div class="section-head"><h2>Getting a quote is easy</h2></div>
+<div class="section-head"><h2>Getting a quote is <em>easy</em></h2></div>
 {PLAN}
 </div></section>
 
@@ -683,7 +690,7 @@ def about():
 </div></section>
 
 <section class="section stone"><div class="wrap">
-<div class="section-head"><h2>Watch us work</h2><p class="lede">A few of our favorite time-lapses. Tap one to watch it on our Facebook page.</p></div>
+<div class="section-head"><h2>Watch us <em>work</em></h2><p class="lede">A few of our favorite time-lapses. Tap one to watch it on our Facebook page.</p></div>
 {timelapse_grid()}
 <p style="margin-top:28px"><a class="text-link" href="{BIZ["facebook"]}" rel="noopener">See more on Facebook</a></p>
 </div></section>
@@ -706,7 +713,6 @@ def contact():
 <div class="ways">
 <div class="way main"><h2>Text us a photo</h2><p>Send a picture or two of the tree or job, plus your address, to {BIZ["phone_display"]}. We'll text you back with a price.</p><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text {BIZ["phone_display"]}</a></div>
 <div class="way"><h2>Give us a call</h2><p>Rather talk it through? Call us {BIZ["hours"]}.</p><a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}Call {BIZ["phone_display"]}</a></div>
-<div class="way"><h2>Send an email</h2><p>Photos by email work too. Just include your address and phone number.</p><a class="btn btn-quiet" href="mailto:{BIZ["email"]}">Email us</a></div>
 </div>
 </div></section>
 

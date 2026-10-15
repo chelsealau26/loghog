@@ -244,7 +244,7 @@ p{margin:0 0 1.1em}
 @media (max-width:980px){.with-aside{grid-template-columns:1fr;gap:56px}.aside{position:static}}
 
 /* Contact */
-.ways{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:24px}
+.ways{display:grid;grid-template-columns:1.3fr 1fr;gap:24px}
 .way{border:1px solid var(--line);padding:32px;display:flex;flex-direction:column}
 .way.main{background:var(--espresso) var(--rings);border-color:var(--espresso);color:rgba(255,255,255,.8)}
 .way.main h2{color:#fff}
@@ -348,3 +348,80 @@ p{margin:0 0 1.1em}
 @media (max-width:860px){.bas{grid-template-columns:1fr}}
 .ba-tag{position:absolute;top:12px;z-index:2;background:rgba(31,23,18,.78);color:#fff;font-size:13px;font-weight:700;letter-spacing:.04em;padding:5px 10px;border-radius:6px;pointer-events:none}
 .ba-tag-b{left:12px}.ba-tag-a{right:12px}
+
+/* ===== v8: Pine Ridge–inspired layer ===== */
+/* Top bar */
+.topbar{background:#1a120e;color:rgba(255,255,255,.8);font-size:14px}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:40px}
+.topbar a{color:#fff;text-decoration:none}
+.topbar strong{color:#e9875a;font-weight:700}
+@media (max-width:640px){.topbar span{display:none}.topbar .wrap{justify-content:center}}
+
+/* Masthead: sticky everywhere; on the homepage it floats over the hero, then docks */
+.masthead{position:sticky;top:0;z-index:50}
+.masthead .site-header{position:relative}
+.home .masthead{position:absolute;left:0;right:0;top:0}
+.home .masthead .site-header{background:transparent;border-bottom-color:transparent;backdrop-filter:none}
+.home .masthead .brand,.home .masthead .head-call{color:#fff}
+.home .masthead .nav a{color:rgba(255,255,255,.88)}
+.home .masthead .nav a:hover{color:#fff}
+.home .masthead .menu-btn{color:#fff;border-color:rgba(255,255,255,.4)}
+.home .masthead.stuck{position:fixed;animation:dock .25s ease-out}
+.home .masthead.stuck .topbar{display:none}
+.home .masthead.stuck .site-header{background:rgba(255,255,255,.97);border-bottom-color:var(--line)}
+.home .masthead.stuck .brand,.home .masthead.stuck .head-call{color:var(--ink)}
+.home .masthead.stuck .nav a{color:var(--muted)}
+.home .masthead.stuck .menu-btn{color:var(--ink);border-color:var(--line)}
+@keyframes dock{from{transform:translateY(-100%)}to{transform:none}}
+@media (max-width:980px){.home .masthead .nav{background:#fff}.home .masthead .nav a{color:var(--ink)}}
+
+/* Full-photo hero */
+.hero-full{position:relative;min-height:clamp(640px,94vh,900px);display:flex;align-items:flex-end;background:var(--espresso);color:#fff;overflow:hidden}
+.hero-full picture img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 35%}
+.hero-full::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(26,18,14,.92) 0%,rgba(26,18,14,.72) 38%,rgba(26,18,14,.15) 72%,rgba(26,18,14,0) 100%),linear-gradient(0deg,rgba(26,18,14,.55) 0%,rgba(26,18,14,0) 40%)}
+.hero-inner{position:relative;z-index:1;padding-top:200px;padding-bottom:84px;width:100%}
+.hero-full .kicker{color:#e9875a}
+.hero-full h1{color:#fff;font-size:clamp(44px,6.2vw,88px);line-height:.98;letter-spacing:-.025em;max-width:13ch;margin-bottom:24px}
+.hero-full h1 span{display:block}
+.hero-full h1 em{display:block;font-style:italic;color:#e9875a}
+.hero-full .lede{color:rgba(255,255,255,.85);max-width:520px;margin-bottom:30px}
+.hero-full .btn-quiet{border-color:rgba(255,255,255,.5);color:#fff}
+.hero-full .btn-quiet:hover{border-color:#fff;color:#fff}
+.hero-full .rating-line,.hero-full .rating-line a{color:rgba(255,255,255,.75)}
+@media (max-width:760px){
+  .hero-full{min-height:0}
+  .hero-full::after{background:linear-gradient(0deg,rgba(26,18,14,.95) 0%,rgba(26,18,14,.75) 45%,rgba(26,18,14,.25) 75%,rgba(26,18,14,.35) 100%)}
+  .hero-full picture img{object-position:55% 20%}
+  .hero-inner{padding-top:300px;padding-bottom:48px}
+}
+
+/* Headings with accent word + bar */
+h2 em{font-style:italic;color:var(--orange)}
+.dark h2 em,.band h2 em{color:#e9875a}
+.section-head h2::after,.hd::after{content:"";display:block;width:64px;height:4px;border-radius:2px;background:var(--orange);margin-top:18px}
+.section-head h2{margin-bottom:.35em}
+
+/* Photo service cards with notch + arrow */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card-link{--n:44px;position:relative;display:block;text-decoration:none;color:#fff}
+.card{position:relative;display:block;aspect-ratio:3/4;border-radius:18px;overflow:hidden;color:#fff;text-decoration:none;background:var(--espresso);
+  -webkit-mask:radial-gradient(circle calc(var(--n) + 8px) at calc(100% - var(--n) - 14px) calc(100% - var(--n) - 14px),transparent 98%,#000 100%);
+          mask:radial-gradient(circle calc(var(--n) + 8px) at calc(100% - var(--n) - 14px) calc(100% - var(--n) - 14px),transparent 98%,#000 100%)}
+.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.card::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(26,18,14,.92) 0%,rgba(26,18,14,.55) 38%,rgba(26,18,14,0) 65%)}
+.card-body{position:absolute;left:24px;right:120px;bottom:26px;z-index:1}
+.card-title{display:block;font:800 26px/1.05 var(--serif);text-transform:uppercase;letter-spacing:-.01em}
+.card-text{display:block;font-size:15px;line-height:1.45;color:rgba(255,255,255,.82);margin-top:8px;max-height:0;opacity:0;overflow:hidden;transition:max-height .35s ease,opacity .35s ease}
+.card-link:hover img,.card-link:focus-visible img{transform:scale(1.06)}
+.card-link:hover .card-text,.card-link:focus-visible .card-text{max-height:120px;opacity:1}
+.cards{position:relative}
+.card-go{position:absolute;right:14px;bottom:14px;z-index:2;width:calc(var(--n) * 2);height:calc(var(--n) * 2);border-radius:50%;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;transition:transform .3s ease,background .2s}
+.card-go svg{width:30px;height:30px;transform:rotate(-45deg);transition:transform .3s ease}
+.card-link:hover .card-go{background:var(--orange-dark)}
+.card-link:hover .card-go svg{transform:rotate(0)}
+@media (hover:none){.card-text{max-height:none;opacity:1}}
+@media (max-width:980px){.cards{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.cards{grid-template-columns:1fr}.card{aspect-ratio:4/3.4}}
+
+/* Picker on the dark plan section */
+.section.dark .picker{margin-top:48px;padding:28px;border:1px solid rgba(255,255,255,.18);border-radius:18px;background:rgba(255,255,255,.04)}

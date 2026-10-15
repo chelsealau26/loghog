@@ -68,7 +68,7 @@ SERVICES = [
         "title": "Tree Removal in Pensacola, FL",
         "short": "Dead, leaning or unwanted trees taken down safely, with the mess hauled away.",
         "lede": "Dead, leaning, storm-damaged or just in the way: we take trees down piece by piece, drop them where they need to go, and haul it all away.",
-        "photo": ("pine-takedown", "Dave Lau high in a tall pine during a tree removal", [480, 880]),
+        "photo": ("pine-removal-climb", "Log Hog climbing a tall pine to take it down in sections", [480, 900]),
         "body": """
 <h2>When a tree needs to come down</h2>
 <p>Most removals we do around Pensacola fall into a few groups:</p>
@@ -104,7 +104,7 @@ SERVICES = [
         "title": "Tree Trimming & Pruning in Pensacola, FL",
         "short": "Dead wood out, roof and power-line clearance, and a healthier, better-looking canopy.",
         "lede": "Regular trimming keeps your trees healthy, keeps branches off the roof, and takes out the dead wood before a storm does it for you.",
-        "photo": ("dave-climbing-oak", "Dave Lau climbing a live oak to trim it", [480, 880]),
+        "photo": ("tree-trimming-climb", "Log Hog climbing a backyard tree to trim it", [480, 900]),
         "body": """
 <h2>Why trim your trees</h2>
 <ul>
@@ -138,7 +138,7 @@ SERVICES = [
         "title": "Stump Grinding in Pensacola, FL",
         "short": "Stumps ground down below ground level so you can mow, plant or build over the spot.",
         "lede": "That old stump is a trip hazard, a mower-blade killer and a home for termites. We grind it down below ground level so the spot can go back to lawn.",
-        "photo": ("stump-in-woods", "A cut tree stump ready for grinding", [640, 1080]),
+        "photo": ("stump-ready-to-grind", "A freshly cut stump ready for grinding", [480, 900]),
         "body": """
 <h2>Why grind a stump</h2>
 <ul>
@@ -172,7 +172,7 @@ SERVICES = [
         "title": "Storm Cleanup & Fallen Tree Removal in Pensacola, FL",
         "short": "Fallen trees, hanging limbs and storm debris cleared after hurricanes and summer storms.",
         "lede": "After a hurricane or a summer thunderstorm, we clear fallen trees, take down hanging limbs and haul off the debris, so you can get back to normal.",
-        "photo": ("chainsaw-cut", "A chainsaw cutting through a fallen tree trunk", [640, 1080]),
+        "photo": ("storm-damaged-oak", "A large oak limb that split and fell beside a house after a storm", [480, 900]),
         "body": """
 <h2>What we handle after a storm</h2>
 <ul>
@@ -204,7 +204,7 @@ SERVICES = [
         "title": "Palm Tree Trimming & Skinning in Pensacola, FL",
         "short": "Dead fronds and seed pods cut back, trunks skinned clean, bushes and shrubs shaped.",
         "lede": "Brown fronds and seed pods make a palm look tired. We trim palms back to healthy green, skin the trunks clean, and shape your bushes and shrubs while we're there.",
-        "photo": ("dave-in-tree-selfie", "Dave Lau working up in a tree canopy", [640, 1200]),
+        "photo": ("before-after-palm-trim", "A palm tree before and after trimming", [480, 900]),
         "body": """
 <h2>Palm trimming</h2>
 <p>We cut off dead and dying fronds, seed pods and flower stalks, which keeps palms looking clean and stops heavy fronds from dropping on cars, roofs and people. We leave the healthy green fronds alone: over-trimming (the “hurricane cut”) weakens palms.</p>
@@ -232,7 +232,7 @@ SERVICES = [
         "title": "Brush & Debris Hauling in Pensacola, FL",
         "short": "Branches, brush piles and yard debris loaded up and hauled away.",
         "lede": "Got a brush pile from a weekend of yard work, or limbs from the last storm? We load it up and haul it away.",
-        "photo": ("oak-canopy", "A large oak tree canopy", [480, 880]),
+        "photo": ("debris-trailer", "Log Hog dump trailer loaded with branches and palm fronds", [480, 900]),
         "body": """
 <h2>What we haul</h2>
 <ul>
@@ -432,6 +432,24 @@ CREDS = """<div class="creds">
 </div>"""
 
 
+WORK = [
+    ("before-after-fallen-tree", "A fallen tree cleared from a front yard, before and after", "Fallen tree, cleared and hauled off"),
+    ("before-after-oak-trim", "Oak trees before and after trimming", "Oaks trimmed and lifted off the house"),
+    ("before-after-palm-trim", "A palm tree before and after trimming", "Palm trimmed back to healthy green"),
+    ("before-after-sago-palm", "A sago palm before and after trimming", "Sago palm cleaned up"),
+]
+
+
+def work_gallery():
+    items = "".join(
+        f'<figure class="work-item">{img(n, alt, "(max-width: 700px) 50vw, 280px", [480, 900])}<figcaption>{escape(cap)}</figcaption></figure>'
+        for n, alt, cap in WORK)
+    return f"""<section class="section"><div class="wrap">
+<div class="section-head"><h2>Recent work around Pensacola</h2><p class="lede">A few before-and-afters from jobs we've done for our neighbors. There's more on <a href="{BIZ["facebook"]}" rel="noopener">our Facebook page</a>.</p></div>
+<div class="work">{items}</div>
+</div></section>"""
+
+
 # ---------------------------------------------------------------- pages
 HOME_FAQ = [
     ("How do I get a quote?", "Text a photo of the tree or job and your address to (850) 426-4220, or give us a call. Quotes are free and there's no obligation."),
@@ -487,6 +505,8 @@ def home():
 <div class="btns"><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text us a photo</a></div>
 </div></section>
 
+{work_gallery()}
+
 <section class="section" id="services"><div class="wrap">
 <div class="section-head"><h2>How we can help</h2><p class="lede">Every job ends with cleanup. We haul it all off so you don't have to.</p></div>
 <div class="svc-list">{services}</div>
@@ -495,7 +515,7 @@ def home():
 {reviews_block("home", 3)}
 
 <section class="section"><div class="wrap success">
-{img("dave-climbing-oak", "Dave Lau climbing a live oak to trim it", "(max-width: 900px) 100vw, 560px", [480, 880], w=560, h=448)}
+{img("trimmed-palms-front-yard", "Freshly trimmed palms in front of a brick home in Pensacola", "(max-width: 900px) 100vw, 560px", [480, 900], w=560, h=420)}
 <div>
 <h2>Picture your yard next weekend</h2>
 <ul class="checks">

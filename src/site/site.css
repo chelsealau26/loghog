@@ -296,3 +296,10 @@ p{margin:0 0 1.1em}
 .lhr-card,.way,.aside-box{border-radius:14px}
 .hero-media img{object-position:45% 35%}
 .section-head h2+.lede{margin-top:0}
+
+/* Recent work */
+.work{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.work-item{margin:0}
+.work-item img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:14px}
+.work-item figcaption{font-weight:600;font-size:16px;margin-top:12px;color:var(--ink)}
+@media (max-width:900px){.work{grid-template-columns:1fr 1fr}}

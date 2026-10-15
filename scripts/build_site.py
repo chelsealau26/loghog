@@ -346,7 +346,7 @@ document.querySelectorAll('.ba-range').forEach(function(r){{var f=r.parentNode;v
 var pk=document.querySelector('[data-picker]');if(pk){{var base='{SMS_BASE}';var chips=pk.querySelectorAll('.chip');var note=pk.querySelector('.picker-note');
 var upd=function(){{var sel=[].map.call(pk.querySelectorAll('.chip[aria-pressed=true]'),function(c){{return c.dataset.pick}});
 var lst=sel.length>1?sel.slice(0,-1).join(', ')+' and '+sel[sel.length-1]:sel[0];var msg=sel.length?"Hi Log Hog! I'd like a free quote for "+lst+'. My address is: ':"Hi Log Hog! I'd like a free quote. My address is: ";
-document.querySelectorAll('a[href^="sms:"]').forEach(function(a){{a.href=base+encodeURIComponent(msg)}});var pv=pk.querySelector('[data-preview]');if(pv){{pv.textContent=msg;pv.classList.remove('pop');void pv.offsetWidth;pv.classList.add('pop')}}
+document.querySelectorAll('a[href^="sms:"]:not([data-fixed])').forEach(function(a){{a.href=base+encodeURIComponent(msg)}});var pv=pk.querySelector('[data-preview]');if(pv){{pv.textContent=msg;pv.classList.remove('pop');void pv.offsetWidth;pv.classList.add('pop')}}
 note.textContent=sel.length?'Got it: '+lst+'. Tap Text us a photo and add your picture.':"Tap what you need and we'll start the text for you. Just add a photo."}};
 chips.forEach(function(c){{c.addEventListener('click',function(){{c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')!=='true');upd()}})}});if(pk.querySelector('.chip[aria-pressed=true]'))upd()}}
 var rv=document.querySelectorAll('[data-reveal]');if('IntersectionObserver' in window){{var io=new IntersectionObserver(function(es){{es.forEach(function(e){{if(e.isIntersecting){{e.target.classList.add('in');io.unobserve(e.target)}}}})}},{{threshold:.3}});rv.forEach(function(el){{io.observe(el)}})}}else rv.forEach(function(el){{el.classList.add('in')}});
@@ -493,13 +493,16 @@ def areas_list():
     return '<ul class="areas">' + "".join(f"<li>{escape(a)}</li>" for a in AREAS) + "</ul>"
 
 
+TOWN_SMS = SMS_BASE + __import__("urllib.parse").parse.quote("Hi Log Hog! I don't see my town on your list of service areas, but I'd like a free quote here. My address is: ")
+
+
 def faq_cta(q, a):
     ql, al = q.lower(), a.lower()
     text_btn = f'<a class="btn btn-primary btn-sm" href="{SMS}">{ICON["text"]}Text us a photo</a>'
     call_btn = f'<a class="btn btn-quiet btn-sm" href="{TEL}">{ICON["phone"]}Call {BIZ["phone_display"]}</a>'
     if "areas" in ql or "serve" in ql:
         return (f'<a class="btn btn-primary btn-sm" href="/service-areas">See every town we serve</a>'
-                f'<a class="btn btn-quiet btn-sm" href="{SMS}">{ICON["text"]}Not listed? Text us</a>')
+                f'<a class="btn btn-quiet btn-sm" href="{TOWN_SMS}" data-fixed>{ICON["text"]}Not listed? Text us</a>')
     if "hours" in ql:
         return call_btn + f'<a class="btn btn-quiet btn-sm" href="{SMS}">{ICON["text"]}Text us anytime</a>'
     if "licensed" in ql:
@@ -534,15 +537,38 @@ CREDS = f"""<div class="creds">
 <div><span class="ti">{ICON["star"]}</span><strong data-lh-score>5-star</strong><span data-lh-count>reviews from neighbors on Google</span></div>
 </div>"""
 
-PHONE = f"""<div class="phone" aria-hidden="true"><div class="phone-screen">
+PHONE_CHATS = {
+    None: ("storm", "Hi! Can you take a look at this oak? It split in the storm. We're off Scenic Hwy.",
+           "Thanks for the photo! We can cut that up and haul it all off. I'll text your free quote shortly."),
+    "storm-cleanup": ("storm", "Hi! Can you take a look at this oak? It split in the storm. We're off Scenic Hwy.",
+                      "Thanks for the photo! We can cut that up and haul it all off. I'll text your free quote shortly."),
+    "tree-removal": ("removal", "Hi! Can you take down the tall tree on the left? It's getting too close to the house.",
+                     "Thanks for the photo! We can take that down in sections and haul it all off. I'll text your free quote shortly."),
+    "tree-trimming": ("trimming", "Hi! These oaks are hanging low over the yard. Can you trim them up?",
+                      "Thanks for the photo! We can lift and thin those and clean everything up. I'll text your free quote shortly."),
+    "stump-grinding": ("stump", "Hi! How much to grind this stump? It's in the backyard and the gate is about 4 ft wide.",
+                       "Thanks for the photo and the gate size! I'll text your free quote shortly."),
+    "palm-tree-trimming": ("palm", "Hi! Can you trim the dead fronds and seed pods off this palm?",
+                           "Thanks for the photo! We can clean that up and haul off the fronds. I'll text your free quote shortly."),
+    "debris-hauling": ("debris", "Hi! A tree came down in our yard. Can you cut it up and haul it all away?",
+                       "Thanks for the photo! We can cut that up, load it and haul it off. I'll text your free quote shortly."),
+}
+
+
+def phone(slug=None):
+    pic, me, them = PHONE_CHATS.get(slug, PHONE_CHATS[None])
+    return f"""<div class="phone" aria-hidden="true"><div class="phone-screen">
 <div class="phone-top"><img src="/img/logo-96.webp" alt="" width="34" height="34"><span><strong>Log Hog Tree Service</strong><small>(850) 426-4220</small></span></div>
 <div class="msgs">
-<div class="msg me photo"><img src="/img/storm-damaged-oak-480.webp" alt="" width="480" height="360" loading="lazy"></div>
-<div class="msg me">Hi! Can you take a look at this oak? It split in the storm. We're off Scenic Hwy.</div>
-<div class="msg them">Thanks for the photo! We can cut that up and haul it all off. I'll text your free quote shortly.</div>
+<div class="msg me photo"><img src="/img/phone-{pic}-480.webp" alt="" width="480" height="360" loading="lazy"></div>
+<div class="msg me">{escape(me)}</div>
+<div class="msg them">{escape(them)}</div>
 <div class="msg me">Perfect, thank you!</div>
 <div class="typing"><i></i><i></i><i></i></div>
 </div></div></div>"""
+
+
+PHONE = phone()
 
 
 PICKS = ["Tree removal", "Trimming", "Stump grinding", "Storm cleanup", "Debris hauling", "Palms & bushes"]
@@ -556,14 +582,14 @@ def ticker():
 <div class="ticker-track" aria-hidden="true"><ul>{row}</ul><ul>{row}</ul></div></section>"""
 
 
-def quote_section(pre=None):
+def quote_section(pre=None, slug=None):
     return f"""<section class="section dark quote-sec"><div class="wrap">
 <div class="quote-grid">
 <div>
 <div class="section-head"><h2>Getting a quote is <em>easy</em></h2><p class="lede">No forms, and no waiting around for someone to come measure.</p></div>
 {PLAN}
 </div>
-<div class="phone-wrap" data-reveal>{PHONE}<p class="phone-cap">It really is this simple.</p></div>
+<div class="phone-wrap" data-reveal>{phone(slug)}<p class="phone-cap">It really is this simple.</p></div>
 </div>
 {quote_picker(pre)}
 </div></section>"""
@@ -744,7 +770,7 @@ def home():
 <div>
 <div class="section-head"><h2>Proud to serve <em>our neighbors</em></h2><p class="lede">Pensacola, Escambia and Santa Rosa counties, and nearby Alabama.</p></div>
 {area_chips()}
-<div class="areas-cta"><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Don't see your town? Text us</a><a class="text-link" href="/service-areas">More about where we work</a></div>
+<div class="areas-cta"><a class="btn btn-primary" href="{TOWN_SMS}" data-fixed>{ICON["text"]}Don't see your town? Text us</a><a class="text-link" href="/service-areas">More about where we work</a></div>
 </div>
 {area_map()}
 </div></section>
@@ -828,7 +854,7 @@ def service_page(s):
 {aside(None, "Other ways we can help", others)}
 </div></section>
 
-{quote_section(SLUG_PICK[s["slug"]])}
+{quote_section(SLUG_PICK[s["slug"]], s["slug"])}
 
 {reviews_block("service", 3)}
 
@@ -841,7 +867,7 @@ def service_page(s):
 <div>
 <div class="section-head"><h2>{escape(s["name"].capitalize())} around <em>Pensacola</em></h2><p class="lede">We're proud to work in these communities.</p></div>
 {area_chips()}
-<div class="areas-cta"><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Don't see your town? Text us</a></div>
+<div class="areas-cta"><a class="btn btn-primary" href="{TOWN_SMS}" data-fixed>{ICON["text"]}Don't see your town? Text us</a></div>
 </div>
 {area_map()}
 </div></section>
@@ -971,7 +997,7 @@ def areas_page():
 <div>
 <div class="section-head"><h2>Where <em>we work</em></h2><p class="lede">Tap a town to find it on the map.</p></div>
 {area_chips()}
-<div class="areas-cta"><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Don't see your town? Text us</a></div>
+<div class="areas-cta"><a class="btn btn-primary" href="{TOWN_SMS}" data-fixed>{ICON["text"]}Don't see your town? Text us</a></div>
 </div>
 {area_map()}
 </div></section>

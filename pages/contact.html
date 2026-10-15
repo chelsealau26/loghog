@@ -47,9 +47,9 @@
 <div class="ph-phone"><div class="phone" aria-hidden="true"><div class="phone-screen">
 <div class="phone-top"><img src="/img/logo-96.webp" alt="" width="34" height="34"><span><strong>Log Hog Tree Service</strong><small>(850) 426-4220</small></span></div>
 <div class="msgs">
-<div class="msg me photo"><img src="/img/storm-damaged-oak-480.webp" alt="" width="480" height="360" loading="lazy"></div>
-<div class="msg me">Hi! Can you take a look at this oak? It split in the storm. We're off Scenic Hwy.</div>
-<div class="msg them">Thanks for the photo! We can cut that up and haul it all off. I'll text your free quote shortly.</div>
+<div class="msg me photo"><img src="/img/phone-storm-480.webp" alt="" width="480" height="360" loading="lazy"></div>
+<div class="msg me">Hi! Can you take a look at this oak? It split in the storm. We&#x27;re off Scenic Hwy.</div>
+<div class="msg them">Thanks for the photo! We can cut that up and haul it all off. I&#x27;ll text your free quote shortly.</div>
 <div class="msg me">Perfect, thank you!</div>
 <div class="typing"><i></i><i></i><i></i></div>
 </div></div></div></div>
@@ -200,7 +200,7 @@ document.querySelectorAll('.ba-range').forEach(function(r){var f=r.parentNode;va
 var pk=document.querySelector('[data-picker]');if(pk){var base='sms:+18504264220?&body=';var chips=pk.querySelectorAll('.chip');var note=pk.querySelector('.picker-note');
 var upd=function(){var sel=[].map.call(pk.querySelectorAll('.chip[aria-pressed=true]'),function(c){return c.dataset.pick});
 var lst=sel.length>1?sel.slice(0,-1).join(', ')+' and '+sel[sel.length-1]:sel[0];var msg=sel.length?"Hi Log Hog! I'd like a free quote for "+lst+'. My address is: ':"Hi Log Hog! I'd like a free quote. My address is: ";
-document.querySelectorAll('a[href^="sms:"]').forEach(function(a){a.href=base+encodeURIComponent(msg)});var pv=pk.querySelector('[data-preview]');if(pv){pv.textContent=msg;pv.classList.remove('pop');void pv.offsetWidth;pv.classList.add('pop')}
+document.querySelectorAll('a[href^="sms:"]:not([data-fixed])').forEach(function(a){a.href=base+encodeURIComponent(msg)});var pv=pk.querySelector('[data-preview]');if(pv){pv.textContent=msg;pv.classList.remove('pop');void pv.offsetWidth;pv.classList.add('pop')}
 note.textContent=sel.length?'Got it: '+lst+'. Tap Text us a photo and add your picture.':"Tap what you need and we'll start the text for you. Just add a photo."};
 chips.forEach(function(c){c.addEventListener('click',function(){c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')!=='true');upd()})});if(pk.querySelector('.chip[aria-pressed=true]'))upd()}
 var rv=document.querySelectorAll('[data-reveal]');if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.3});rv.forEach(function(el){io.observe(el)})}else rv.forEach(function(el){el.classList.add('in')});

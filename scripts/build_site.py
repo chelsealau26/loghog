@@ -470,7 +470,7 @@ def home():
 <div class="hero-copy">
 <p class="kicker">Pensacola's veteran-owned tree service</p>
 <h1>Tree work done right, by neighbors you can trust</h1>
-<p class="lede">Log Hog is a local, veteran-owned tree service led by owner Dave Lau, a retired Navy Chief. Dave and our crew take care of trees, and the families who live under them, all around Pensacola. Send us a photo of your tree and we'll get you a free quote.</p>
+<p class="lede">Owner Dave Lau and our crew handle the tree work, so you don't have to. Text us a photo for a free quote.</p>
 {cta_pair()}
 {rating_line()}
 </div>

@@ -348,7 +348,7 @@ var upd=function(){{var sel=[].map.call(pk.querySelectorAll('.chip[aria-pressed=
 var lst=sel.length>1?sel.slice(0,-1).join(', ')+' and '+sel[sel.length-1]:sel[0];var msg=sel.length?"Hi Log Hog! I'd like a free quote for "+lst+'. My address is: ':"Hi Log Hog! I'd like a free quote. My address is: ";
 document.querySelectorAll('a[href^="sms:"]').forEach(function(a){{a.href=base+encodeURIComponent(msg)}});var pv=pk.querySelector('[data-preview]');if(pv){{pv.textContent=msg;pv.classList.remove('pop');void pv.offsetWidth;pv.classList.add('pop')}}
 note.textContent=sel.length?'Got it: '+lst+'. Tap Text us a photo and add your picture.':"Tap what you need and we'll start the text for you. Just add a photo."}};
-chips.forEach(function(c){{c.addEventListener('click',function(){{c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')!=='true');upd()}})}})}}
+chips.forEach(function(c){{c.addEventListener('click',function(){{c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')!=='true');upd()}})}});if(pk.querySelector('.chip[aria-pressed=true]'))upd()}}
 var rv=document.querySelectorAll('[data-reveal]');if('IntersectionObserver' in window){{var io=new IntersectionObserver(function(es){{es.forEach(function(e){{if(e.isIntersecting){{e.target.classList.add('in');io.unobserve(e.target)}}}})}},{{threshold:.3}});rv.forEach(function(el){{io.observe(el)}})}}else rv.forEach(function(el){{el.classList.add('in')}});
 document.querySelectorAll('.areas-sec').forEach(function(sec){{var hi=function(k,on){{sec.querySelectorAll('[data-area="'+k+'"]').forEach(function(el){{el.classList.toggle('on',on)}})}};
 sec.querySelectorAll('[data-area]').forEach(function(el){{var k=el.dataset.area;['mouseenter','focus'].forEach(function(ev){{el.addEventListener(ev,function(){{hi(k,true)}})}});['mouseleave','blur'].forEach(function(ev){{el.addEventListener(ev,function(){{hi(k,false)}})}});
@@ -556,7 +556,7 @@ def ticker():
 <div class="ticker-track" aria-hidden="true"><ul>{row}</ul><ul>{row}</ul></div></section>"""
 
 
-def quote_section():
+def quote_section(pre=None):
     return f"""<section class="section dark quote-sec"><div class="wrap">
 <div class="quote-grid">
 <div>
@@ -565,7 +565,7 @@ def quote_section():
 </div>
 <div class="phone-wrap" data-reveal>{PHONE}<p class="phone-cap">It really is this simple.</p></div>
 </div>
-{quote_picker()}
+{quote_picker(pre)}
 </div></section>"""
 
 
@@ -579,9 +579,14 @@ PICK_ICONS = {
 }
 
 
-def quote_picker():
+PICK_MSG = {"Trimming": "tree trimming", "Palms & bushes": "palm and bush trimming"}
+SLUG_PICK = {"tree-removal": "Tree removal", "tree-trimming": "Trimming", "stump-grinding": "Stump grinding",
+             "storm-cleanup": "Storm cleanup", "palm-tree-trimming": "Palms & bushes", "debris-hauling": "Debris hauling"}
+
+
+def quote_picker(pre=None):
     chips = "".join(
-        f'<button type="button" class="chip" aria-pressed="false" data-pick="{escape(p.lower())}">'
+        f'<button type="button" class="chip" aria-pressed="{"true" if p == pre else "false"}" data-pick="{escape(PICK_MSG.get(p, p.lower()))}">'
         f'<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor">{PICK_ICONS[p]}</g></svg><span>{escape(p)}</span><i aria-hidden="true"></i></button>'
         for p in PICKS)
     return f"""<div class="picker" data-picker>
@@ -823,7 +828,7 @@ def service_page(s):
 {aside(None, "Other ways we can help", others)}
 </div></section>
 
-{quote_section()}
+{quote_section(SLUG_PICK[s["slug"]])}
 
 {reviews_block("service", 3)}
 

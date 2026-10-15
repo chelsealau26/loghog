@@ -7,6 +7,7 @@ Pages are plain HTML (fast, no frameworks). Live Google reviews are added by
 the Cloudflare Worker (src/index.js) into the [data-lh-reviews] sections.
 """
 import json
+import re
 import shutil
 import subprocess
 from datetime import date
@@ -47,6 +48,10 @@ ICON = {
     "flag": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 2h2v20H5V2zm3 1h11l-2.5 4.5L19 12H8V3z"/></svg>',
     "star": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="m12 2 2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6L12 2z"/></svg>',
     "menu": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>',
+    "camera": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9 3 7.2 5H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3.2L15 3H9zm3 5a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>',
+    "chat": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2C6.5 2 2 6 2 10.9c0 2.6 1.3 5 3.4 6.6L4.6 22l4.6-2.6c.9.2 1.8.3 2.8.3 5.5 0 10-4 10-8.8S17.5 2 12 2zm-1 13-4-4 1.4-1.4 2.6 2.6 5.6-5.6L18 8l-7 7z"/></svg>',
+    "home": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3 2 11.5l1.3 1.5L5 11.6V21h5v-6h4v6h5v-9.4l1.7 1.4 1.3-1.5L12 3z"/></svg>',
+    "pin": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>',
     "play": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 4v16l13-8z"/></svg>',
 }
 
@@ -322,7 +327,7 @@ def header(current):
 def footer():
     svc = "".join(f'<li><a href="/services/{s["slug"]}">{escape(s["name"].capitalize())}</a></li>' for s in SERVICES)
     return f"""<footer class="site-footer"><div class="wrap">
-<div class="foot-brand"><img src="/img/logo-192.webp" width="72" height="72" alt="Log Hog Tree Service logo" loading="lazy">
+<div class="foot-brand"><a class="foot-logo" href="/" aria-label="Log Hog Tree Service, home"><img src="/img/logo-192.webp" width="112" height="112" alt="Log Hog Tree Service logo" loading="lazy"></a>
 <p>Veteran-owned tree care for Pensacola and our neighbors nearby, one yard at a time.</p></div>
 <div><h2>Services</h2><ul>{svc}</ul></div>
 <div><h2>Log Hog</h2><ul><li><a href="/about-us">About us</a></li><li><a href="/service-areas">Where we work</a></li><li><a href="/contact">Get a free quote</a></li><li><a href="{BIZ["review"]}" rel="noopener">Leave us a review</a></li></ul></div>
@@ -344,6 +349,10 @@ var msg=sel.length?"Hi Log Hog! I'd like a free quote for "+sel.join(', ')+'. My
 document.querySelectorAll('a[href^="sms:"]').forEach(function(a){{a.href=base+encodeURIComponent(msg)}});
 note.textContent=sel.length?'Got it: '+sel.join(', ')+'. Tap Text us a photo and add your picture.':"Tap what you need and we'll start the text for you. Just add a photo."}};
 chips.forEach(function(c){{c.addEventListener('click',function(){{c.setAttribute('aria-pressed',c.getAttribute('aria-pressed')!=='true');upd()}})}})}}
+var rv=document.querySelectorAll('[data-reveal]');if('IntersectionObserver' in window){{var io=new IntersectionObserver(function(es){{es.forEach(function(e){{if(e.isIntersecting){{e.target.classList.add('in');io.unobserve(e.target)}}}})}},{{threshold:.3}});rv.forEach(function(el){{io.observe(el)}})}}else rv.forEach(function(el){{el.classList.add('in')}});
+document.querySelectorAll('.areas-sec').forEach(function(sec){{var hi=function(k,on){{sec.querySelectorAll('[data-area="'+k+'"]').forEach(function(el){{el.classList.toggle('on',on)}})}};
+sec.querySelectorAll('[data-area]').forEach(function(el){{var k=el.dataset.area;['mouseenter','focus'].forEach(function(ev){{el.addEventListener(ev,function(){{hi(k,true)}})}});['mouseleave','blur'].forEach(function(ev){{el.addEventListener(ev,function(){{hi(k,false)}})}});
+el.addEventListener('click',function(){{sec.querySelectorAll('.on').forEach(function(o){{o.classList.remove('on')}});hi(k,true)}})}})}});
 document.querySelectorAll('[data-yt]').forEach(function(v){{v.addEventListener('click',function(){{v.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+v.dataset.yt+'?autoplay=1" title="'+v.getAttribute('aria-label')+'" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>'}},{{once:true}})}})}})();
 </script>"""
 
@@ -414,13 +423,94 @@ def band(heading="Got a tree on your mind?",
 </div></section>"""
 
 
+AREA_LL = {
+    "Pensacola": (30.421, -87.217), "West Pensacola": (30.427, -87.279), "Pensacola Beach": (30.333, -87.142),
+    "Gulf Breeze": (30.357, -87.164), "Perdido Key": (30.293, -87.464), "Warrington": (30.384, -87.275),
+    "Myrtle Grove": (30.421, -87.307), "Bellview": (30.462, -87.315), "Brent": (30.469, -87.236),
+    "Ensley": (30.519, -87.273), "Ferry Pass": (30.510, -87.212), "Gonzalez": (30.582, -87.292),
+    "Cantonment": (30.608, -87.340), "Muscogee": (30.790, -87.390), "McDavid": (30.862, -87.320),
+    "Goulding": (30.443, -87.223), "Pace": (30.599, -87.161), "Milton": (30.632, -87.040),
+    "Lillian, AL": (30.411, -87.437), "Seminole, AL": (30.507, -87.468),
+}
+
+
+MAP_C = (330, 340)
+MAP_PX = 9.5  # pixels per mile
+
+
+def _xy(name):
+    lat, lon = AREA_LL[name]
+    return MAP_C[0] + (lon + 87.217) * 59.6 * MAP_PX, MAP_C[1] - (lat - 30.421) * 69.0 * MAP_PX
+
+
+def area_slug(a):
+    return re.sub(r"[^a-z]+", "-", a.lower()).strip("-")
+
+
+def area_chips():
+    return '<ul class="area-chips">' + "".join(
+        f'<li><button type="button" data-area="{area_slug(a)}">{ICON["pin"]}{escape(a)}</button></li>' for a in AREAS) + "</ul>"
+
+
+MAP_LABELS = {"Pensacola", "Milton", "Perdido Key", "Gulf Breeze", "Cantonment", "McDavid", "Lillian, AL", "Pace"}
+
+
+def area_map():
+    cx, cy = MAP_C
+    rings = "".join(f'<circle cx="{cx}" cy="{cy}" r="{m*MAP_PX:.0f}" class="ring"/>' for m in (5, 10, 15, 20, 25, 30))
+    miles = "".join(f'<text x="{cx - m*MAP_PX*0.707 - 4:.0f}" y="{cy + m*MAP_PX*0.707 + 14:.0f}" text-anchor="end" class="mi">{m} mi</text>' for m in (10, 20, 30))
+    dots = []
+    for i, a in enumerate(AREAS):
+        x, y = _xy(a)
+        cls = "dot" + (" home" if a == "Pensacola" else "") + (" lbl" if a in MAP_LABELS else "")
+        lab = escape(a.replace(", AL", ""))
+        left = x < cx - 20
+        dots.append(f'<g class="{cls}" data-area="{area_slug(a)}" style="--i:{i}" transform="translate({x:.0f} {y:.0f})"><circle r="{10 if a == "Pensacola" else 6.5}"/><text x="{-13 if left else 13}" y="5" text-anchor="{"end" if left else "start"}">{lab}</text></g>')
+    return f"""<figure class="area-map" data-reveal aria-hidden="true"><svg viewBox="0 0 660 680">
+<defs><radialGradient id="glow"><stop offset="0" stop-color="#ba5a34" stop-opacity=".38"/><stop offset="1" stop-color="#ba5a34" stop-opacity="0"/></radialGradient>
+<clipPath id="lens"><circle cx="{cx}" cy="{cy}" r="318"/></clipPath></defs>
+<g clip-path="url(#lens)">
+<circle cx="{cx}" cy="{cy}" r="318" class="lens-bg"/>
+<circle cx="{cx}" cy="{cy}" r="300" fill="url(#glow)"/>
+<path class="gulf" d="M0 432 C90 424 150 430 210 424 S300 410 360 400 S470 392 520 386 S610 380 660 372 V680 H0Z"/>
+<path class="bay" d="M250 380 C290 372 320 360 352 362 S390 350 420 356 C410 372 380 378 352 380 S290 390 250 380Z"/>
+<text x="{cx}" y="560" text-anchor="middle" class="water">GULF OF MEXICO</text>
+{rings}{miles}
+<path class="line" d="M215 30 L218 140 L211 260 L216 404"/>
+<text x="205" y="70" class="st" text-anchor="end">AL</text><text x="226" y="70" class="st">FL</text>
+</g>
+<circle cx="{cx}" cy="{cy}" r="318" class="lens-edge"/>
+{"".join(dots)}
+</svg></figure>"""
+
+
 def areas_list():
     return '<ul class="areas">' + "".join(f"<li>{escape(a)}</li>" for a in AREAS) + "</ul>"
 
 
+def faq_cta(q, a):
+    ql, al = q.lower(), a.lower()
+    text_btn = f'<a class="btn btn-primary btn-sm" href="{SMS}">{ICON["text"]}Text us a photo</a>'
+    call_btn = f'<a class="btn btn-quiet btn-sm" href="{TEL}">{ICON["phone"]}Call {BIZ["phone_display"]}</a>'
+    if "areas" in ql or "serve" in ql:
+        return (f'<a class="btn btn-primary btn-sm" href="/service-areas">See every town we serve</a>'
+                f'<a class="btn btn-quiet btn-sm" href="{SMS}">{ICON["text"]}Not listed? Text us</a>')
+    if "hours" in ql:
+        return call_btn + f'<a class="btn btn-quiet btn-sm" href="{SMS}">{ICON["text"]}Text us anytime</a>'
+    if "licensed" in ql:
+        return f'<a class="btn btn-quiet btn-sm" href="#reviews">{ICON["star"]}See what neighbors say</a>'
+    if any(k in ql + " " + al for k in ("quote", "photo", "send", "text us", "ask about", "let us know", "tell us")):
+        return text_btn + call_btn
+    return ""
+
+
 def faq_html(faq):
-    return '<div class="faq">' + "".join(
-        f"<details><summary>{escape(q)}</summary><p>{escape(a)}</p></details>" for q, a in faq) + "</div>"
+    items = []
+    for q, a in faq:
+        cta = faq_cta(q, a)
+        cta = f'<div class="faq-cta">{cta}</div>' if cta else ""
+        items.append(f"<details><summary>{escape(q)}</summary><div class=\"faq-a\"><p>{escape(a)}</p>{cta}</div></details>")
+    return '<div class="faq">' + "".join(items) + "</div>"
 
 
 def cta_pair(primary="Text us a photo"):
@@ -428,19 +518,42 @@ def cta_pair(primary="Text us a photo"):
 
 
 PLAN = f"""<ol class="plan">
-<li><h3>Snap a photo</h3><p>Take a picture of the tree, stump or mess. Add your address and text it to {BIZ["phone_display"]}.</p></li>
-<li><h3>Get a fair price</h3><p>We'll look it over and text you back a free quote. No pressure and no obligation.</p></li>
-<li><h3>Enjoy your yard</h3><p>We show up when we say we will, do the job safely, and clean up like we were never there.</p></li>
+<li><span class="plan-ico">{ICON["camera"]}</span><h3>Snap a photo</h3><p>Take a picture of the tree, stump or mess. Add your address and text it to {BIZ["phone_display"]}.</p></li>
+<li><span class="plan-ico">{ICON["chat"]}</span><h3>Get a fair price</h3><p>We'll look it over and text you back a free quote. No pressure and no obligation.</p></li>
+<li><span class="plan-ico">{ICON["home"]}</span><h3>Enjoy your yard</h3><p>We show up when we say we will, do the job safely, and clean up like we were never there.</p></li>
 </ol>"""
 
-CREDS = """<div class="creds">
-<div><strong>22 years</strong><span>U.S. Navy, retired Chief</span></div>
-<div><strong>Licensed</strong><span>and fully insured</span></div>
-<div><strong data-lh-score>5-star</strong><span data-lh-count>reviews from neighbors on Google</span></div>
+CREDS = f"""<div class="creds">
+<div><span class="ti">{ICON["flag"]}</span><strong>22 years</strong><span>U.S. Navy, retired Chief</span></div>
+<div><span class="ti">{ICON["shield"]}</span><strong>Licensed</strong><span>and fully insured</span></div>
+<div><span class="ti">{ICON["star"]}</span><strong data-lh-score>5-star</strong><span data-lh-count>reviews from neighbors on Google</span></div>
 </div>"""
+
+PHONE = f"""<div class="phone" aria-hidden="true"><div class="phone-screen">
+<div class="phone-top"><img src="/img/logo-96.webp" alt="" width="34" height="34"><span><strong>Log Hog Tree Service</strong><small>(850) 426-4220</small></span></div>
+<div class="msgs">
+<div class="msg me photo"><img src="/img/storm-damaged-oak-480.webp" alt="" width="480" height="360" loading="lazy"></div>
+<div class="msg me">Hi! Can you take a look at this oak? It split in the storm. We're off Scenic Hwy.</div>
+<div class="msg them">Thanks for the photo! We can cut that up and haul it all off. I'll text your free quote shortly.</div>
+<div class="msg me">Perfect, thank you!</div>
+<div class="typing"><i></i><i></i><i></i></div>
+</div></div></div>"""
 
 
 PICKS = ["Tree removal", "Trimming", "Stump grinding", "Storm cleanup", "Debris hauling", "Palms & bushes"]
+
+
+def quote_section():
+    return f"""<section class="section dark quote-sec"><div class="wrap">
+<div class="quote-grid">
+<div>
+<div class="section-head"><h2>Getting a quote is <em>easy</em></h2><p class="lede">No forms, and no waiting around for someone to come measure.</p></div>
+{PLAN}
+</div>
+<div class="phone-wrap" data-reveal>{PHONE}<p class="phone-cap">It really is this simple.</p></div>
+</div>
+{quote_picker()}
+</div></section>"""
 
 
 def quote_picker():
@@ -530,33 +643,47 @@ def home():
 </div>
 </section>
 
-<section class="section"><div class="wrap">
-<div class="section-head"><h2>Sound <em>familiar?</em></h2></div>
-<p class="statement">The big limb hanging over the roof. The pine that leans a little more after every storm. The stump you've been mowing around for three years. We get it, and you shouldn't have to climb a ladder with a chainsaw to deal with it.</p>
-<div class="trio">
-<div><h3>Hurricane season worries</h3><p>Every time a storm rolls in off the Gulf, you're watching that one tree out the window.</p></div>
-<div><h3>Too big to do yourself</h3><p>Big trees near houses, fences and power lines are dangerous work. It's not a weekend project.</p></div>
-<div><h3>Finding someone you trust</h3><p>You want someone insured, careful and fair on price, who won't leave a mess behind.</p></div>
+<section class="trust" aria-label="Why homeowners choose Log Hog"><div class="wrap"><ul class="trust-grid">
+<li><span class="ti">{ICON["shield"]}</span><span><strong>Licensed &amp; insured</strong><small>Fully covered on every job</small></span></li>
+<li><span class="ti">{ICON["flag"]}</span><span><strong>Veteran-owned</strong><small>Led by a retired Navy Chief</small></span></li>
+<li><span class="ti">{ICON["star"]}</span><span><strong data-lh-score>5-star rated</strong><small>by neighbors on Google</small></span></li>
+<li><span class="ti">{ICON["text"]}</span><span><strong>Free quotes by text</strong><small>Send a photo, get a price</small></span></li>
+</ul></div></section>
+
+<section class="section pains-sec"><div class="wrap pains">
+<div class="pains-intro">
+<h2 class="hd">Sound <em>familiar?</em></h2>
+<p class="statement">The big limb hanging over the roof. The pine that leans a little more after every storm. The stump you've been mowing around for three years.</p>
+<p class="muted">We get it, and you shouldn't have to climb a ladder with a chainsaw to deal with it.</p>
+<a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text us a photo of yours</a>
+</div>
+<div class="pain-list">
+<a class="pain" href="/services/storm-cleanup">{img("storm-damaged-oak", "A large oak limb that split and fell beside a house", "160px", [480])}
+<span class="pain-body"><span class="pain-title">Hurricane season worries</span><span class="pain-text">Every time a storm rolls in off the Gulf, you're watching that one tree out the window.</span><span class="pain-go">How we help with storm cleanup {ARROW}</span></span></a>
+<a class="pain" href="/services/tree-removal">{img("pine-removal-climb", "A Log Hog climber taking down a tall pine in sections", "160px", [480])}
+<span class="pain-body"><span class="pain-title">Too big to do yourself</span><span class="pain-text">Big trees near houses, fences and power lines are dangerous work. It's not a weekend project.</span><span class="pain-go">How we take trees down safely {ARROW}</span></span></a>
+<a class="pain" href="/about-us">{img("debris-trailer", "The Log Hog trailer loaded with branches after a job", "160px", [480])}
+<span class="pain-body"><span class="pain-title">Finding someone you trust</span><span class="pain-text">You want someone licensed, insured, careful and fair on price, who won't leave a mess behind.</span><span class="pain-go">Meet Log Hog {ARROW}</span></span></a>
 </div>
 </div></section>
 
-<section class="section stone"><div class="wrap letter">
-{img("cleanup-by-fence", "A Log Hog crew member cleaning up branches along a backyard fence", "(max-width: 900px) 100vw, 480px", [480, 900], w=480, h=600)}
-<div>
+<section class="section stone meet"><div class="wrap meet-grid">
+<div class="meet-photos" data-reveal>
+<div class="meet-main">{img("dave-lau-founder", "Dave Lau, owner of Log Hog Tree Service, smiling in a customer's yard with his climbing gear", "(max-width: 900px) 100vw, 560px", [640, 1100], w=640, h=800)}</div>
+<div class="meet-inset">{img("dave-climbing-oak", "Dave climbing an oak tree in a Log Hog shirt", "220px", [480], w=480, h=640)}</div>
+<div class="meet-badge"><svg viewBox="0 0 120 120"><defs><path id="mbc" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs><text><textPath href="#mbc">VETERAN-OWNED · LICENSED &amp; INSURED · </textPath></text></svg><span>{ICON["flag"]}</span></div>
+</div>
+<div class="meet-copy">
 <h2 class="hd">Meet <em>Log Hog</em></h2>
 <p>We're a small, local crew, and we take every job personally. Log Hog is owned by Dave Lau, who grew up in Mobile and served 22 years in the U.S. Navy, retiring as a Chief. He spent that career working on aircraft, where you do the job carefully and get it right the first time. That's how our whole crew works.</p>
 <p>We show up when we say we will, treat your home like it belongs to family, and leave the yard cleaner than we found it. If there's a tree that's been worrying you, send us a picture. You'll get a straight answer and a fair price.</p>
-<blockquote class="pull">“There's nothing better than raking up the last of the branches and watching a customer step outside and smile at their yard.”<cite>Dave Lau, owner</cite></blockquote>
+<blockquote class="pull"><span class="qm" aria-hidden="true">“</span>There's nothing better than raking up the last of the branches and watching a customer step outside and smile at their yard.<cite>Dave Lau, owner</cite></blockquote>
 {CREDS}
 <a class="text-link" href="/about-us">More about us</a>
 </div>
 </div></section>
 
-<section class="section dark"><div class="wrap">
-<div class="section-head"><h2>Getting a quote is <em>easy</em></h2><p class="lede">No forms, and no waiting around for someone to come measure.</p></div>
-{PLAN}
-{quote_picker()}
-</div></section>
+{quote_section()}
 
 <section class="section" id="services"><div class="wrap">
 <div class="section-head"><h2>How we can <em>help</em></h2><p class="lede">Every job ends with cleanup. We haul it all off so you don't have to.</p></div>
@@ -583,10 +710,13 @@ def home():
 
 {band()}
 
-<section class="section stone" id="areas"><div class="wrap">
+<section class="section dark areas-sec" id="areas"><div class="wrap areas-grid">
+<div>
 <div class="section-head"><h2>Proud to serve <em>our neighbors</em></h2><p class="lede">Pensacola, Escambia and Santa Rosa counties, and nearby Alabama.</p></div>
-{areas_list()}
-<a class="text-link" href="/service-areas">More about where we work</a>
+{area_chips()}
+<div class="areas-cta"><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Don't see your town? Text us</a><a class="text-link" href="/service-areas">More about where we work</a></div>
+</div>
+{area_map()}
 </div></section>
 
 <section class="section"><div class="wrap narrow">
@@ -599,21 +729,54 @@ def home():
                 body, current="/", extra_schema=[schema_faq(HOME_FAQ)], body_class="home")
 
 
-def inner_hero(trail, h1, lede, *, ctas=True, rating=True):
-    return f"""<section class="page-hero"><div class="wrap">
+def inner_hero(trail, h1, lede, *, ctas=True, rating=True, photo=None, side=""):
+    if photo:
+        side = f'<div class="ph-photo">{img(photo[0], photo[1], "(max-width: 900px) 100vw, 520px", photo[2], eager=True)}</div>'
+    return f"""<section class="page-hero{' split' if side else ''}"><div class="wrap">
+<div class="ph-copy">
 {crumbs_html(trail)}
 <h1>{escape(h1)}</h1>
 <p class="lede">{escape(lede)}</p>
 {cta_pair() if ctas else ""}
+<ul class="badges"><li>{ICON["shield"]}Licensed &amp; insured</li><li>{ICON["flag"]}Veteran-owned</li><li>{ICON["text"]}Free quotes by text</li></ul>
 {rating_line() if rating else ""}
+</div>
+{side}
 </div></section>"""
+
+
+def service_blocks(body):
+    out = []
+    for ch in re.split(r"(?=<h2>)", body.strip()):
+        m = re.match(r"<h2>(.*?)</h2>(.*)", ch.strip(), re.S)
+        if not m:
+            continue
+        h, rest = m.group(1), m.group(2).strip()
+        rest = rest.replace("{SMS}", SMS)
+        hl = h.lower()
+        if hl.startswith("getting a quote") or hl.startswith("how to get on the schedule"):
+            out.append(f"""<div class="sb sb-cta"><span class="ti">{ICON["camera"]}</span><div><h2>{h}</h2>{rest}{cta_pair()}</div></div>""")
+        elif 'class="checks"' in rest:
+            out.append(f'<div class="sb sb-incl"><h2>{h}</h2>{rest}</div>')
+        elif "<ul>" in rest:
+            intro, _, tail = rest.partition("<ul>")
+            items, _, after = tail.partition("</ul>")
+            lis = re.findall(r"<li>(.*?)</li>", items, re.S)
+            cards = []
+            for li in lis:
+                mm = re.match(r"<strong>(.*?)</strong>\s*(.*)", li, re.S)
+                cards.append(f'<li><strong>{mm.group(1)}</strong><span>{mm.group(2)}</span></li>' if mm else f"<li><span>{li}</span></li>")
+            out.append(f'<div class="sb"><h2>{h}</h2>{intro}<ul class="sb-cards">{"".join(cards)}</ul>{after}</div>')
+        else:
+            out.append(f'<div class="sb sb-text"><h2>{h}</h2><div>{rest}</div></div>')
+    return "\n".join(out)
 
 
 def aside(photo=None, links_title=None, links=""):
     pic = img(*photo) if photo else ""
     more = f'<div class="aside-links"><h3>{links_title}</h3><ul>{links}</ul></div>' if links_title else ""
     return f"""<aside class="aside">{pic}
-<div class="aside-box"><h2>Text us a photo</h2>
+<div class="aside-box quote-card"><span class="ti">{ICON["text"]}</span><h2>Text us a photo</h2>
 <p>Send a picture and your address. We'll text you back with a fair, free quote.</p>
 <a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text a photo</a>
 <a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}{BIZ["phone_display"]}</a>
@@ -627,26 +790,29 @@ def service_page(s):
                      for o in SERVICES if o is not s)
     p_name, p_alt, p_w = s["photo"]
     body = f"""
-{inner_hero(trail, s["title"], s["lede"])}
+{inner_hero(trail, s["title"], s["lede"], photo=(p_name, p_alt, p_w))}
 
-<section class="section"><div class="wrap with-aside">
-<article class="prose">{s["body"].replace("{SMS}", SMS)}
-<h2>Questions about {escape(s["name"].lower())}</h2>
-{faq_html(s["faq"])}
-</article>
-{aside((p_name, p_alt, "(max-width: 980px) 100vw, 340px", p_w), "Other ways we can help", others)}
+<section class="section svc-sec"><div class="wrap with-aside">
+<div class="svc-body">{service_blocks(s["body"])}</div>
+{aside(None, "Other ways we can help", others)}
 </div></section>
 
-<section class="section dark"><div class="wrap">
-<div class="section-head"><h2>Getting a quote is <em>easy</em></h2></div>
-{PLAN}
-</div></section>
+{quote_section()}
 
 {reviews_block("service", 3)}
 
-<section class="section"><div class="wrap">
-<div class="section-head"><h2>{escape(s["name"].capitalize())} around Pensacola</h2><p class="lede">We're proud to work in these communities:</p></div>
-{areas_list()}
+<section class="section"><div class="wrap narrow">
+<div class="section-head"><h2>Questions about <em>{escape(s["name"].lower())}</em></h2></div>
+{faq_html(s["faq"])}
+</div></section>
+
+<section class="section dark areas-sec"><div class="wrap areas-grid">
+<div>
+<div class="section-head"><h2>{escape(s["name"].capitalize())} around <em>Pensacola</em></h2><p class="lede">We're proud to work in these communities.</p></div>
+{area_chips()}
+<div class="areas-cta"><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Don't see your town? Text us</a></div>
+</div>
+{area_map()}
 </div></section>
 
 {band()}
@@ -687,12 +853,16 @@ def timelapse_grid():
 def about():
     trail = [("Home", "/"), ("About us", "/about-us")]
     body = f"""
-{inner_hero(trail, "About Log Hog Tree Service", "A local, veteran-owned tree service in Pensacola. Owner Dave Lau and our crew take care of your trees like they were our own.", ctas=False, rating=False)}
+{inner_hero(trail, "About Log Hog Tree Service", "A local, veteran-owned tree service in Pensacola. Owner Dave Lau and our crew take care of your trees like they were our own.", rating=False, photo=("pine-takedown-sections", "A Log Hog climber taking a tall pine down in sections", [480, 900]))}
 
-<section class="section"><div class="wrap letter">
-{img("dave-lau-founder", "Dave Lau, owner of Log Hog Tree Service", "(max-width: 900px) 100vw, 480px", [640, 1100], w=480, h=600)}
-<div>
-<h2>Led by a retired Navy Chief</h2>
+<section class="section stone meet"><div class="wrap meet-grid">
+<div class="meet-photos" data-reveal>
+<div class="meet-main">{img("dave-lau-founder", "Dave Lau, owner of Log Hog Tree Service", "(max-width: 900px) 100vw, 560px", [640, 1100], w=640, h=800)}</div>
+<div class="meet-inset">{img("dave-in-tree-selfie", "Dave up in a tree with his helmet and climbing gear", "220px", [640], w=640, h=480)}</div>
+<div class="meet-badge"><svg viewBox="0 0 120 120"><defs><path id="mbc2" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs><text><textPath href="#mbc2">RETIRED NAVY CHIEF · 22 YEARS · </textPath></text></svg><span>{ICON["flag"]}</span></div>
+</div>
+<div class="meet-copy">
+<h2 class="hd">Led by a retired <em>Navy Chief</em></h2>
 <p>Log Hog is owned by Dave Lau, who was born and raised in Mobile, Alabama, and served 22 years in the U.S. Navy, retiring as a Navy Chief. He spent his career as an aviation mechanic, where precision, safety and hard work aren't optional. That same mindset runs through every job our crew does.</p>
 <p>Tree care isn't just a job for us. We love making trees look their best, and we really enjoy seeing customers happy with their yards when we're done.</p>
 <p>Faith is a big part of who Dave is, and it shapes how we do business: with honesty, integrity and respect for you and your home. When you hire Log Hog, you're getting a crew that cares about your property like it was our own.</p>
@@ -701,13 +871,15 @@ def about():
 </div>
 </div></section>
 
-<section class="section stone"><div class="wrap">
+<section class="section"><div class="wrap">
 <div class="section-head"><h2>Watch us <em>work</em></h2><p class="lede">A few of our favorite time-lapses. Tap one to watch it on our Facebook page.</p></div>
 {timelapse_grid()}
 <p style="margin-top:28px"><a class="text-link" href="{BIZ["facebook"]}" rel="noopener">See more on Facebook</a></p>
 </div></section>
 
-{reviews_block("about", 3, "What folks say about working with us", "Straight from our Google reviews.", stone=False)}
+{reviews_block("about", 3, "What folks say about <em>working with us</em>", "Straight from our Google reviews.")}
+
+{quote_section()}
 
 {band("Ready to get your yard back?", "Text us a photo of the job and your address. You'll get a fair, free quote, with no pressure.")}
 """
@@ -719,17 +891,17 @@ def about():
 def contact():
     trail = [("Home", "/"), ("Contact", "/contact")]
     body = f"""
-{inner_hero(trail, "Let's take a look at your tree", "The quickest way to a quote is a text with a photo. No forms, and no waiting around for a callback.", ctas=False)}
+{inner_hero(trail, "Let's take a look at your tree", "The quickest way to a quote is a text with a photo. No forms, and no waiting around for a callback.", side='<div class="ph-phone">' + PHONE + '</div>')}
 
 <section class="section"><div class="wrap">
 <div class="ways">
-<div class="way main"><h2>Text us a photo</h2><p>Send a picture or two of the tree or job, plus your address, to {BIZ["phone_display"]}. We'll text you back with a price.</p><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text {BIZ["phone_display"]}</a></div>
-<div class="way"><h2>Give us a call</h2><p>Rather talk it through? Call us {BIZ["hours"]}.</p><a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}Call {BIZ["phone_display"]}</a></div>
+<div class="way main"><span class="ti">{ICON["text"]}</span><h2>Text us a photo</h2><p>Send a picture or two of the tree or job, plus your address, to {BIZ["phone_display"]}. We'll text you back with a price.</p><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text {BIZ["phone_display"]}</a></div>
+<div class="way"><span class="ti">{ICON["phone"]}</span><h2>Give us a call</h2><p>Rather talk it through? Call us {BIZ["hours"]}.</p><a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}Call {BIZ["phone_display"]}</a></div>
 </div>
 </div></section>
 
-<section class="section stone"><div class="wrap two-col">
-<div class="prose">
+<section class="section stone"><div class="wrap two-col contact-info">
+<div class="sb sb-incl">
 <h2>What to send us</h2>
 <ul class="checks">
 <li>A photo of the whole tree, from far enough back to see the top</li>
@@ -740,15 +912,17 @@ def contact():
 <li>Anything we should know, like a locked gate and how wide it is</li>
 </ul>
 </div>
-<div class="prose">
+<div class="sb when">
 <h2>When and where</h2>
-<p><strong>{BIZ["hours"]}</strong></p>
-<p>We work in Pensacola, Gulf Breeze, Pensacola Beach, Perdido Key, Cantonment, Pace, Milton, Lillian and Seminole, AL, and the communities in between. <a href="/service-areas">See everywhere we work</a>.</p>
-<p>Licensed and insured.</p>
+<ul class="when-list">
+<li><span class="ti">{ICON["star"]}</span><span><strong>{BIZ["hours"]}</strong><small>Text anytime, we'll get back to you</small></span></li>
+<li><span class="ti">{ICON["pin"]}</span><span><strong>Pensacola &amp; nearby</strong><small>Gulf Breeze, Pensacola Beach, Perdido Key, Cantonment, Pace, Milton, Lillian and Seminole, AL, and the communities in between. <a href="/service-areas">See everywhere we work</a>.</small></span></li>
+<li><span class="ti">{ICON["shield"]}</span><span><strong>Licensed &amp; insured</strong><small>Veteran-owned and fully covered</small></span></li>
+</ul>
 </div>
 </div></section>
 
-{reviews_block("service", 3, "Why your neighbors call Log Hog", stone=False)}
+{reviews_block("service", 3, "Why your neighbors call <em>Log Hog</em>", stone=False)}
 """
     return page("/contact", "Free Tree Service Quote | Call or Text Log Hog in Pensacola, FL",
                 "Text a photo of your tree and your address to (850) 426-4220 for a fast, free quote. Tree removal, trimming and stump grinding in Pensacola. Mon–Sat 8am–5pm.",
@@ -757,19 +931,23 @@ def contact():
 
 def areas_page():
     trail = [("Home", "/"), ("Service areas", "/service-areas")]
-    svc = "".join(f'<li><a href="/services/{s["slug"]}">{escape(s["name"].capitalize())}</a></li>' for s in SERVICES)
+    svc = "".join(f'<li><a href="/services/{s["slug"]}"><strong>{escape(s["name"].capitalize())}</strong><span>{escape(s["short"])}</span></a></li>' for s in SERVICES)
     body = f"""
-{inner_hero(trail, "Taking care of trees all around Pensacola", "We're based in Pensacola and work throughout Escambia and Santa Rosa counties, plus Lillian and Seminole, Alabama.")}
+{inner_hero(trail, "Taking care of trees all around Pensacola", "We're based in Pensacola and work throughout Escambia and Santa Rosa counties, plus Lillian and Seminole, Alabama.", photo=("oaks-trimmed-front-yard", "Freshly trimmed oaks over a Pensacola front yard", [480, 900]))}
+
+<section class="section dark areas-sec"><div class="wrap areas-grid">
+<div>
+<div class="section-head"><h2>Where <em>we work</em></h2><p class="lede">Tap a town to find it on the map.</p></div>
+{area_chips()}
+<div class="areas-cta"><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Don't see your town? Text us</a></div>
+</div>
+{area_map()}
+</div></section>
 
 <section class="section"><div class="wrap with-aside">
-<div class="prose">
-<h2>Where we work</h2>
-{areas_list()}
-<p>Don't see your neighborhood? Text us your address. If you're close by, we can probably help.</p>
-<h2>Trees we know well</h2>
-<p>Live oaks, laurel and water oaks, longleaf and slash pines, magnolias, crepe myrtles and every kind of palm. Sandy soil, a long hurricane season and our summer storms make dead limbs and leaning pines common around here, so regular trimming and quick cleanup after storms matter more on the Gulf Coast than most places.</p>
-<h2>How we can help</h2>
-<ul>{svc}</ul>
+<div class="svc-body">
+<div class="sb sb-text"><h2>Trees we know well</h2><div><p>Live oaks, laurel and water oaks, longleaf and slash pines, magnolias, crepe myrtles and every kind of palm. Sandy soil, a long hurricane season and our summer storms make dead limbs and leaning pines common around here, so regular trimming and quick cleanup after storms matter more on the Gulf Coast than most places.</p></div></div>
+<div class="sb"><h2>How we can help</h2><ul class="sb-cards">{svc}</ul></div>
 </div>
 {aside()}
 </div></section>

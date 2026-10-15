@@ -11,14 +11,14 @@
 // (results are cached for 12 hours), which stays inside Google's free monthly
 // allowance for this kind of request.
 
-import { renderReviews, fromPlaces } from "./render.js";
+import { renderReviews, fromPlaces, allFiveStar } from "./render.js";
+import { FALLBACK_REVIEWS } from "./fallback-reviews.js";
 
 const CACHE_KEY = "https://loghog.internal/google-reviews-v1";
 const CACHE_SECONDS = 12 * 60 * 60;
 const FAIL_KEY = "https://loghog.internal/google-reviews-failed-v2";
 const SEARCH_QUERY = "Log Hog Tree Service";
 const PHONE_DIGITS = "8504264220";
-const PAGE_LIMITS = { home: 3, about: 3, service: 3 };
 
 export default {
   async fetch(request, env, ctx) {
@@ -62,8 +62,7 @@ export default {
       })
       .on("[data-lh-reviews]", {
         element(el) {
-          const page = el.getAttribute("data-lh-reviews");
-          el.setInnerContent(renderReviews(data, { limit: PAGE_LIMITS[page] || 4 }), { html: true });
+          el.setInnerContent(renderReviews({ ...data, reviews: allFiveStar(data.reviews, FALLBACK_REVIEWS) }), { html: true });
           el.setAttribute("data-source", "google");
         },
       })

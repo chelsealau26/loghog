@@ -926,29 +926,30 @@ def contact():
 </div>
 </div></section>
 
-<section class="section stone"><div class="wrap two-col contact-info">
-<div class="sb sb-incl">
-<h2>What to send us</h2>
-<ul class="checks">
+<section class="section stone shotlist-sec"><div class="wrap shotlist">
+<div class="viewfinder" aria-hidden="true">{img("storm-damaged-oak", "", "(max-width: 900px) 100vw, 480px", [480, 900])}<span class="vf c1"></span><span class="vf c2"></span><span class="vf c3"></span><span class="vf c4"></span><span class="vf-rec">● Photo for Log Hog</span></div>
+<div>
+<h2 class="hd">What to <em>send us</em></h2>
+<p class="muted">The more we can see, the more accurate your quote. Here's the shot list:</p>
+<ol class="shots">
 <li>A photo of the whole tree, from far enough back to see the top</li>
 <li>A photo of the base or stump</li>
 <li>Anything close by: the house, fence, pool, driveway or power lines</li>
 <li>Your address</li>
 <li>What you'd like done: removed, trimmed, stump ground or hauled</li>
 <li>Anything we should know, like a locked gate and how wide it is</li>
-</ul>
-</div>
-<div class="sb when">
-<h2>When and where</h2>
-<ul class="when-list">
-<li><span class="ti">{ICON["star"]}</span><span><strong>{BIZ["hours"]}</strong><small>Text anytime, we'll get back to you</small></span></li>
-<li><span class="ti">{ICON["pin"]}</span><span><strong>Pensacola &amp; nearby</strong><small>Gulf Breeze, Pensacola Beach, Perdido Key, Cantonment, Pace, Milton, Lillian and Seminole, AL, and the communities in between. <a href="/service-areas">See everywhere we work</a>.</small></span></li>
-<li><span class="ti">{ICON["shield"]}</span><span><strong>Licensed &amp; insured</strong><small>Veteran-owned and fully covered</small></span></li>
-</ul>
+</ol>
+<a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text us your photos</a>
 </div>
 </div></section>
 
-{reviews_block("service", 3, "Why your neighbors call <em>Log Hog</em>", stone=False)}
+<section class="facts"><div class="wrap facts-row">
+<div><span class="facts-k">When</span><strong>{BIZ["hours"]}</strong><p>Text anytime and we'll get back to you.</p></div>
+<div><span class="facts-k">Where</span><strong>Pensacola &amp; nearby</strong><p>Gulf Breeze, Pensacola Beach, Perdido Key, Cantonment, Pace, Milton, Lillian and Seminole, AL, and the communities in between. <a href="/service-areas">See everywhere we work</a>.</p></div>
+<div><span class="facts-k">Peace of mind</span><strong>Licensed &amp; insured</strong><p>Veteran-owned and fully covered on every job.</p></div>
+</div></section>
+
+{reviews_block("service", 3, "Why your neighbors call <em>Log Hog</em>")}
 """
     return page("/contact", "Free Tree Service Quote | Call or Text Log Hog in Pensacola, FL",
                 "Text a photo of your tree and your address to (850) 426-4220 for a fast, free quote. Tree removal, trimming and stump grinding in Pensacola. Mon–Sat 8am–5pm.",

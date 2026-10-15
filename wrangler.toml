@@ -6,12 +6,18 @@ account_id = "72f8d3b84babd88667f79a241a520ec3"
 [assets]
 directory = "./pages"
 binding = "ASSETS"
-# Only the pages with a reviews section go through the Worker first;
-# everything else (images, CSS, contact page) is served straight from assets.
-run_worker_first = ["/", "/index.html", "/about-us", "/about-us/", "/about-us.html"]
+# HTML pages go through the Worker (to add live Google reviews); images,
+# CSS and other files are served straight from assets.
+not_found_handling = "404-page"
+run_worker_first = ["/*", "!/img/*", "!/vid/*", "!/site.css", "!/favicon*", "!/apple-touch-icon.png", "!/robots.txt", "!/sitemap.xml"]
 
 [vars]
 # Optional: Google Place ID for Log Hog. Leave empty to look it up by name.
 GOOGLE_PLACE_ID = "ChIJpwgXSETdk0MRGU-5EXZfaC0"
 
 # Secret (not stored here): npx wrangler secret put GOOGLE_PLACES_API_KEY
+
+# Settings for preview builds of non-main branches (no API key there, so
+# previews show the built-in reviews).
+[previews.vars]
+GOOGLE_PLACE_ID = "ChIJpwgXSETdk0MRGU-5EXZfaC0"

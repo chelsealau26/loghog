@@ -61,3 +61,11 @@ One-time setup:
 3. Optional: put the Place ID in `GOOGLE_PLACE_ID` in wrangler.toml (otherwise it's looked up by name).
 
 Change the built-in reviews: edit `scripts/build-fallback.mjs`, then run `node scripts/build-fallback.mjs`.
+
+## Log Hog site (2026 redesign)
+The site in `pages/` is generated. Don't edit the HTML by hand:
+- Content, services, FAQs, service areas: `scripts/build_site.py`
+- Styles: `src/site/site.css`
+- Built-in fallback reviews: `src/fallback-reviews.js`
+
+Rebuild with `python3 scripts/build_site.py`, then commit. Pushing to `main` deploys automatically.

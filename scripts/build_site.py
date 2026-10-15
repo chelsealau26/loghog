@@ -505,17 +505,28 @@ def home():
 <span class="card-go" aria-hidden="true">{ARROW}</span></a>'''
         for s in SERVICES)
     body = f"""
-<section class="hero-full">
-<picture>
-<source media="(max-width: 760px)" srcset="/img/hero-climb-tall-600.webp 600w, /img/hero-climb-tall-900.webp 900w" sizes="100vw">
-<img src="/img/hero-climb-wide-1536.webp" srcset="/img/hero-climb-wide-960.webp 960w, /img/hero-climb-wide-1536.webp 1536w" sizes="100vw" alt="A Log Hog climber working high in a pine tree" width="1536" height="864" fetchpriority="high">
+<section class="hero2">
+<div class="hero2-stage" aria-hidden="true">
+<picture class="hero2-bg">
+<source media="(max-width: 760px)" srcset="/img/hero2-mobile-600.webp 600w, /img/hero2-mobile-900.webp 900w" sizes="100vw">
+<img src="/img/hero2-bg-1400.webp" srcset="/img/hero2-bg-1400.webp 1400w, /img/hero2-bg-2136.webp 2136w" sizes="100vw" alt="" width="2136" height="900" fetchpriority="high">
 </picture>
-<div class="wrap hero-inner">
-<p class="kicker">Veteran-owned tree service</p>
-<h1><span>Tree work done right,</span> <em>by neighbors you can trust</em></h1>
+<div class="hero2-shade"></div>
+</div>
+<div class="hero2-stage hero2-front" aria-hidden="true">
+<picture class="hero2-cut">
+<source media="(max-width: 760px)" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+<img src="/img/hero2-cut-1400.webp" srcset="/img/hero2-cut-1400.webp 1400w, /img/hero2-cut-2136.webp 2136w" sizes="100vw" alt="" width="2136" height="900">
+</picture>
+</div>
+<div class="wrap hero2-inner">
+<p class="hero2-big" aria-hidden="true"><span><span>Tree work</span></span><span><span>done right,</span></span></p>
+<div class="hero2-copy">
+<h1><span class="sr-only">Tree work done right, </span><em>by neighbors you can trust</em></h1>
 <p class="lede">We handle the tree work, so you don't have to. Text us a photo for a free quote.</p>
 {cta_pair()}
 {rating_line()}
+</div>
 </div>
 </section>
 

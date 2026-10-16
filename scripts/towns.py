@@ -11,7 +11,7 @@ TOWNS = [
         "photo": ("oaks-trimmed-front-yard", "Big oaks freshly trimmed over a Pensacola front yard", [480, 900]),
         "lede": "Pensacola is home for us. Old live oaks, tall pines and storm season: we take care of trees all over town.",
         "intro": [
-            "Log Hog is based right here in Pensacola, so this is where most of our work is. From the older neighborhoods like East Hill and North Hill to Cordova Park, Scenic Heights and out toward the west side, a lot of yards here are shaded by big live oaks, laurel oaks and tall pines.",
+            "Log Hog is based right here in Pensacola, so this is where most of our work is. We work all over town, from East Hill, North Hill, Cordova Park and Scenic Heights to every neighborhood in between, and a lot of those yards are shaded by big live oaks, laurel oaks and tall pines.",
             "Those trees are a big part of what makes Pensacola feel like home. They also drop limbs on roofs and cars, push roots into driveways, and keep you up at night when a storm is coming in off the Gulf. We keep them healthy and safe, and take them down when it's time.",
         ],
         "issues": [
@@ -22,7 +22,7 @@ TOWNS = [
         ],
         "faq": [
             ("Are you local to Pensacola?", "Yes. Log Hog is based in Pensacola, and most of our jobs are right here in town. Text us a photo and your address for a free quote."),
-            ("Do I need a permit to remove a tree in Pensacola?", "Sometimes. The City of Pensacola and Escambia County have different rules, and some trees, like large live oaks, can need a permit. Tell us about the tree and we'll let you know what to check before we start."),
+            ("Do you work in my part of Pensacola?", "Almost certainly. We work all over Pensacola, every neighborhood. Text us a photo and your address and we'll get you a free quote."),
         ],
     },
     {
@@ -50,25 +50,25 @@ TOWNS = [
     },
     {
         "slug": "perdido-key",
-        "name": "Perdido Key",
+        "name": "Perdido Key & Innerarity Point",
         "state": "FL",
-        "areas": ["Perdido Key"],
+        "areas": ["Perdido Key", "Innerarity Point"],
         "county": "in Escambia County",
         "photo": ("storm-damaged-oak", "A big oak limb that split and fell beside a house in a storm", [480, 900]),
-        "lede": "Palms, sand pines and oaks between the Gulf and Perdido Bay. We trim, clean up and take down trees on Perdido Key.",
+        "lede": "Oaks, pines and waterfront yards out on the west end. We trim, take down and clean up trees on Innerarity Point and Perdido Key.",
         "intro": [
-            "Perdido Key is the barrier island at the far west end of Escambia County, right up against the Alabama line. Between the Gulf and Old River and Perdido Bay, yards here deal with sand, salt and wind all year.",
-            "Parts of the key have extra rules to protect the dunes and wildlife. We'll ask about your property and work around those areas, and if something needs a permit, we'll tell you up front.",
+            "Out on the west end of Escambia County, most of our work is on Innerarity Point, between Perdido Bay and Big Lagoon. We also head over the bridge to Perdido Key. Yards out here deal with sand, salt and wind off the water all year.",
+            "Waterfront lots mean trees that take more wind, limbs over docks and decks, and a lot of cleanup after a storm. We trim them back, take down the ones that have to go, and haul everything away.",
         ],
         "issues": [
             ("Palm trimming", "Keeping palms clean of dead fronds and seed pods around homes, pools and walkways."),
             ("Wind-damaged trees", "Pines and oaks that have taken a beating from storms and have broken or hanging limbs."),
             ("Storm cleanup", "Clearing fallen limbs and debris after a storm so you can get back to the beach."),
-            ("Dunes and protected areas", "We work carefully around dunes and protected spots on the key."),
+            ("Limbs over docks and decks", "Branches hanging over the water, the dock, the deck or the boat lift, trimmed back carefully."),
         ],
         "faq": [
-            ("Do you come all the way out to Perdido Key?", "Yes. Perdido Key is part of our service area. Text us a photo and your address and we'll get you a free quote."),
-            ("Do I need a permit to trim or remove a tree on Perdido Key?", "It depends on the tree and where it is on the property. Escambia County and some communities have rules, especially near the dunes. Tell us about the tree and we'll let you know what to check before we start."),
+            ("Do you work on Innerarity Point?", "Yes. Most of our work out this way is on Innerarity Point, and we go out to Perdido Key too. Text us a photo and your address for a free quote."),
+            ("Can you trim trees over my dock or deck?", "Yes. We take limbs back over docks, decks and boat lifts, lowering them with ropes so nothing lands where it shouldn't."),
         ],
     },
     {

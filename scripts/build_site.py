@@ -1279,7 +1279,8 @@ def main():
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n")
     (OUT / "_redirects").write_text(
         "/home / 301\n/index.html / 301\n/about /about-us 301\n/services / 301\n"
-        "/tree-removal /services/tree-removal 301\n/stump-grinding /services/stump-grinding 301\n")
+        "/tree-removal /services/tree-removal 301\n/stump-grinding /services/stump-grinding 301\n"
+        "/service-areas/pensacola-beach /service-areas/pensacola 301\n")
     print("wrote sitemap.xml, robots.txt, _redirects")
 
 

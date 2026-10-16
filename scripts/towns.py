@@ -3,6 +3,29 @@
 
 TOWNS = [
     {
+        "slug": "pensacola",
+        "name": "Pensacola",
+        "state": "FL",
+        "areas": ["Pensacola"],
+        "county": "in Escambia County",
+        "photo": ("oaks-trimmed-front-yard", "Big oaks freshly trimmed over a Pensacola front yard", [480, 900]),
+        "lede": "Pensacola is home for us. Old live oaks, tall pines and storm season: we take care of trees all over town.",
+        "intro": [
+            "Log Hog is based right here in Pensacola, so this is where most of our work is. From the older neighborhoods like East Hill and North Hill to Cordova Park, Scenic Heights and out toward the west side, a lot of yards here are shaded by big live oaks, laurel oaks and tall pines.",
+            "Those trees are a big part of what makes Pensacola feel like home. They also drop limbs on roofs and cars, push roots into driveways, and keep you up at night when a storm is coming in off the Gulf. We keep them healthy and safe, and take them down when it's time.",
+        ],
+        "issues": [
+            ("Old live oaks", "Big, older oaks that need deadwood out and limbs raised off the roof, driveway and power drop."),
+            ("Pines near the house", "Tall pines that lean toward the house or have been weakened by storms or beetles."),
+            ("Storm damage", "Split trunks, hanging limbs and fallen trees after a storm, cut up and hauled off."),
+            ("Stumps", "Old stumps ground below ground level so the yard can go back to grass."),
+        ],
+        "faq": [
+            ("Are you local to Pensacola?", "Yes. Log Hog is based in Pensacola, and most of our jobs are right here in town. Text us a photo and your address for a free quote."),
+            ("Do I need a permit to remove a tree in Pensacola?", "Sometimes. The City of Pensacola and Escambia County have different rules, and some trees, like large live oaks, can need a permit. Tell us about the tree and we'll let you know what to check before we start."),
+        ],
+    },
+    {
         "slug": "gulf-breeze",
         "name": "Gulf Breeze",
         "state": "FL",
@@ -23,29 +46,6 @@ TOWNS = [
         "faq": [
             ("Do you come out to Gulf Breeze?", "Yes. Gulf Breeze is a regular part of our service area, and it's just across the bridge from Pensacola. Text us a photo and your address for a free quote."),
             ("Can you trim a big oak that hangs over my house?", "Yes. We can raise and thin the canopy and take back limbs over the roof, without topping the tree. We usually take a look in person before we give you a price."),
-        ],
-    },
-    {
-        "slug": "pensacola-beach",
-        "name": "Pensacola Beach",
-        "state": "FL",
-        "areas": ["Pensacola Beach"],
-        "county": "on Santa Rosa Island",
-        "photo": ("debris-trailer", "The Log Hog trailer loaded with branches and palm fronds after a cleanup", [480, 900]),
-        "lede": "Palms, sand live oaks and salt spray. We trim, clean up and haul off for homes and rentals on Pensacola Beach.",
-        "intro": [
-            "On Pensacola Beach, the trees are tough little survivors: palms, sand live oaks and wax myrtles that live with sand, salt spray and constant wind on Santa Rosa Island.",
-            "Most of the work out here is keeping palms clean and safe, trimming back growth around decks, walkways and parking, and cleaning up after a storm comes through. If you own a rental out here, you can send us photos and we'll handle it without you needing to be there.",
-        ],
-        "issues": [
-            ("Palm cleanup", "Dead and hanging fronds, seed pods and old boots that make palms look tired and can come down in the wind."),
-            ("Storm debris", "Broken limbs and fronds piled up after a blow, hauled off so the property looks right again."),
-            ("Growth around the house", "Wax myrtles and oaks crowding decks, walkways, driveways and the walls of the house."),
-            ("Rental properties", "Owners who aren't on the island can text us photos and we'll take it from there."),
-        ],
-        "faq": [
-            ("Do you work on Pensacola Beach?", "Yes. Text us a photo and the address of the property and we'll get you a free quote."),
-            ("Can you handle trimming at a rental when I'm not there?", "Usually, yes. Send us photos and the address, and let us know about any gate codes or parking. We'll take a look and text or call you with a quote."),
         ],
     },
     {

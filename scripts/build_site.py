@@ -58,6 +58,7 @@ ICON = {
     "facebook": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M24 12a12 12 0 1 0-13.9 11.9v-8.4h-3V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12z"/></svg>',
     "instagram": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.2-4.4-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.9 1.4 1.4 0 0 0 0-2.9z"/></svg>',
     "clock": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 10.4 3.6 2.1-1 1.7L11 13V6h2z"/></svg>',
+    "a11y": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm9 6.5-6 1.2V22h-2v-6h-2v6H9V9.7L3 8.5l.4-2L12 8l8.6-1.5z"/></svg>',
     "play": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 4v16l13-8z"/></svg>',
 }
 
@@ -329,6 +330,28 @@ def header(current):
 </div></header>"""
 
 
+A11Y_OPTS = [
+    ("text", "Bigger text", "Aa"), ("contrast", "High contrast", '<svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>'), ("links", "Underline links", "U"),
+    ("readable", "Readable font", "Tt"), ("spacing", "Text spacing", "↔"), ("still", "Stop animations", "❚❚"),
+    ("gray", "Grayscale", '<svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 2.5S5 10 5 14.5a7 7 0 0 0 14 0C19 10 12 2.5 12 2.5z" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 21.5a7 7 0 0 1-7-7h14a7 7 0 0 1-7 7z" fill="currentColor"/></svg>'), ("cursor", "Big cursor", "➤"),
+]
+
+
+def a11y_widget():
+    opts = "".join(
+        f'<li><button type="button" class="a11y-opt" data-a11y="{k}" aria-pressed="false"><span class="a11y-ico" aria-hidden="true">{g}</span><span class="a11y-lbl">{l}</span>'
+        + ('<span class="a11y-lvl" aria-hidden="true"><i></i><i></i><i></i></span>' if k == "text" else "")
+        + '</button></li>' for k, l, g in A11Y_OPTS)
+    return f"""<div class="a11y" id="a11y">
+<button type="button" class="a11y-btn" aria-expanded="false" aria-controls="a11y-panel" aria-label="Accessibility options">{ICON["a11y"]}</button>
+<div class="a11y-panel" id="a11y-panel" role="dialog" aria-modal="false" aria-labelledby="a11y-h" hidden>
+<div class="a11y-head"><h2 id="a11y-h">Accessibility</h2><button type="button" class="a11y-x" aria-label="Close accessibility options">&times;</button></div>
+<ul class="a11y-grid">{opts}</ul>
+<button type="button" class="a11y-reset">Reset all</button>
+<p class="a11y-note">Need help using this site? Call or text <a href="{TEL}">{BIZ["phone_display"]}</a>.</p>
+</div></div>"""
+
+
 def footer():
     svc = "".join(f'<li><a href="/services/{s["slug"]}">{escape(s["name"].capitalize())}</a></li>' for s in SERVICES)
     return f"""<footer class="site-footer"><div class="wrap">
@@ -346,6 +369,7 @@ def footer():
 </div></footer>
 <dialog class="vbox" aria-label="Time-lapse video"><button type="button" class="vbox-x" aria-label="Close">&times;</button><video controls playsinline preload="none"></video></dialog>
 {STORM_POPUP}
+{a11y_widget()}
 <div class="mobile-bar"><a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}Call</a><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text a photo</a></div>
 <script>
 (function(){{var m=document.querySelector('.masthead');if(document.body.classList.contains('home')&&m){{var on=function(){{m.classList.toggle('stuck',window.scrollY>140)}};window.addEventListener('scroll',on,{{passive:true}});on()}}
@@ -369,6 +393,20 @@ if(now<Date.parse(sd.dataset.until)&&(document.body.classList.contains('home')||
 var sclose=function(){{try{{localStorage.setItem(K,String(Date.now()))}}catch(e){{}}if(sd.open)sd.close()}};
 sd.querySelector('.storm-x').addEventListener('click',sclose);sd.addEventListener('click',function(e){{if(e.target===sd)sclose()}});sd.addEventListener('cancel',function(){{try{{localStorage.setItem(K,String(Date.now()))}}catch(e){{}}}});
 sd.querySelectorAll('a').forEach(function(a){{a.addEventListener('click',function(){{try{{localStorage.setItem(K,String(Date.now()))}}catch(e){{}}}})}})}}
+var aw=document.getElementById('a11y');if(aw){{var KEY='lh-a11y',st={{}};try{{st=JSON.parse(localStorage.getItem(KEY)||'{{}}')}}catch(e){{}}
+var H=document.documentElement,btn=aw.querySelector('.a11y-btn'),pan=aw.querySelector('.a11y-panel');
+var apply=function(){{[].slice.call(H.classList).forEach(function(c){{if(c.indexOf('a11y-')===0)H.classList.remove(c)}});
+for(var k in st){{if(!st[k])continue;H.classList.add(k==='text'?'a11y-text-'+st[k]:'a11y-'+k)}}
+aw.querySelectorAll('.a11y-opt').forEach(function(b){{var k=b.dataset.a11y,v=st[k]||0;b.setAttribute('aria-pressed',v?'true':'false');
+if(k==='text'){{b.querySelectorAll('.a11y-lvl i').forEach(function(i,n){{i.classList.toggle('on',n<v)}});b.querySelector('.a11y-lbl').textContent=v?'Bigger text ('+(v+1)+'/4)':'Bigger text'}}}});
+document.querySelectorAll('video').forEach(function(v){{if(st.still&&!v.paused&&!v.closest('dialog[open]'))v.pause()}});
+try{{localStorage.setItem(KEY,JSON.stringify(st))}}catch(e){{}}}};
+var open=function(o){{pan.hidden=!o;btn.setAttribute('aria-expanded',o?'true':'false');if(o)pan.querySelector('.a11y-opt').focus()}};
+btn.addEventListener('click',function(){{open(pan.hidden)}});aw.querySelector('.a11y-x').addEventListener('click',function(){{open(false);btn.focus()}});
+document.addEventListener('keydown',function(e){{if(e.key==='Escape'&&!pan.hidden){{open(false);btn.focus()}}}});
+document.addEventListener('click',function(e){{if(!pan.hidden&&!aw.contains(e.target))open(false)}});
+aw.querySelectorAll('.a11y-opt').forEach(function(b){{b.addEventListener('click',function(){{var k=b.dataset.a11y;st[k]=k==='text'?((st[k]||0)+1)%4:(st[k]?0:1);apply()}})}});
+aw.querySelector('.a11y-reset').addEventListener('click',function(){{st={{}};apply()}});apply()}}
 document.querySelectorAll('[data-yt]').forEach(function(v){{v.addEventListener('click',function(){{v.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+v.dataset.yt+'?autoplay=1" title="'+v.getAttribute('aria-label')+'" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>'}},{{once:true}})}})}})();
 </script>"""
 
@@ -403,6 +441,7 @@ def page(path, title, description, body, *, current=None, extra_schema=(), og_im
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{FONTS}">
 <link rel="stylesheet" href="/site.css?v={CSS_VERSION}">
+<script>try{{var a=JSON.parse(localStorage.getItem("lh-a11y")||"{{}}");for(var k in a)if(a[k])document.documentElement.classList.add(k==="text"?"a11y-text-"+a[k]:"a11y-"+k)}}catch(e){{}}</script>
 {ld}
 </head>
 <body class="{body_class}">

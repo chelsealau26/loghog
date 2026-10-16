@@ -29,6 +29,9 @@ export default {
       return Response.json(data, { headers: { "cache-control": "public, max-age=3600" } });
     }
 
+    // Videos: answer byte-range requests (Safari/iPhone won't play video without them).
+    if (url.pathname.startsWith("/vid/")) return serveVideo(request, env);
+
     const res = await env.ASSETS.fetch(request);
     const type = res.headers.get("content-type") || "";
     if (request.method !== "GET" || !res.ok || !type.includes("text/html")) return res;
@@ -134,4 +137,35 @@ async function findPlaceId(base, headers) {
 
 function put(cache, key, body, seconds) {
   return cache.put(key, new Response(body, { headers: { "cache-control": `public, max-age=${seconds}` } }));
+}
+
+
+async function serveVideo(request, env) {
+  const res = await env.ASSETS.fetch(new Request(request.url, { method: "GET" }));
+  if (!res.ok) return res;
+  const range = request.headers.get("range");
+  const base = {
+    "content-type": "video/mp4",
+    "accept-ranges": "bytes",
+    "cache-control": "public, max-age=604800",
+  };
+  if (!range) {
+    const h = new Headers(res.headers);
+    for (const [k, v] of Object.entries(base)) h.set(k, v);
+    return new Response(request.method === "HEAD" ? null : res.body, { status: 200, headers: h });
+  }
+  const buf = await res.arrayBuffer();
+  const size = buf.byteLength;
+  const m = /^bytes=(\d*)-(\d*)$/.exec(range.trim());
+  let start, end;
+  if (m && m[1] !== "") { start = +m[1]; end = m[2] !== "" ? Math.min(+m[2], size - 1) : size - 1; }
+  else if (m && m[2] !== "") { start = Math.max(0, size - +m[2]); end = size - 1; }
+  if (start === undefined || start > end || start >= size) {
+    return new Response(null, { status: 416, headers: { ...base, "content-range": `bytes */${size}` } });
+  }
+  const body = request.method === "HEAD" ? null : buf.slice(start, end + 1);
+  return new Response(body, {
+    status: 206,
+    headers: { ...base, "content-range": `bytes ${start}-${end}/${size}`, "content-length": String(end - start + 1) },
+  });
 }

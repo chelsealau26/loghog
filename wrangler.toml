@@ -9,7 +9,7 @@ binding = "ASSETS"
 # HTML pages go through the Worker (to add live Google reviews); images,
 # CSS and other files are served straight from assets.
 not_found_handling = "404-page"
-run_worker_first = ["/*", "!/img/*", "!/vid/*", "!/site.css", "!/favicon*", "!/apple-touch-icon.png", "!/robots.txt", "!/sitemap.xml"]
+run_worker_first = ["/*", "!/img/*", "!/site.css", "!/favicon*", "!/apple-touch-icon.png", "!/robots.txt", "!/sitemap.xml"]
 
 [vars]
 # Optional: Google Place ID for Log Hog. Leave empty to look it up by name.

@@ -104,7 +104,6 @@ SERVICES = [
 <p>Text a photo of the whole tree and your address to <a href="{SMS}">(850) 426-4220</a>. A second photo of the base and of anything it's close to (house, fence, wires) shows us exactly which tree you mean. Sometimes that's enough for a price. Most of the time we'll stop by to look at it in person, then text or call you back with a free quote.</p>
 """,
         "faq": [
-            ("Do I need a permit to remove a tree in Pensacola?", "Some trees do, depending on where you live and the type and size of the tree. Rules differ between the City of Pensacola, Escambia County and Santa Rosa County. Ask us when you send your photos and we'll tell you what we know, but check with your city or county before work starts."),
             ("Will you remove the stump too?", "Yes, if you want it gone. We can grind the stump below ground level in the same visit. Just mention it when you ask for your quote."),
             ("Can you take down a tree near my house or power lines?", "Trees near houses and fences are routine: we take them down in sections and lower the pieces. If a tree is touching or tangled in power lines, the utility may need to make it safe first. Send a photo and we'll tell you."),
         ],

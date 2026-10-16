@@ -513,14 +513,16 @@ STORM_SMS = SMS_BASE + __import__("urllib.parse").parse.quote("Hi Log Hog! I hav
 STORM_UNTIL = "2026-11-01T00:00:00-05:00"  # popup stops showing at midnight Nov 1 (Central)
 
 STORM_POPUP = f"""<dialog class="storm" aria-labelledby="storm-h" data-until="{STORM_UNTIL}">
+<div class="storm-bar"><span class="storm-dot"></span>Hurricane Isaias &middot; Storm response</div>
 <button type="button" class="storm-x" aria-label="Close">&times;</button>
-<div class="storm-img">{img("storm-damaged-oak", "", "(max-width: 600px) 100vw, 260px", [480], w=480, h=360)}<span class="storm-tag">Hurricane Isaias</span></div>
-<div class="storm-body">
-<p class="storm-k">Storm cleanup</p>
+<div class="storm-hero">
+<img src="/img/isaias-tree-on-house-720.webp" srcset="/img/isaias-tree-on-house-720.webp 720w, /img/isaias-tree-on-house-1200.webp 1200w" sizes="(max-width: 760px) 100vw, 720px" alt="A large oak that fell onto the roof of a house during a storm" width="720" height="540">
 <h2 id="storm-h">Trees down from <em>Isaias?</em></h2>
-<p>We're helping neighbors around Pensacola with fallen trees, hanging limbs and storm debris. Text us a photo and your address and we'll get you on the list.</p>
-<div class="btns"><a class="btn btn-primary" href="{STORM_SMS}" data-fixed>{ICON["text"]}Text us a photo</a><a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}Call {BIZ["phone_display"]}</a></div>
-<p class="storm-safe">If a tree is on a power line, stay clear and call your power company first.</p>
+</div>
+<div class="storm-body">
+<p>We're helping neighbors around Pensacola with fallen trees, hanging limbs and storm debris. <strong>Text us a photo and your address and we'll get you on the list.</strong></p>
+<div class="btns"><a class="btn storm-go" href="{STORM_SMS}" data-fixed>{ICON["text"]}Text us a photo now</a><a class="btn storm-call" href="{TEL}">{ICON["phone"]}Call {BIZ["phone_display"]}</a></div>
+<p class="storm-safe">&#9888; If a tree is on a power line, stay clear and call your power company first.</p>
 </div>
 </dialog>"""
 

@@ -919,20 +919,30 @@ h2 em{font-style:italic;color:var(--orange)}
 .ow-sub svg{width:18px;height:18px;color:#e9875a}
 
 /* Hurricane Isaias popup (auto-hides after Nov 1, 2026) */
-dialog.storm{padding:0;border:0;border-radius:24px;max-width:720px;width:calc(100% - 32px);overflow:hidden;display:none;grid-template-columns:260px 1fr;background:#fff;color:var(--ink);box-shadow:0 40px 80px -20px rgba(0,0,0,.6)}
-dialog.storm[open]{display:grid;animation:stormIn .45s cubic-bezier(.2,.8,.2,1)}
-dialog.storm::backdrop{background:rgba(20,13,10,.6);backdrop-filter:blur(3px)}
-@keyframes stormIn{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:none}}
-.storm-img{position:relative}
-.storm-img img{width:100%;height:100%;object-fit:cover;display:block}
-.storm-tag{position:absolute;left:14px;top:14px;padding:6px 11px;border-radius:999px;background:#c0392b;color:#fff;font:800 11px var(--sans);letter-spacing:.1em;text-transform:uppercase}
-.storm-body{padding:34px 34px 28px}
-.storm-k{margin:0 0 6px;font:800 12px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
-.storm h2{font-size:clamp(26px,3vw,34px);line-height:1.1;margin:0 0 12px}
-.storm h2 em{color:var(--orange)}
-.storm-body>p{font-size:16px;line-height:1.6;color:var(--muted);margin:0 0 20px}
-.storm .btns{gap:10px}
-.storm .btns .btn{padding:12px 18px}
-.storm-body p.storm-safe{font-size:13px;margin:16px 0 0;color:var(--soft)}
-.storm-x{position:absolute;top:12px;right:12px;z-index:2;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:var(--ink);font-size:24px;line-height:1;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15)}
-@media (max-width:640px){dialog.storm[open]{grid-template-columns:1fr}.storm-img{height:170px}.storm-body{padding:24px 22px 22px}.storm .btns .btn{flex:1}}
+dialog.storm{padding:0;border:0;border-radius:22px;max-width:620px;width:calc(100% - 28px);max-height:calc(100dvh - 28px);overflow:auto;display:none;flex-direction:column;background:#1a0f0b;color:#fff;box-shadow:0 0 0 3px #e63b1f,0 40px 90px -10px rgba(230,59,31,.55)}
+dialog.storm[open]{display:flex;animation:stormIn .5s cubic-bezier(.2,.9,.2,1.15)}
+dialog.storm::backdrop{background:rgba(15,6,3,.72);backdrop-filter:blur(4px)}
+@keyframes stormIn{from{opacity:0;transform:translateY(30px) scale(.94)}to{opacity:1;transform:none}}
+.storm-bar{position:relative;display:flex;align-items:center;gap:10px;padding:12px 56px 12px 20px;background:#e63b1f;font:900 13px/1.2 var(--sans);letter-spacing:.14em;text-transform:uppercase}
+.storm-bar::after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:8px;background:repeating-linear-gradient(-45deg,#ffc233 0 12px,#1a0f0b 12px 24px)}
+.storm-dot{width:10px;height:10px;border-radius:50%;background:#fff;animation:stormPulse 1.4s infinite}
+@keyframes stormPulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.9)}80%,100%{box-shadow:0 0 0 12px rgba(255,255,255,0)}}
+.storm-hero{position:relative;margin-top:8px}
+.storm-hero img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;object-position:50% 40%}
+.storm-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#1a0f0b 4%,rgba(26,15,11,.35) 45%,transparent 70%)}
+.storm-hero h2{position:absolute;left:24px;right:24px;bottom:6px;z-index:1;margin:0;color:#fff;font:900 clamp(32px,6vw,48px)/1 var(--serif);letter-spacing:-.02em;text-shadow:0 2px 18px rgba(0,0,0,.6)}
+.storm-hero h2 em{color:#ffc233;font-style:italic}
+.storm-body{padding:16px 24px 24px}
+.storm-body>p{font-size:17px;line-height:1.55;color:rgba(255,255,255,.85);margin:0 0 20px}
+.storm-body strong{color:#fff}
+.storm .btns{display:flex;flex-wrap:wrap;gap:10px}
+.storm .btns .btn{flex:1 1 220px}
+.storm-go{background:#ffc233;color:#1a0f0b;font-weight:800;animation:stormGlow 2.2s infinite}
+.storm-go:hover{background:#ffd25f;color:#1a0f0b}
+@keyframes stormGlow{0%{box-shadow:0 0 0 0 rgba(255,194,51,.6)}70%,100%{box-shadow:0 0 0 14px rgba(255,194,51,0)}}
+.storm-call{border:2px solid rgba(255,255,255,.6);color:#fff;background:transparent}
+.storm-call:hover{border-color:#fff;color:#fff}
+.storm-body p.storm-safe{font-size:13px;margin:16px 0 0;color:#ffc233}
+.storm-x{position:absolute;top:6px;right:8px;z-index:3;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.2);color:#fff;font-size:24px;line-height:1;cursor:pointer}
+.storm-x:hover{background:rgba(255,255,255,.35)}
+@media (prefers-reduced-motion:reduce){.storm-dot,.storm-go{animation:none}}

@@ -947,3 +947,21 @@ dialog.storm::backdrop{background:rgba(15,6,3,.72);backdrop-filter:blur(4px)}
 .storm-x:hover{background:rgba(255,255,255,.35)}
 @media (prefers-reduced-motion:reduce){.storm-dot,.storm-go{animation:none}}
 .tls{align-items:start}.tl{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;align-self:start}
+
+/* Area chips can be links */
+.area-chips a{display:inline-flex;align-items:center;gap:6px;padding:9px 14px 9px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.04);color:#fff;font:600 15px var(--sans);text-decoration:none;transition:all .2s}
+.area-chips a svg{width:15px;height:15px;color:#e9875a}
+.area-chips a:hover,.area-chips a.on{background:var(--orange);border-color:var(--orange);color:#fff}
+.area-chips a:hover svg,.area-chips a.on svg{color:#fff}
+.areas-sec.light .area-chips a{color:var(--ink);background:#fff;border-color:var(--line)}
+.areas-sec.light .area-chips a:hover,.areas-sec.light .area-chips a.on{color:#fff;background:var(--orange);border-color:var(--orange)}
+.areas-sec.light .area-chips a:hover svg,.areas-sec.light .area-chips a.on svg{color:#fff}
+.site-footer .wrap{grid-template-columns:1.3fr 1fr 1fr .9fr 1.1fr}
+@media (max-width:1100px){.site-footer .wrap{grid-template-columns:1fr 1fr 1fr}}
+@media (max-width:560px){.site-footer .wrap{grid-template-columns:1fr 1fr}.foot-brand{grid-column:1/-1}}
+/* Town review quote */
+.sb-quote{background:var(--espresso);border-color:var(--espresso);color:#fff}
+.sbq-k{display:flex;align-items:center;gap:8px;margin:0 0 12px;font:800 13px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:#ffc233}
+.sbq-k svg{width:16px;height:16px}
+.sb-quote blockquote{margin:0;font:600 20px/1.5 var(--serif);color:#fff}
+.sb-quote cite{display:block;margin-top:12px;font-style:normal;color:#e9b896;font-weight:600}

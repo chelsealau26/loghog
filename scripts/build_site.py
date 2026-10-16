@@ -8,6 +8,9 @@ the Cloudflare Worker (src/index.js) into the [data-lh-reviews] sections.
 """
 import json
 import re
+import sys
+sys.path.insert(0, str(__import__("pathlib").Path(__file__).parent))
+from towns import TOWNS
 import shutil
 import subprocess
 from datetime import date
@@ -38,7 +41,7 @@ AREAS = [
     "Pensacola", "West Pensacola", "Pensacola Beach", "Gulf Breeze", "Perdido Key",
     "Warrington", "Myrtle Grove", "Bellview", "Brent", "Ensley", "Ferry Pass",
     "Gonzalez", "Cantonment", "Muscogee", "McDavid", "Goulding",
-    "Pace", "Milton", "Lillian, AL", "Seminole, AL",
+    "Pace", "Milton", "Navarre", "Lillian, AL", "Seminole, AL",
 ]
 
 ICON = {
@@ -333,6 +336,7 @@ def footer():
 <div class="foot-brand"><a class="foot-logo" href="/" aria-label="Log Hog Tree Service, home"><img src="/img/logo-192.webp" width="112" height="112" alt="Log Hog Tree Service logo" loading="lazy"></a>
 <p>Veteran-owned tree care for Pensacola and our neighbors nearby, one yard at a time.</p></div>
 <div><h2>Services</h2><ul>{svc}</ul></div>
+<div><h2>Areas we serve</h2><ul>{"".join(f'<li><a href="/service-areas/{t["slug"]}">{escape(t["name"])}{", AL" if t["state"] == "AL" else ""}</a></li>' for t in TOWNS)}</ul></div>
 <div><h2>Log Hog</h2><ul><li><a href="/about-us">About us</a></li><li><a href="/service-areas">Where we work</a></li><li><a href="/contact">Get a free quote</a></li><li><a href="{BIZ["review"]}" rel="noopener">Leave us a review</a></li></ul></div>
 <div><h2>Say hello</h2><ul>
 <li><a href="{TEL}">{BIZ["phone_display"]}</a>, call or text</li>
@@ -448,7 +452,7 @@ AREA_LL = {
     "Ensley": (30.519, -87.273), "Ferry Pass": (30.510, -87.212), "Gonzalez": (30.582, -87.292),
     "Cantonment": (30.608, -87.340), "Muscogee": (30.790, -87.390), "McDavid": (30.862, -87.320),
     "Goulding": (30.443, -87.223), "Pace": (30.599, -87.161), "Milton": (30.632, -87.040),
-    "Lillian, AL": (30.411, -87.437), "Seminole, AL": (30.507, -87.468),
+    "Navarre": (30.401, -86.863), "Lillian, AL": (30.411, -87.437), "Seminole, AL": (30.507, -87.468),
 }
 
 
@@ -465,22 +469,36 @@ def area_slug(a):
     return re.sub(r"[^a-z]+", "-", a.lower()).strip("-")
 
 
-def area_chips():
-    return '<ul class="area-chips">' + "".join(
-        f'<li><button type="button" data-area="{area_slug(a)}">{ICON["pin"]}{escape(a)}</button></li>' for a in AREAS) + "</ul>"
+def town_for(area):
+    for t in TOWNS:
+        if area in t["areas"]:
+            return t
+    return None
 
 
-MAP_LABELS = {"Pensacola", "Milton", "Perdido Key", "Gulf Breeze", "Cantonment", "McDavid", "Lillian, AL", "Pace"}
+def area_chips(current=None):
+    out = []
+    for a in AREAS:
+        t = town_for(a)
+        cls = ' class="on"' if current and a in current else ""
+        if t:
+            out.append(f'<li><a href="/service-areas/{t["slug"]}" data-area="{area_slug(a)}"{cls}>{ICON["pin"]}{escape(a)}</a></li>')
+        else:
+            out.append(f'<li><button type="button" data-area="{area_slug(a)}"{cls}>{ICON["pin"]}{escape(a)}</button></li>')
+    return '<ul class="area-chips">' + "".join(out) + "</ul>"
 
 
-def area_map():
+MAP_LABELS = {"Pensacola", "Milton", "Navarre", "Perdido Key", "Gulf Breeze", "Cantonment", "McDavid", "Lillian, AL", "Pace"}
+
+
+def area_map(current=None):
     cx, cy = MAP_C
     rings = "".join(f'<circle cx="{cx}" cy="{cy}" r="{m*MAP_PX:.0f}" class="ring"/>' for m in (5, 10, 15, 20, 25, 30))
     miles = "".join(f'<text x="{cx - m*MAP_PX*0.707 - 4:.0f}" y="{cy + m*MAP_PX*0.707 + 14:.0f}" text-anchor="end" class="mi">{m} mi</text>' for m in (10, 20, 30))
     dots = []
     for i, a in enumerate(AREAS):
         x, y = _xy(a)
-        cls = "dot" + (" home" if a == "Pensacola" else "") + (" lbl" if a in MAP_LABELS else "")
+        cls = "dot" + (" home" if a == "Pensacola" else "") + (" lbl" if a in MAP_LABELS else "") + (" on" if current and a in current else "")
         lab = escape(a.replace(", AL", ""))
         left = x < cx - 20
         dots.append(f'<g class="{cls}" data-area="{area_slug(a)}" style="--i:{i}" transform="translate({x:.0f} {y:.0f})"><circle r="{10 if a == "Pensacola" else 6.5}"/><text x="{-13 if left else 13}" y="5" text-anchor="{"end" if left else "start"}">{lab}</text></g>')
@@ -709,7 +727,7 @@ HOME_FAQ = [
     ("Do you clean up after the job?", "Always. We haul away the branches and debris and rake up, so your yard is clean when we leave."),
     ("Can you grind the stump when you remove a tree?", "Yes. Stump grinding can be added to any tree removal. Just mention it when you ask for your quote."),
     ("What are your hours?", "Monday through Saturday, 8am to 5pm."),
-    ("What areas do you serve?", "Pensacola and our neighbors nearby, including Gulf Breeze, Pensacola Beach, Perdido Key, Cantonment, Pace, Milton, and Lillian and Seminole, AL. See the full list on our service areas page."),
+    ("What areas do you serve?", "Pensacola and our neighbors nearby, including Gulf Breeze, Pensacola Beach, Perdido Key, Cantonment, Pace, Milton, Navarre, and Lillian and Seminole, AL. See the full list on our service areas page."),
 ]
 
 
@@ -803,7 +821,7 @@ def home():
 
 {LIFT_BLOCK}
 
-{our_work(["1074760131659950", "1659355478552803", "1529463255849855"])}
+{our_work(HOME_VIDEOS)}
 
 
 <section class="section"><div class="wrap success">
@@ -839,7 +857,7 @@ def home():
 """
     return page("/", "Tree Removal & Trimming in Pensacola, FL | Log Hog Tree Service",
                 "Veteran-owned tree service in Pensacola, FL. Tree removal, trimming, stump grinding, storm cleanup and palm trimming. Licensed & insured. Text a photo to (850) 426-4220 for a free quote.",
-                body, current="/", extra_schema=[schema_faq(HOME_FAQ)], body_class="home")
+                body, current="/", extra_schema=[schema_faq(HOME_FAQ)] + schema_videos(HOME_VIDEOS), body_class="home")
 
 
 def inner_hero(trail, h1, lede, *, ctas=True, rating=True, photo=None, side=""):
@@ -942,7 +960,7 @@ def service_page(s):
     if len(desc) > 165:
         desc = f"{s['title'].replace(' in Pensacola, FL', '')} in Pensacola, FL by Log Hog Tree Service. Veteran-owned, licensed & insured. Text a photo to (850) 426-4220 for a free quote."
     return page(f"/services/{s['slug']}", f"{s['title']} | Log Hog Tree Service", desc, body,
-                extra_schema=[service_schema, schema_breadcrumbs(trail), schema_faq(s["faq"])])
+                extra_schema=[service_schema, schema_breadcrumbs(trail), schema_faq(s["faq"])] + schema_videos([SVC_VIDEO[s["slug"]]] if s["slug"] in SVC_VIDEO else []))
 
 
 TIMELAPSES = [
@@ -958,6 +976,29 @@ TIMELAPSES = [
 TL_CAP = {vid: (cap, t) for vid, cap, t in TIMELAPSES}
 SVC_VIDEO = {"tree-removal": "1074760131659950", "tree-trimming": "1659355478552803",
              "storm-cleanup": "1529463255849855", "debris-hauling": "1473657861010235"}
+
+
+HOME_VIDEOS = ["1074760131659950", "1659355478552803", "1529463255849855"]
+TL_SECS = {"1074760131659950": 28, "1659355478552803": 32, "1473657861010235": 27,
+           "1277852727578886": 21, "1344567180867580": 29, "1529463255849855": 31}
+VIDEO_DATE = "2026-10-15T12:00:00-05:00"
+
+
+def schema_videos(ids):
+    out = []
+    for vid in ids:
+        cap, _ = TL_CAP[vid]
+        out.append({
+            "@context": "https://schema.org", "@type": "VideoObject",
+            "name": f"{cap} | Log Hog Tree Service time-lapse",
+            "description": f"Time-lapse of a real Log Hog Tree Service job near Pensacola, FL: {cap.lower()}.",
+            "thumbnailUrl": [f"{SITE}/img/poster-{vid}-960.webp"],
+            "uploadDate": VIDEO_DATE,
+            "duration": f"PT{TL_SECS[vid]}S",
+            "contentUrl": f"{SITE}/vid/tl-{vid}.mp4",
+            "publisher": {"@id": f"{SITE}/#business"},
+        })
+    return out
 
 
 def video_card(vid, big=False):
@@ -1033,7 +1074,7 @@ def about():
 """
     return page("/about-us", "About Log Hog | Veteran-Owned Tree Service in Pensacola, FL",
                 "Log Hog Tree Service is a local, veteran-owned tree company in Pensacola, FL, owned by retired Navy Chief Dave Lau. Licensed and insured tree removal, trimming and stump grinding.",
-                body, current="/about-us", extra_schema=[schema_breadcrumbs(trail)])
+                body, current="/about-us", extra_schema=[schema_breadcrumbs(trail)] + schema_videos([v for v, _, _ in TIMELAPSES]))
 
 
 def contact():
@@ -1067,7 +1108,7 @@ def contact():
 
 <section class="facts"><div class="wrap facts-row">
 <div><span class="facts-k">When</span><strong>{BIZ["hours"]}</strong><p>Text anytime and we'll get back to you.</p></div>
-<div><span class="facts-k">Where</span><strong>Pensacola &amp; nearby</strong><p>Gulf Breeze, Pensacola Beach, Perdido Key, Cantonment, Pace, Milton, Lillian and Seminole, AL, and the communities in between. <a href="/service-areas">See everywhere we work</a>.</p></div>
+<div><span class="facts-k">Where</span><strong>Pensacola &amp; nearby</strong><p>Gulf Breeze, Pensacola Beach, Perdido Key, Cantonment, Pace, Milton, Navarre, Lillian and Seminole, AL, and the communities in between. <a href="/service-areas">See everywhere we work</a>.</p></div>
 <div><span class="facts-k">Peace of mind</span><strong>Licensed &amp; insured</strong><p>Veteran-owned and fully covered on every job.</p></div>
 </div></section>
 
@@ -1105,8 +1146,80 @@ def areas_page():
 {band()}
 """
     return page("/service-areas", "Service Areas | Log Hog Tree Service, Pensacola FL",
-                "Log Hog Tree Service serves Pensacola, Gulf Breeze, Pensacola Beach, Perdido Key, Cantonment, Pace, Milton, Lillian and Seminole AL, and nearby communities. Text a photo for a free quote.",
+                "Log Hog Tree Service serves Pensacola, Gulf Breeze, Pensacola Beach, Perdido Key, Cantonment, Pace, Milton, Navarre, Lillian and Seminole AL, and nearby communities. Text a photo for a free quote.",
                 body, current="/service-areas", extra_schema=[schema_breadcrumbs(trail)])
+
+
+def town_page(t):
+    full = f'{t["name"]}, {t["state"]}'
+    trail = [("Home", "/"), ("Service areas", "/service-areas"), (full, f"/service-areas/{t['slug']}")]
+    intro = "".join(f"<p>{escape(x)}</p>" for x in t["intro"])
+    issues = "".join(f"<li><strong>{escape(h)}</strong><span>{escape(d)}</span></li>" for h, d in t["issues"])
+    svcs = "".join(f'<li><a href="/services/{s["slug"]}"><strong>{escape(s["name"].capitalize())}</strong><span>{escape(s["short"])}</span></a></li>' for s in SERVICES)
+    lat0, lon0 = AREA_LL[t["areas"][0]]
+    near = sorted((o for o in TOWNS if o is not t),
+                  key=lambda o: (AREA_LL[o["areas"][0]][0] - lat0) ** 2 + ((AREA_LL[o["areas"][0]][1] - lon0) * .86) ** 2)[:4]
+    near_links = "".join(f'<li><a href="/service-areas/{o["slug"]}">{escape(o["name"])}{", AL" if o["state"] == "AL" else ""}</a></li>' for o in near)
+    quote = ""
+    if t.get("review"):
+        r = next((x for x in reviews_raw() if x["name"] == t["review"]), None)
+        if r:
+            quote = (f'<div class="sb sb-quote"><p class="sbq-k">{ICON["star"]}5-star Google review from {escape(t["name"])}</p>'
+                     f'<blockquote>“{escape(r["text"])}”</blockquote><cite>{escape(r["name"])}</cite></div>')
+    county_line = f'{escape(t["name"])} {"are" if "&" in t["name"] else "is"} {escape(t["county"])}, part of the area we cover from our home base in Pensacola.'
+    body = f"""
+{inner_hero(trail, f"Tree Service in {full}", t["lede"], photo=t["photo"])}
+
+<section class="section svc-sec"><div class="wrap with-aside">
+<div class="svc-body">
+<div class="sb sb-text"><h2>Tree work in {escape(t["name"])}</h2><div>{intro}</div></div>
+{quote}
+<div class="sb"><h2>What we see around {escape(t["name"])}</h2><ul class="sb-cards">{issues}</ul></div>
+<div class="sb"><h2>How we can help</h2><ul class="sb-cards">{svcs}</ul></div>
+</div>
+{aside(None, "Nearby towns we serve", near_links)}
+</div></section>
+
+{quote_section()}
+
+{reviews_block("service", 3)}
+
+<section class="section"><div class="wrap narrow">
+<div class="section-head"><h2>Questions from <em>{escape(t["name"])}</em></h2></div>
+{faq_html(t["faq"])}
+</div></section>
+
+<section class="section areas-sec light"><div class="wrap areas-grid">
+<div>
+<div class="section-head"><h2>{escape(t["name"])} and <em>nearby</em></h2><p class="lede">{county_line}</p></div>
+{area_chips(t["areas"])}
+<div class="areas-cta"><a class="btn btn-primary" href="{TOWN_SMS}" data-fixed>{ICON["text"]}Don't see your town? Text us</a></div>
+</div>
+{area_map(t["areas"])}
+</div></section>
+
+{band()}
+"""
+    svc_schema = {
+        "@context": "https://schema.org", "@type": "Service",
+        "name": f"Tree service in {full}", "serviceType": "Tree service",
+        "url": f"{SITE}/service-areas/{t['slug']}", "provider": {"@id": f"{SITE}/#business"},
+        "areaServed": [{"@type": "City", "name": a if "," in a else f"{a}, FL"} for a in t["areas"]],
+    }
+    desc = f"Tree removal, trimming, stump grinding and storm cleanup in {full}. Veteran-owned, licensed & insured. Text a photo to (850) 426-4220 for a free quote."
+    return page(f"/service-areas/{t['slug']}", f"Tree Service in {full} | Log Hog Tree Service", desc, body,
+                current="/service-areas", extra_schema=[svc_schema, schema_breadcrumbs(trail), schema_faq(t["faq"])])
+
+
+_REVIEWS = None
+
+
+def reviews_raw():
+    global _REVIEWS
+    if _REVIEWS is None:
+        _REVIEWS = json.loads(subprocess.run(["node", str(ROOT / "scripts/print-reviews.mjs")],
+                                             capture_output=True, text=True, check=True).stdout)
+    return _REVIEWS
 
 
 def not_found():
@@ -1150,11 +1263,15 @@ def main():
     }
     for s in SERVICES:
         files[f"services/{s['slug']}.html"] = service_page(s)
+    shutil.rmtree(OUT / "service-areas", ignore_errors=True)
+    (OUT / "service-areas").mkdir()
+    for t in TOWNS:
+        files[f"service-areas/{t['slug']}.html"] = town_page(t)
     for name, html in files.items():
         (OUT / name).write_text(html)
         print("wrote", name, len(html) // 1024, "KB")
 
-    urls = ["/", "/about-us", "/contact", "/service-areas"] + [f"/services/{s['slug']}" for s in SERVICES]
+    urls = ["/", "/about-us", "/contact", "/service-areas"] + [f"/services/{s['slug']}" for s in SERVICES] + [f"/service-areas/{t['slug']}" for t in TOWNS]
     (OUT / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
         + "".join(f"  <url><loc>{SITE}{u}</loc><lastmod>{TODAY}</lastmod></url>\n" for u in urls)

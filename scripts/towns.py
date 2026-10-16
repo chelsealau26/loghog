@@ -1,0 +1,190 @@
+# Town landing pages. Each has its own copy so the pages are genuinely
+# different (Google penalizes pages that only swap the town name).
+
+TOWNS = [
+    {
+        "slug": "gulf-breeze",
+        "name": "Gulf Breeze",
+        "state": "FL",
+        "areas": ["Gulf Breeze"],
+        "county": "in Santa Rosa County",
+        "photo": ("oaks-trimmed-front-yard", "Big oaks freshly trimmed over a front yard", [480, 900]),
+        "lede": "Big live oaks, salty wind and homes tucked under the canopy. We keep Gulf Breeze trees healthy, trimmed and clear of the roof.",
+        "intro": [
+            "Gulf Breeze sits on a narrow peninsula between Pensacola Bay and Santa Rosa Sound, just across the Three Mile Bridge from us. A lot of yards here are shaded by old live oaks and laurel oaks that were here long before the houses were.",
+            "Those big canopies are a big part of why people love living here, and they need regular care. Salt air and the wind off the water are hard on limbs, and a heavy branch over a roof is the last thing you want when a storm is coming up the Gulf.",
+        ],
+        "issues": [
+            ("Limbs over the roof", "Oak limbs that grow out over the house and drop leaves, acorns and deadwood on the roof and gutters."),
+            ("Wind off the water", "Trees close to the bay and the sound take more wind, so dead and weak limbs are worth getting out before storm season."),
+            ("Tight lots", "Many yards are close together, so trees often have to come down in sections and be lowered with ropes."),
+            ("Palms and landscaping", "Palms near the pool or the front walk that need the dead fronds and seed pods cleaned up."),
+        ],
+        "faq": [
+            ("Do you come out to Gulf Breeze?", "Yes. Gulf Breeze is a regular part of our service area, and it's just across the bridge from Pensacola. Text us a photo and your address for a free quote."),
+            ("Can you trim a big oak that hangs over my house?", "Yes. We can raise and thin the canopy and take back limbs over the roof, without topping the tree. We usually take a look in person before we give you a price."),
+        ],
+    },
+    {
+        "slug": "pensacola-beach",
+        "name": "Pensacola Beach",
+        "state": "FL",
+        "areas": ["Pensacola Beach"],
+        "county": "on Santa Rosa Island",
+        "photo": ("debris-trailer", "The Log Hog trailer loaded with branches and palm fronds after a cleanup", [480, 900]),
+        "lede": "Palms, sand live oaks and salt spray. We trim, clean up and haul off for homes and rentals on Pensacola Beach.",
+        "intro": [
+            "On Pensacola Beach, the trees are tough little survivors: palms, sand live oaks and wax myrtles that live with sand, salt spray and constant wind on Santa Rosa Island.",
+            "Most of the work out here is keeping palms clean and safe, trimming back growth around decks, walkways and parking, and cleaning up after a storm comes through. If you own a rental out here, you can send us photos and we'll handle it without you needing to be there.",
+        ],
+        "issues": [
+            ("Palm cleanup", "Dead and hanging fronds, seed pods and old boots that make palms look tired and can come down in the wind."),
+            ("Storm debris", "Broken limbs and fronds piled up after a blow, hauled off so the property looks right again."),
+            ("Growth around the house", "Wax myrtles and oaks crowding decks, walkways, driveways and the walls of the house."),
+            ("Rental properties", "Owners who aren't on the island can text us photos and we'll take it from there."),
+        ],
+        "faq": [
+            ("Do you work on Pensacola Beach?", "Yes. Text us a photo and the address of the property and we'll get you a free quote."),
+            ("Can you handle trimming at a rental when I'm not there?", "Usually, yes. Send us photos and the address, and let us know about any gate codes or parking. We'll take a look and text or call you with a quote."),
+        ],
+    },
+    {
+        "slug": "perdido-key",
+        "name": "Perdido Key",
+        "state": "FL",
+        "areas": ["Perdido Key"],
+        "county": "in Escambia County",
+        "photo": ("storm-damaged-oak", "A big oak limb that split and fell beside a house in a storm", [480, 900]),
+        "lede": "Palms, sand pines and oaks between the Gulf and Perdido Bay. We trim, clean up and take down trees on Perdido Key.",
+        "intro": [
+            "Perdido Key is the barrier island at the far west end of Escambia County, right up against the Alabama line. Between the Gulf and Old River and Perdido Bay, yards here deal with sand, salt and wind all year.",
+            "Parts of the key have extra rules to protect the dunes and wildlife. We'll ask about your property and work around those areas, and if something needs a permit, we'll tell you up front.",
+        ],
+        "issues": [
+            ("Palm trimming", "Keeping palms clean of dead fronds and seed pods around homes, pools and walkways."),
+            ("Wind-damaged trees", "Pines and oaks that have taken a beating from storms and have broken or hanging limbs."),
+            ("Storm cleanup", "Clearing fallen limbs and debris after a storm so you can get back to the beach."),
+            ("Dunes and protected areas", "We work carefully around dunes and protected spots on the key."),
+        ],
+        "faq": [
+            ("Do you come all the way out to Perdido Key?", "Yes. Perdido Key is part of our service area. Text us a photo and your address and we'll get you a free quote."),
+            ("Do I need a permit to trim or remove a tree on Perdido Key?", "It depends on the tree and where it is on the property. Escambia County and some communities have rules, especially near the dunes. Tell us about the tree and we'll let you know what to check before we start."),
+        ],
+    },
+    {
+        "slug": "pace",
+        "name": "Pace",
+        "state": "FL",
+        "areas": ["Pace"],
+        "county": "in Santa Rosa County",
+        "photo": ("climbing-backyard-tree", "A Log Hog climber high in a tall tree above a backyard fence", [480, 900]),
+        "lede": "Tall pines and water oaks over fences, sheds and newer homes. We take down, trim and clean up trees all over Pace.",
+        "intro": [
+            "Pace has grown fast, and a lot of homes were built right in among tall pines and water oaks. Those trees look great, until one starts leaning toward the house or a storm snaps the top out of a pine.",
+            "We get a lot of calls from Pace for trees over fences and sheds, pines too close to the house, and stumps left behind after a lot was cleared.",
+        ],
+        "issues": [
+            ("Tall pines near the house", "Pines that have grown taller than the house and lean or sway too close for comfort."),
+            ("Water oaks", "Water oaks don't live as long as live oaks and often start dropping big limbs or rotting at the base."),
+            ("Backyard access", "Trees behind fences and sheds that need to come down in sections, without damaging what's under them."),
+            ("Leftover stumps", "Stumps from lot clearing or old removals, ground down so the yard can be lawn again."),
+        ],
+        "faq": [
+            ("Do you serve Pace?", "Yes. Pace is a regular part of our service area. Text us a photo and your address for a free quote."),
+            ("Can you take a pine down in a small backyard?", "Usually, yes. We climb or use our lift and take it down in pieces, lowering them so nothing lands on the fence, shed or house."),
+        ],
+    },
+    {
+        "slug": "milton",
+        "name": "Milton",
+        "state": "FL",
+        "areas": ["Milton"],
+        "county": "in Santa Rosa County",
+        "photo": ("lift-oak", "Log Hog's lift raised into a big live oak", [640, 1200]),
+        "lede": "Big oaks, longleaf pines and bigger lots along the Blackwater. We bring the climbing gear and the lift to Milton.",
+        "intro": [
+            "Milton is the county seat of Santa Rosa County, along the Blackwater River. Between the older neighborhoods near downtown and the bigger lots outside town, there are a lot of mature oaks and pines here.",
+            "Older trees bring older-tree problems: deadwood, limbs over the roof and driveway, and trees that have outgrown the spot they were planted in. On bigger properties, our lift helps us reach high limbs quickly and safely.",
+        ],
+        "issues": [
+            ("Mature oaks", "Old oaks with deadwood and heavy limbs over the house, driveway or power drop."),
+            ("Longleaf and slash pines", "Tall pines that need to come down before they come down on their own."),
+            ("Bigger properties", "Several trees, fence lines or overgrowth on larger lots, often in one visit."),
+            ("Storm cleanup", "Fallen trees and broken limbs cut up and hauled off after a storm."),
+        ],
+        "faq": [
+            ("Do you work in Milton?", "Yes. Milton is part of our service area. Text us a photo and your address and we'll get you a free quote."),
+            ("Can you do several trees on a bigger property in one trip?", "Yes. Send us photos of each tree, or a few wide shots of the property, and we'll take a look and quote it all together."),
+        ],
+    },
+    {
+        "slug": "navarre",
+        "name": "Navarre",
+        "state": "FL",
+        "areas": ["Navarre"],
+        "county": "in Santa Rosa County",
+        "photo": ("tree-trimming-climb", "A Log Hog climber trimming a tree", [480, 900]),
+        "lede": "Trimming, removals and cleanup for Navarre homes, from the sound to the neighborhoods north of 98.",
+        "intro": [
+            "Navarre sits along Santa Rosa Sound in the south end of Santa Rosa County. Yards here are a mix of live oaks, sand pines, palms and landscaping that takes a beating from the wind off the water.",
+            "We've trimmed trees for neighbors in Navarre, and we're always glad to make the drive. Text us a photo and we'll let you know how we can help.",
+        ],
+        "issues": [
+            ("Trimming several trees at once", "Getting the whole yard trimmed in one visit, with all the branches hauled away."),
+            ("Wind-exposed trees", "Trees near the sound that need dead and weak limbs out before storm season."),
+            ("Palms", "Dead fronds and seed pods cleaned up so palms look healthy again."),
+            ("Storm cleanup", "Fallen limbs and debris cleared and hauled off after a storm."),
+        ],
+        "faq": [
+            ("Do you come out to Navarre?", "Yes. Text us a photo and your address and we'll get you a free quote."),
+            ("Do you haul away the branches?", "Always. Every job ends with cleanup. We haul off the branches and debris and rake up before we leave."),
+        ],
+        "review": "Steve Greene",
+    },
+    {
+        "slug": "cantonment",
+        "name": "Cantonment",
+        "state": "FL",
+        "areas": ["Cantonment"],
+        "county": "in Escambia County",
+        "photo": ("pine-takedown-sections", "A Log Hog climber taking a tall pine down in sections", [480, 900]),
+        "lede": "Tall pines, big oaks and room to work. We take down, trim and clean up trees on Cantonment properties of every size.",
+        "intro": [
+            "Cantonment, in north Escambia County, has more room than most of the area: bigger lots, wooded edges and plenty of tall pines and oaks.",
+            "That means bigger trees and bigger cleanups. We take down pines that lean toward the house or barn, trim oaks over driveways and outbuildings, and haul off the brush when we're done.",
+        ],
+        "issues": [
+            ("Pines near buildings", "Tall pines leaning toward the house, barn, shop or pole barn."),
+            ("Outbuildings and fences", "Limbs over sheds, carports and fence lines that need to come back before they fall."),
+            ("Overgrown edges", "Wooded edges and fence lines that have gotten away from you."),
+            ("Brush piles", "Piles from storms or yard work, loaded up and hauled off."),
+        ],
+        "faq": [
+            ("Do you serve Cantonment?", "Yes. Cantonment is part of our service area. Text us a photo and your address for a free quote."),
+            ("Can you take down a tree next to a barn or shop?", "Yes. We take it down in sections and lower the pieces, or use our lift, so nothing lands on the building."),
+        ],
+    },
+    {
+        "slug": "lillian-seminole-al",
+        "name": "Lillian & Seminole",
+        "state": "AL",
+        "areas": ["Lillian, AL", "Seminole, AL"],
+        "county": "in Baldwin County, Alabama",
+        "photo": ("stump-ready-to-grind", "A freshly cut stump ready for grinding", [480, 900]),
+        "lede": "Just across the Perdido from Pensacola. We trim, take down, grind stumps and clean up for homes in Lillian and Seminole, Alabama.",
+        "intro": [
+            "Lillian and Seminole sit on the Alabama side of the Perdido, a short drive from Pensacola. Lillian runs along Perdido Bay, and Seminole is up along Highway 90.",
+            "Properties out here tend to be a little bigger and a little more wooded, with pines, oaks and plenty of brush. We're glad to cross the state line, and it's the same crew and the same care you'd get in Pensacola.",
+        ],
+        "issues": [
+            ("Pines and oaks on bigger lots", "Tall trees that need to come down or be trimmed back from the house and driveway."),
+            ("Waterfront trees", "Trees along Perdido Bay that take more wind and need regular trimming."),
+            ("Stumps", "Old stumps ground below ground level so the spot can go back to grass."),
+            ("Storm cleanup", "Fallen trees and limbs cut up and hauled off after a storm."),
+        ],
+        "faq": [
+            ("Do you really come over to Alabama?", "Yes. Lillian and Seminole are part of our regular service area. Text us a photo and your address and we'll get you a free quote."),
+            ("Is it the same crew as in Pensacola?", "Yes. Same crew, same equipment and same cleanup, whichever side of the state line you're on."),
+        ],
+    },
+]

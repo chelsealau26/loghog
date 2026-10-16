@@ -38,7 +38,7 @@ TEL = "tel:+18504264220"
 
 # Keep in sync with the Google Business Profile service areas.
 AREAS = [
-    "Pensacola", "West Pensacola", "Pensacola Beach", "Gulf Breeze", "Perdido Key",
+    "Pensacola", "West Pensacola", "Gulf Breeze", "Perdido Key",
     "Warrington", "Myrtle Grove", "Bellview", "Brent", "Ensley", "Ferry Pass",
     "Gonzalez", "Cantonment", "Muscogee", "McDavid", "Goulding",
     "Pace", "Milton", "Navarre", "Lillian, AL", "Seminole, AL",
@@ -446,7 +446,7 @@ def band(heading="Got a tree on <em>your mind?</em>",
 
 
 AREA_LL = {
-    "Pensacola": (30.421, -87.217), "West Pensacola": (30.427, -87.279), "Pensacola Beach": (30.333, -87.142),
+    "Pensacola": (30.421, -87.217), "West Pensacola": (30.427, -87.279),
     "Gulf Breeze": (30.357, -87.164), "Perdido Key": (30.293, -87.464), "Warrington": (30.384, -87.275),
     "Myrtle Grove": (30.421, -87.307), "Bellview": (30.462, -87.315), "Brent": (30.469, -87.236),
     "Ensley": (30.519, -87.273), "Ferry Pass": (30.510, -87.212), "Gonzalez": (30.582, -87.292),
@@ -727,7 +727,7 @@ HOME_FAQ = [
     ("Do you clean up after the job?", "Always. We haul away the branches and debris and rake up, so your yard is clean when we leave."),
     ("Can you grind the stump when you remove a tree?", "Yes. Stump grinding can be added to any tree removal. Just mention it when you ask for your quote."),
     ("What are your hours?", "Monday through Saturday, 8am to 5pm."),
-    ("What areas do you serve?", "Pensacola and our neighbors nearby, including Gulf Breeze, Pensacola Beach, Perdido Key, Cantonment, Pace, Milton, Navarre, and Lillian and Seminole, AL. See the full list on our service areas page."),
+    ("What areas do you serve?", "Pensacola and our neighbors nearby, including Gulf Breeze, Perdido Key, Cantonment, Pace, Milton, Navarre, and Lillian and Seminole, AL. See the full list on our service areas page."),
 ]
 
 
@@ -1108,7 +1108,7 @@ def contact():
 
 <section class="facts"><div class="wrap facts-row">
 <div><span class="facts-k">When</span><strong>{BIZ["hours"]}</strong><p>Text anytime and we'll get back to you.</p></div>
-<div><span class="facts-k">Where</span><strong>Pensacola &amp; nearby</strong><p>Gulf Breeze, Pensacola Beach, Perdido Key, Cantonment, Pace, Milton, Navarre, Lillian and Seminole, AL, and the communities in between. <a href="/service-areas">See everywhere we work</a>.</p></div>
+<div><span class="facts-k">Where</span><strong>Pensacola &amp; nearby</strong><p>Gulf Breeze, Perdido Key, Cantonment, Pace, Milton, Navarre, Lillian and Seminole, AL, and the communities in between. <a href="/service-areas">See everywhere we work</a>.</p></div>
 <div><span class="facts-k">Peace of mind</span><strong>Licensed &amp; insured</strong><p>Veteran-owned and fully covered on every job.</p></div>
 </div></section>
 
@@ -1146,7 +1146,7 @@ def areas_page():
 {band()}
 """
     return page("/service-areas", "Service Areas | Log Hog Tree Service, Pensacola FL",
-                "Log Hog Tree Service serves Pensacola, Gulf Breeze, Pensacola Beach, Perdido Key, Cantonment, Pace, Milton, Navarre, Lillian and Seminole AL, and nearby communities. Text a photo for a free quote.",
+                "Log Hog Tree Service serves Pensacola, Gulf Breeze, Perdido Key, Cantonment, Pace, Milton, Navarre, Lillian and Seminole AL, and nearby communities. Text a photo for a free quote.",
                 body, current="/service-areas", extra_schema=[schema_breadcrumbs(trail)])
 
 

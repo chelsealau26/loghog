@@ -917,3 +917,22 @@ h2 em{font-style:italic;color:var(--orange)}
 .our-work .ba figcaption{color:#fff}
 .ow-sub{display:flex;align-items:center;gap:10px;margin:64px 0 22px;font-size:22px;color:#fff}
 .ow-sub svg{width:18px;height:18px;color:#e9875a}
+
+/* Hurricane Isaias popup (auto-hides after Nov 1, 2026) */
+dialog.storm{padding:0;border:0;border-radius:24px;max-width:720px;width:calc(100% - 32px);overflow:hidden;display:none;grid-template-columns:260px 1fr;background:#fff;color:var(--ink);box-shadow:0 40px 80px -20px rgba(0,0,0,.6)}
+dialog.storm[open]{display:grid;animation:stormIn .45s cubic-bezier(.2,.8,.2,1)}
+dialog.storm::backdrop{background:rgba(20,13,10,.6);backdrop-filter:blur(3px)}
+@keyframes stormIn{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:none}}
+.storm-img{position:relative}
+.storm-img img{width:100%;height:100%;object-fit:cover;display:block}
+.storm-tag{position:absolute;left:14px;top:14px;padding:6px 11px;border-radius:999px;background:#c0392b;color:#fff;font:800 11px var(--sans);letter-spacing:.1em;text-transform:uppercase}
+.storm-body{padding:34px 34px 28px}
+.storm-k{margin:0 0 6px;font:800 12px var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
+.storm h2{font-size:clamp(26px,3vw,34px);line-height:1.1;margin:0 0 12px}
+.storm h2 em{color:var(--orange)}
+.storm-body>p{font-size:16px;line-height:1.6;color:var(--muted);margin:0 0 20px}
+.storm .btns{gap:10px}
+.storm .btns .btn{padding:12px 18px}
+.storm-body p.storm-safe{font-size:13px;margin:16px 0 0;color:var(--soft)}
+.storm-x{position:absolute;top:12px;right:12px;z-index:2;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:var(--ink);font-size:24px;line-height:1;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+@media (max-width:640px){dialog.storm[open]{grid-template-columns:1fr}.storm-img{height:170px}.storm-body{padding:24px 22px 22px}.storm .btns .btn{flex:1}}

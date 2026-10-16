@@ -342,6 +342,7 @@ def footer():
 <p class="foot-legal">© {date.today().year} Log Hog Tree Service, Pensacola, Florida. Licensed and insured.</p>
 </div></footer>
 <dialog class="vbox" aria-label="Time-lapse video"><button type="button" class="vbox-x" aria-label="Close">&times;</button><video controls playsinline preload="none"></video></dialog>
+{STORM_POPUP}
 <div class="mobile-bar"><a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}Call</a><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text a photo</a></div>
 <script>
 (function(){{var m=document.querySelector('.masthead');if(document.body.classList.contains('home')&&m){{var on=function(){{m.classList.toggle('stuck',window.scrollY>140)}};window.addEventListener('scroll',on,{{passive:true}});on()}}
@@ -360,6 +361,11 @@ el.addEventListener('click',function(){{sec.querySelectorAll('.on').forEach(func
 var vb=document.querySelector('.vbox');if(vb){{var vv=vb.querySelector('video');var shut=function(){{vv.pause();vv.removeAttribute('src');vv.load();if(vb.open)vb.close()}};
 document.querySelectorAll('[data-video]').forEach(function(t){{t.addEventListener('click',function(){{vv.src=t.dataset.video;var im=t.querySelector('img');if(im)vv.poster=im.currentSrc||im.src;else vv.removeAttribute('poster');vb.showModal();var p=vv.play();if(p&&p.catch)p.catch(function(){{}})}})}});
 vb.querySelector('.vbox-x').addEventListener('click',shut);vb.addEventListener('click',function(e){{if(e.target===vb)shut()}});vb.addEventListener('close',function(){{vv.pause()}})}}
+var sd=document.querySelector('dialog.storm');if(sd){{var K='lh-storm-dismissed',now=Date.now(),seen=0;try{{seen=+localStorage.getItem(K)||0}}catch(e){{}}
+if(now<Date.parse(sd.dataset.until)&&now-seen>3*864e5&&sd.showModal){{setTimeout(function(){{if(!document.querySelector('dialog[open]'))sd.showModal()}},1800)}}
+var sclose=function(){{try{{localStorage.setItem(K,String(Date.now()))}}catch(e){{}}if(sd.open)sd.close()}};
+sd.querySelector('.storm-x').addEventListener('click',sclose);sd.addEventListener('click',function(e){{if(e.target===sd)sclose()}});sd.addEventListener('cancel',function(){{try{{localStorage.setItem(K,String(Date.now()))}}catch(e){{}}}});
+sd.querySelectorAll('a').forEach(function(a){{a.addEventListener('click',function(){{try{{localStorage.setItem(K,String(Date.now()))}}catch(e){{}}}})}})}}
 document.querySelectorAll('[data-yt]').forEach(function(v){{v.addEventListener('click',function(){{v.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+v.dataset.yt+'?autoplay=1" title="'+v.getAttribute('aria-label')+'" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>'}},{{once:true}})}})}})();
 </script>"""
 
@@ -501,6 +507,22 @@ def areas_list():
 
 
 TOWN_SMS = SMS_BASE + __import__("urllib.parse").parse.quote("Hi Log Hog! I don't see my town on your list of service areas, but I'd like a free quote here. My address is: ")
+
+
+STORM_SMS = SMS_BASE + __import__("urllib.parse").parse.quote("Hi Log Hog! I have tree damage from Hurricane Isaias. My address is: ")
+STORM_UNTIL = "2026-11-01T00:00:00-05:00"  # popup stops showing at midnight Nov 1 (Central)
+
+STORM_POPUP = f"""<dialog class="storm" aria-labelledby="storm-h" data-until="{STORM_UNTIL}">
+<button type="button" class="storm-x" aria-label="Close">&times;</button>
+<div class="storm-img">{img("storm-damaged-oak", "", "(max-width: 600px) 100vw, 260px", [480], w=480, h=360)}<span class="storm-tag">Hurricane Isaias</span></div>
+<div class="storm-body">
+<p class="storm-k">Storm cleanup</p>
+<h2 id="storm-h">Trees down from <em>Isaias?</em></h2>
+<p>We're helping neighbors around Pensacola with fallen trees, hanging limbs and storm debris. Text us a photo and your address and we'll get you on the list.</p>
+<div class="btns"><a class="btn btn-primary" href="{STORM_SMS}" data-fixed>{ICON["text"]}Text us a photo</a><a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}Call {BIZ["phone_display"]}</a></div>
+<p class="storm-safe">If a tree is on a power line, stay clear and call your power company first.</p>
+</div>
+</dialog>"""
 
 
 def faq_cta(q, a):

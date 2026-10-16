@@ -904,3 +904,16 @@ h2 em{font-style:italic;color:var(--orange)}
 .lift-photos.in .lp-b{opacity:1;transform:rotate(3deg)}
 @media (max-width:900px){.lift-grid{grid-template-columns:1fr;gap:48px}.lp-b{right:0}}
 .vbox video{aspect-ratio:16/9;object-fit:contain}
+
+/* Stakes strip */
+.stakes{margin-top:56px;display:grid;grid-template-columns:auto 1fr;gap:12px 40px;align-items:center;padding:26px 32px;border-radius:20px;background:var(--espresso);color:#fff}
+.stakes-k{display:flex;align-items:center;gap:10px;margin:0;font:800 18px/1.2 var(--serif);color:#fff;white-space:nowrap}
+.stakes-k svg{width:22px;height:22px;color:#e9875a}
+.stakes ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr)}
+.stakes li{padding:2px 22px;border-left:1px solid rgba(255,255,255,.18);font-size:15.5px;line-height:1.5;color:rgba(255,255,255,.82)}
+@media (max-width:980px){.stakes{grid-template-columns:1fr}.stakes ul{grid-template-columns:1fr;gap:10px}.stakes li{padding:0 0 0 16px;border-left:2px solid #e9875a}}
+
+/* Our work (sliders + time-lapses) */
+.our-work .ba figcaption{color:#fff}
+.ow-sub{display:flex;align-items:center;gap:10px;margin:64px 0 22px;font-size:22px;color:#fff}
+.ow-sub svg{width:18px;height:18px;color:#e9875a}

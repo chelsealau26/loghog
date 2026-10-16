@@ -54,6 +54,7 @@ ICON = {
     "pin": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>',
     "facebook": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M24 12a12 12 0 1 0-13.9 11.9v-8.4h-3V12h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12z"/></svg>',
     "instagram": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9c.2 4.4 2.6 6.8 7 7 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.2-4.4-2.6-6.8-7-7C15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.9 1.4 1.4 0 0 0 0-2.9z"/></svg>',
+    "clock": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 10.4 3.6 2.1-1 1.7L11 13V6h2z"/></svg>',
     "play": '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 4v16l13-8z"/></svg>',
 }
 
@@ -658,6 +659,17 @@ def ba_slider(key, alt_before, alt_after, cap, w, h):
 </figure>"""
 
 
+def our_work(ids):
+    items = "".join(ba_slider(*x) for x in SLIDERS)
+    return f"""<section class="section watch our-work" id="watch"><div class="wrap">
+<div class="section-head"><h2>Our <em>work</em></h2><p class="lede">Drag the sliders to see the before and after, or tap a time-lapse to watch a job from start to finish.</p></div>
+<div class="bas">{items}</div>
+<h3 class="ow-sub">{ICON["play"]}Time-lapses from real jobs</h3>
+{timelapse_grid(ids)}
+<p class="tls-more"><a class="text-link" href="/about-us#watch">See more of our work</a></p>
+</div></section>"""
+
+
 def work_gallery():
     items = "".join(ba_slider(*x) for x in SLIDERS)
     return f"""<section class="section"><div class="wrap">
@@ -677,7 +689,7 @@ HOME_FAQ = [
 ]
 
 
-CARD_IMG = {'tree-removal': ('card-removal', [480, 800]), 'tree-trimming': ('card-trimming', [480, 800]), 'stump-grinding': ('stump-ready-to-grind', [480, 900]), 'storm-cleanup': ('storm-damaged-oak', [480, 900]), 'palm-tree-trimming': ('trimmed-palms-front-yard', [480, 900]), 'debris-hauling': ('debris-trailer', [480, 900])}
+CARD_IMG = {'tree-removal': ('card-lift', [480, 800]), 'tree-trimming': ('card-trimming', [480, 800]), 'stump-grinding': ('stump-ready-to-grind', [480, 900]), 'storm-cleanup': ('storm-damaged-oak', [480, 900]), 'palm-tree-trimming': ('trimmed-palms-front-yard', [480, 900]), 'debris-hauling': ('debris-trailer', [480, 900])}
 
 
 def home():
@@ -705,7 +717,7 @@ def home():
 <p class="hero2-big" aria-hidden="true"><span><span>Tree work</span></span><span><span>done right,</span></span></p>
 <div class="hero2-copy">
 <h1><span class="sr-only">Tree work done right, </span><em>by neighbors you can trust</em></h1>
-<p class="lede">We handle the tree work, so you don't have to. Text us a photo for a free quote.</p>
+<p class="lede">We handle the tree work around Pensacola, so you don't have to. Text us a photo for a free quote.</p>
 {cta_pair()}
 {rating_line()}
 </div>
@@ -724,12 +736,21 @@ def home():
 <div class="pain-list">
 <a class="pain" href="/services/storm-cleanup">{img("storm-damaged-oak", "A large oak limb that split and fell beside a house", "160px", [480])}
 <span class="pain-body"><span class="pain-title">Hurricane season worries</span><span class="pain-text">Every time a storm rolls in off the Gulf, you're watching that one tree out the window.</span><span class="pain-go">How we help with storm cleanup {ARROW}</span></span></a>
-<a class="pain" href="/services/tree-removal">{img("pine-removal-climb", "A Log Hog climber taking down a tall pine in sections", "160px", [480])}
+<a class="pain" href="/services/tree-removal">{img("climbing-backyard-tree", "A Log Hog climber high in a tall tree above a backyard fence", "160px", [480])}
 <span class="pain-body"><span class="pain-title">Too big to do yourself</span><span class="pain-text">Big trees near houses, fences and power lines are dangerous work. It's not a weekend project.</span><span class="pain-go">How we take trees down safely {ARROW}</span></span></a>
 <a class="pain" href="/about-us">{img("debris-trailer", "The Log Hog trailer loaded with branches after a job", "160px", [480])}
 <span class="pain-body"><span class="pain-title">Finding someone you trust</span><span class="pain-text">You want someone licensed, insured, careful and fair on price, who won't leave a mess behind.</span><span class="pain-go">Meet Log Hog {ARROW}</span></span></a>
 </div>
-</div></section>
+</div>
+<div class="wrap"><div class="stakes">
+<p class="stakes-k">{ICON["clock"]}Waiting usually costs more</p>
+<ul>
+<li>A limb through the roof costs a lot more than a trim.</li>
+<li>After a big storm, every crew in town is booked for weeks.</li>
+<li>Dead and leaning trees only get weaker, and harder to take down safely.</li>
+</ul>
+</div></div>
+</section>
 
 <section class="section stone meet"><div class="wrap meet-grid">
 <div class="meet-photos" data-reveal>
@@ -747,6 +768,8 @@ def home():
 </div>
 </div></section>
 
+{reviews_block("home", 3, stone=False)}
+
 {quote_section()}
 
 <section class="section" id="services"><div class="wrap">
@@ -756,11 +779,8 @@ def home():
 
 {LIFT_BLOCK}
 
-{work_gallery()}
+{our_work(["1074760131659950", "1659355478552803", "1529463255849855"])}
 
-{watch_section(["1074760131659950", "1659355478552803", "1529463255849855"])}
-
-{reviews_block("home", 3)}
 
 <section class="section"><div class="wrap success">
 {img("oaks-trimmed-front-yard", "Big oak trees freshly trimmed over a green front lawn and brick home", "(max-width: 900px) 100vw, 480px", [480, 900], w=480, h=640)}

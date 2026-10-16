@@ -821,7 +821,7 @@ def home():
 </div></section>
 
 
-<section class="section dark areas-sec" id="areas"><div class="wrap areas-grid">
+<section class="section areas-sec light" id="areas"><div class="wrap areas-grid">
 <div>
 <div class="section-head"><h2>Proud to serve <em>our neighbors</em></h2><p class="lede">Pensacola, Escambia and Santa Rosa counties, and nearby Alabama.</p></div>
 {area_chips()}
@@ -920,7 +920,7 @@ def service_page(s):
 {faq_html(s["faq"])}
 </div></section>
 
-<section class="section dark areas-sec"><div class="wrap areas-grid">
+<section class="section areas-sec light"><div class="wrap areas-grid">
 <div>
 <div class="section-head"><h2>{escape(s["name"].capitalize())} around <em>Pensacola</em></h2><p class="lede">We're proud to work in these communities.</p></div>
 {area_chips()}

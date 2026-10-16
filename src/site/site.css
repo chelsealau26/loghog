@@ -946,3 +946,4 @@ dialog.storm::backdrop{background:rgba(15,6,3,.72);backdrop-filter:blur(4px)}
 .storm-x{position:absolute;top:6px;right:8px;z-index:3;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.2);color:#fff;font-size:24px;line-height:1;cursor:pointer}
 .storm-x:hover{background:rgba(255,255,255,.35)}
 @media (prefers-reduced-motion:reduce){.storm-dot,.storm-go{animation:none}}
+.tls{align-items:start}.tl{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;align-self:start}

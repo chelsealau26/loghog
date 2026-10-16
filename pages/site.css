@@ -1040,3 +1040,9 @@ html.a11y-cursor,html.a11y-cursor *{cursor:url("data:image/svg+xml,%3Csvg xmlns=
 .home .masthead:not(.stuck) .site-header{background-color:rgba(20,13,10,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom-color:rgba(255,255,255,.08)}
 .storm-bar{background:#c42a12}
 dialog.storm{box-shadow:0 0 0 3px #c42a12,0 40px 90px -10px rgba(196,42,18,.55)}
+/* Thinner accessibility tab */
+.a11y-btn{width:34px;height:46px;border-radius:10px 0 0 10px}
+.a11y-btn:hover{width:40px}
+.a11y-btn svg{width:22px;height:22px}
+.a11y-panel{right:44px}
+@media (max-width:760px){.a11y-btn{width:32px;height:42px}.a11y-btn svg{width:20px;height:20px}}

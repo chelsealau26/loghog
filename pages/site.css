@@ -1046,3 +1046,13 @@ dialog.storm{box-shadow:0 0 0 3px #c42a12,0 40px 90px -10px rgba(196,42,18,.55)}
 .a11y-btn svg{width:22px;height:22px}
 .a11y-panel{right:44px}
 @media (max-width:760px){.a11y-btn{width:32px;height:42px}.a11y-btn svg{width:20px;height:20px}}
+
+/* WAVE: never hide text with opacity (reveals use clip/transform instead) */
+.card-text{opacity:1}
+[data-reveal] .msg,[data-reveal] .typing{opacity:1;clip-path:inset(0 0 100% 0 round 18px);transition:clip-path .45s cubic-bezier(.2,.7,.2,1),transform .45s cubic-bezier(.2,.7,.2,1)}
+[data-reveal].in .msg,[data-reveal].in .typing{clip-path:inset(0 0 0 0 round 18px)}
+.ph-phone .msg,.ph-phone .typing{clip-path:none}
+.band2[data-reveal] .band2-inner>*{opacity:1;clip-path:inset(0 0 100% 0);transition:clip-path .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.band2.in .band2-inner>*{clip-path:inset(-20px -20px -20px -20px)}
+html.a11y-still [data-reveal] .msg,html.a11y-still [data-reveal] .typing,html.a11y-still .band2-inner>*{clip-path:none!important}
+@media (prefers-reduced-motion:reduce){[data-reveal] .msg,[data-reveal] .typing,.band2[data-reveal] .band2-inner>*{clip-path:none;transform:none}}

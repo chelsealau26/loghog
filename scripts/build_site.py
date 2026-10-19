@@ -331,9 +331,9 @@ def header(current):
 
 
 A11Y_OPTS = [
-    ("text", "Bigger text", "Aa"), ("contrast", "High contrast", '<svg viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>'), ("links", "Underline links", "U"),
+    ("text", "Bigger text", "Aa"), ("contrast", "High contrast", '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>'), ("links", "Underline links", "U"),
     ("readable", "Readable font", "Tt"), ("spacing", "Text spacing", "↔"), ("still", "Stop animations", "❚❚"),
-    ("gray", "Grayscale", '<svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 2.5S5 10 5 14.5a7 7 0 0 0 14 0C19 10 12 2.5 12 2.5z" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 21.5a7 7 0 0 1-7-7h14a7 7 0 0 1-7 7z" fill="currentColor"/></svg>'), ("cursor", "Big cursor", "➤"),
+    ("gray", "Grayscale", '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M12 2.5S5 10 5 14.5a7 7 0 0 0 14 0C19 10 12 2.5 12 2.5z" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M12 21.5a7 7 0 0 1-7-7h14a7 7 0 0 1-7 7z" fill="currentColor"/></svg>'), ("cursor", "Big cursor", "➤"),
 ]
 
 
@@ -540,7 +540,7 @@ def area_map(current=None):
         lab = escape(a.replace(", AL", ""))
         left = x < cx - 20
         dots.append(f'<g class="{cls}" data-area="{area_slug(a)}" style="--i:{i}" transform="translate({x:.0f} {y:.0f})"><circle r="{10 if a == "Pensacola" else 6.5}"/><text x="{-13 if left else 13}" y="5" text-anchor="{"end" if left else "start"}">{lab}</text></g>')
-    return f"""<figure class="area-map" data-reveal aria-hidden="true"><svg viewBox="0 0 660 680">
+    return f"""<figure class="area-map" data-reveal aria-hidden="true"><svg viewBox="0 0 660 680" aria-hidden="true" focusable="false">
 <defs><radialGradient id="glow"><stop offset="0" stop-color="#ba5a34" stop-opacity=".38"/><stop offset="1" stop-color="#ba5a34" stop-opacity="0"/></radialGradient>
 <clipPath id="lens"><circle cx="{cx}" cy="{cy}" r="318"/></clipPath></defs>
 <g clip-path="url(#lens)">
@@ -836,7 +836,7 @@ def home():
 <div class="meet-photos" data-reveal>
 <div class="meet-main">{img("dave-lau-founder", "Dave Lau, owner of Log Hog Tree Service, smiling in a customer's yard with his climbing gear", "(max-width: 900px) 100vw, 560px", [640, 1100], w=640, h=800)}</div>
 <div class="meet-inset">{img("lift-portrait", "Log Hog's lift raised into a big live oak", "260px", [480, 810], w=480, h=640)}</div>
-<div class="meet-badge"><svg viewBox="0 0 120 120"><defs><path id="mbc" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs><text><textPath href="#mbc">VETERAN-OWNED · LICENSED &amp; INSURED · </textPath></text></svg><span>{ICON["flag"]}</span></div>
+<div class="meet-badge" aria-hidden="true"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><defs><path id="mbc" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs><text><textPath href="#mbc">VETERAN-OWNED · LICENSED &amp; INSURED · </textPath></text></svg><span>{ICON["flag"]}</span></div>
 </div>
 <div class="meet-copy">
 <h2 class="hd">Meet <em>Log Hog</em></h2>
@@ -1086,7 +1086,7 @@ def about():
 <div class="meet-photos" data-reveal>
 <div class="meet-main">{img("dave-lau-founder", "Dave Lau, owner of Log Hog Tree Service", "(max-width: 900px) 100vw, 560px", [640, 1100], w=640, h=800)}</div>
 <div class="meet-inset">{img("dave-in-tree-selfie", "Dave up in a tree with his helmet and climbing gear", "220px", [640], w=640, h=480)}</div>
-<div class="meet-badge"><svg viewBox="0 0 120 120"><defs><path id="mbc2" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs><text><textPath href="#mbc2">RETIRED NAVY CHIEF · 22 YEARS · </textPath></text></svg><span>{ICON["flag"]}</span></div>
+<div class="meet-badge" aria-hidden="true"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><defs><path id="mbc2" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs><text><textPath href="#mbc2">RETIRED NAVY CHIEF · 22 YEARS · </textPath></text></svg><span>{ICON["flag"]}</span></div>
 </div>
 <div class="meet-copy">
 <h2 class="hd">Led by a retired <em>Navy Chief</em></h2>

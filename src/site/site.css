@@ -1056,3 +1056,7 @@ dialog.storm{box-shadow:0 0 0 3px #c42a12,0 40px 90px -10px rgba(196,42,18,.55)}
 .band2.in .band2-inner>*{clip-path:inset(-20px -20px -20px -20px)}
 html.a11y-still [data-reveal] .msg,html.a11y-still [data-reveal] .typing,html.a11y-still .band2-inner>*{clip-path:none!important}
 @media (prefers-reduced-motion:reduce){[data-reveal] .msg,[data-reveal] .typing,.band2[data-reveal] .band2-inner>*{clip-path:none;transform:none}}
+.vbox-cap{margin:12px 0 0;color:rgba(255,255,255,.85);font-size:15px;text-align:center}
+.vbox-stage video{display:block;width:100%;max-height:80vh;aspect-ratio:16/9;object-fit:contain;border-radius:14px;background:#000}
+h3.picker-q,h3.stakes-k,h3.sbq-k{letter-spacing:normal}
+h3.sbq-k{font-size:13px}

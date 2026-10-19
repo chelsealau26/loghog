@@ -367,7 +367,7 @@ def footer():
 </ul></div>
 <p class="foot-legal">© {date.today().year} Log Hog Tree Service, Pensacola, Florida. Licensed and insured.</p>
 </div></footer>
-<dialog class="vbox" aria-label="Time-lapse video"><button type="button" class="vbox-x" aria-label="Close">&times;</button><video controls playsinline preload="none"></video></dialog>
+<dialog class="vbox" aria-label="Time-lapse video"><button type="button" class="vbox-x" aria-label="Close">&times;</button><div class="vbox-stage"></div><p class="vbox-cap" id="vbox-cap"></p></dialog>
 {STORM_POPUP}
 {a11y_widget()}
 <div class="mobile-bar"><a class="btn btn-quiet" href="{TEL}">{ICON["phone"]}Call</a><a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text a photo</a></div>
@@ -385,9 +385,9 @@ var rv=document.querySelectorAll('[data-reveal]');if('IntersectionObserver' in w
 document.querySelectorAll('.areas-sec').forEach(function(sec){{var hi=function(k,on){{sec.querySelectorAll('[data-area="'+k+'"]').forEach(function(el){{el.classList.toggle('on',on)}})}};
 sec.querySelectorAll('[data-area]').forEach(function(el){{var k=el.dataset.area;['mouseenter','focus'].forEach(function(ev){{el.addEventListener(ev,function(){{hi(k,true)}})}});['mouseleave','blur'].forEach(function(ev){{el.addEventListener(ev,function(){{hi(k,false)}})}});
 el.addEventListener('click',function(){{sec.querySelectorAll('.on').forEach(function(o){{o.classList.remove('on')}});hi(k,true)}})}})}});
-var vb=document.querySelector('.vbox');if(vb){{var vv=vb.querySelector('video');var shut=function(){{vv.pause();vv.removeAttribute('src');vv.load();if(vb.open)vb.close()}};
-document.querySelectorAll('[data-video]').forEach(function(t){{t.addEventListener('click',function(){{vv.src=t.dataset.video;var im=t.querySelector('img');if(im)vv.poster=im.currentSrc||im.src;else vv.removeAttribute('poster');vb.showModal();var p=vv.play();if(p&&p.catch)p.catch(function(){{}})}})}});
-vb.querySelector('.vbox-x').addEventListener('click',shut);vb.addEventListener('click',function(e){{if(e.target===vb)shut()}});vb.addEventListener('close',function(){{vv.pause()}})}}
+var vb=document.querySelector('.vbox');if(vb){{var stg=vb.querySelector('.vbox-stage'),cap=vb.querySelector('.vbox-cap'),vv=null;var kill=function(){{if(vv){{vv.pause();vv.removeAttribute('src');vv.load();vv.remove();vv=null}}}};var shut=function(){{kill();if(vb.open)vb.close()}};
+document.querySelectorAll('[data-video]').forEach(function(t){{t.addEventListener('click',function(){{kill();vv=document.createElement('video');vv.controls=true;vv.muted=true;vv.playsInline=true;vv.setAttribute('playsinline','');vv.setAttribute('aria-describedby','vbox-cap');vv.src=t.dataset.video;var im=t.querySelector('img');if(im)vv.poster=im.currentSrc||im.src;stg.appendChild(vv);cap.textContent=(t.dataset.desc||'')+' Silent time-lapse, no audio.';vb.showModal();var p=vv.play();if(p&&p.catch)p.catch(function(){{}})}})}});
+vb.querySelector('.vbox-x').addEventListener('click',shut);vb.addEventListener('click',function(e){{if(e.target===vb)shut()}});vb.addEventListener('close',kill)}}
 var sd=document.querySelector('dialog.storm');if(sd){{var K='lh-storm-dismissed',now=Date.now(),seen=0;try{{seen=+localStorage.getItem(K)||0}}catch(e){{}}
 if(now<Date.parse(sd.dataset.until)&&(document.body.classList.contains('home')||now-seen>3*864e5)&&sd.showModal){{setTimeout(function(){{if(!document.querySelector('dialog[open]'))sd.showModal()}},1800)}}
 var sclose=function(){{try{{localStorage.setItem(K,String(Date.now()))}}catch(e){{}}if(sd.open)sd.close()}};
@@ -706,7 +706,7 @@ def quote_picker(pre=None):
     return f"""<div class="picker" data-picker>
 <div class="picker-left">
 <p class="picker-step">Build your text</p>
-<p class="picker-q" id="picker-q">What do you need help with?</p>
+<h3 class="picker-q" id="picker-q">What do you need help with?</h3>
 <div class="chips" role="group" aria-labelledby="picker-q">{chips}</div>
 </div>
 <div class="picker-right">
@@ -794,7 +794,7 @@ def home():
 </picture>
 </div>
 <div class="wrap hero2-inner">
-<p class="hero2-big" aria-hidden="true"><span><span>Tree work</span></span><span><span>done right,</span></span></p>
+<div class="hero2-big" aria-hidden="true"><span><span>Tree work</span></span><span><span>done right,</span></span></div>
 <div class="hero2-copy">
 <h1><span class="sr-only">Tree work done right, </span><em>by neighbors you can trust</em></h1>
 <p class="lede">We handle the tree work around Pensacola, so you don't have to. Text us a photo for a free quote.</p>
@@ -823,7 +823,7 @@ def home():
 </div>
 </div>
 <div class="wrap"><div class="stakes">
-<p class="stakes-k">{ICON["clock"]}Waiting usually costs more</p>
+<h3 class="stakes-k">{ICON["clock"]}Waiting usually costs more</h3>
 <ul>
 <li>A limb through the roof costs a lot more than a trim.</li>
 <li>After a big storm, every crew in town is booked for weeks.</li>
@@ -1041,7 +1041,7 @@ def schema_videos(ids):
 
 def video_card(vid, big=False):
     cap, t = TL_CAP[vid]
-    return f'''<button type="button" class="tl{' tl-big' if big else ''}" data-video="/vid/tl-{vid}.mp4" aria-label="Play time-lapse: {escape(cap)}">
+    return f'''<button type="button" class="tl{' tl-big' if big else ''}" data-video="/vid/tl-{vid}.mp4" data-desc="Time-lapse: {escape(cap)}." aria-label="Play time-lapse: {escape(cap)}">
 <span class="tl-media"><img src="/img/poster-{vid}-960.webp" alt="" width="960" height="540" loading="lazy"><span class="tl-play">{ICON["play"]}</span><span class="tl-time">{t}</span></span>
 <span class="tl-cap">{escape(cap)}</span></button>'''
 
@@ -1072,7 +1072,7 @@ LIFT_BLOCK = f"""<section class="section stone lift-sec"><div class="wrap lift-g
 <li><strong>Climbing</strong><span>For tight backyards, trees over roofs and spots the lift can't reach.</span></li>
 <li><strong>Our lift</strong><span>For big canopies and tall trees where a bucket gets us there quicker.</span></li>
 </ul>
-<button type="button" class="text-link lift-watch" data-video="/vid/tl-1074760131659950.mp4">{ICON["play"]}Watch the lift in action</button>
+<button type="button" class="text-link lift-watch" data-video="/vid/tl-1074760131659950.mp4" data-desc="Time-lapse: our lift taking a big tree away from a house.">{ICON["play"]}Watch the lift in action</button>
 </div>
 </div></section>"""
 
@@ -1202,7 +1202,7 @@ def town_page(t):
     if t.get("review"):
         r = next((x for x in reviews_raw() if x["name"] == t["review"]), None)
         if r:
-            quote = (f'<div class="sb sb-quote"><p class="sbq-k">{ICON["star"]}5-star Google review from {escape(t["name"])}</p>'
+            quote = (f'<div class="sb sb-quote"><h3 class="sbq-k">{ICON["star"]}5-star Google review from {escape(t["name"])}</h3>'
                      f'<blockquote>“{escape(r["text"])}”</blockquote><cite>{escape(r["name"])}</cite></div>')
     county_line = f'{escape(t["name"])} {"are" if "&" in t["name"] else "is"} {escape(t["county"])}, part of the area we cover from our home base in Pensacola.'
     body = f"""

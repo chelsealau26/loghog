@@ -98,14 +98,12 @@ SERVICES = [
 <li>A free quote, with no obligation</li>
 <li>Careful sectional takedown near homes, fences and lines</li>
 <li>Cleanup and hauling of branches and debris</li>
-<li>Stump grinding available in the same visit if you want the stump gone too</li>
 <li>Licensed and insured work</li>
 </ul>
 <h2>Getting a quote</h2>
 <p>Text a photo of the whole tree and your address to <a href="{SMS}">(850) 426-4220</a>. A second photo of the base and of anything it's close to (house, fence, wires) shows us exactly which tree you mean. Sometimes that's enough for a price. Most of the time we'll stop by to look at it in person, then text or call you back with a free quote.</p>
 """,
         "faq": [
-            ("Will you remove the stump too?", "Yes, if you want it gone. We can grind the stump below ground level in the same visit. Just mention it when you ask for your quote."),
             ("Can you take down a tree near my house or power lines?", "Trees near houses and fences are routine: we take them down in sections and lower the pieces. If a tree is touching or tangled in power lines, the utility may need to make it safe first. Send a photo and we'll tell you."),
         ],
     },
@@ -144,40 +142,6 @@ SERVICES = [
         ],
     },
     {
-        "slug": "stump-grinding",
-        "name": "Stump grinding",
-        "title": "Stump Grinding in Pensacola, FL",
-        "short": "Stumps ground down below ground level so you can mow, plant or build over the spot.",
-        "lede": "That old stump is a trip hazard, a mower-blade killer and a home for termites. We grind it down below ground level so the spot can go back to lawn.",
-        "photo": ("stump-ready-to-grind", "A freshly cut stump ready for grinding", [480, 900]),
-        "body": """
-<h2>Why grind a stump</h2>
-<ul>
-<li>Stumps get in the way of mowing and landscaping, and they're easy to trip over.</li>
-<li>Rotting stumps attract termites and other wood-boring insects.</li>
-<li>Some trees keep sending up sprouts from the stump and roots.</li>
-<li>You want to plant, lay sod or build where the tree used to be.</li>
-</ul>
-<h2>How it works</h2>
-<p>A stump grinder chews the stump and the top of the main roots into wood chips, down below the surface. What's left is a patch of chips and soil you can fill with topsoil and seed or sod.</p>
-<p>Already have a stump from an old removal or a tree that fell in a storm? We grind stumps on their own too. One customer had a large stump from a fallen oak “cut up and grinded down flat in no time.”</p>
-<h2>What's included</h2>
-<ul class="checks">
-<li>Grinding below ground level</li>
-<li>Surface roots near the stump ground down as well</li>
-<li>Chips left as mulch or cleaned up, your choice (ask when you get your quote)</li>
-<li>Several stumps? Send them all and we'll quote them together</li>
-</ul>
-<h2>Getting a quote</h2>
-<p>Text a photo of each stump with something for scale (a shoe or a tape measure works) and your address. Let us know if there's a gate and how wide it is.</p>
-""",
-        "faq": [
-            ("How deep do you grind?", "Below ground level, deep enough for grass or new plantings. If you plan to build or pour concrete over the spot, tell us and we'll talk about it."),
-            ("What happens to the roots?", "The stump and the top of the main roots get ground up. The rest of the roots stay in the ground and break down naturally over time."),
-            ("Can you get a grinder through my gate?", "Usually, yes. Measure your gate opening and send it with your photos so we can plan for it."),
-        ],
-    },
-    {
         "slug": "storm-cleanup",
         "name": "Storm cleanup",
         "title": "Storm Cleanup & Fallen Tree Removal in Pensacola, FL",
@@ -191,7 +155,6 @@ SERVICES = [
 <li>Limbs hanging in the canopy that could still fall</li>
 <li>Split, cracked or newly leaning trees that need to come down</li>
 <li>Branches and debris piled across the yard</li>
-<li>Stumps left behind by uprooted trees</li>
 </ul>
 <h2>Stay safe first</h2>
 <ul>
@@ -277,7 +240,7 @@ def schema_business():
         "logo": f"{SITE}/img/logo-192.png",
         "image": [f"{SITE}/img/og-image.jpg", f"{SITE}/img/dave-climbing-oak-880.webp"],
         "telephone": BIZ["phone_e164"],
-        "description": "Christian and veteran-owned, licensed and insured tree service in Pensacola, FL: tree removal, trimming and pruning, storm cleanup, palm and bush trimming, stump grinding, and debris hauling.",
+        "description": "Christian and veteran-owned, licensed and insured tree service in Pensacola, FL: tree removal, trimming and pruning, storm cleanup, palm and bush trimming, and debris hauling.",
         "founder": {"@type": "Person", "name": "Dave Lau"},
         "address": {"@type": "PostalAddress", "addressLocality": "Pensacola", "addressRegion": "FL", "addressCountry": "US"},
         "areaServed": [{"@type": "AdministrativeArea", "name": "Escambia County, FL"},
@@ -613,7 +576,7 @@ def cta_pair(primary="Text us a photo"):
 
 
 PLAN = f"""<ol class="plan">
-<li><span class="plan-ico">{ICON["camera"]}</span><h3>Snap a photo</h3><p>Take a picture of the tree, stump or mess. Add your address and text it to {BIZ["phone_display"]}.</p></li>
+<li><span class="plan-ico">{ICON["camera"]}</span><h3>Snap a photo</h3><p>Take a picture of the tree or mess. Add your address and text it to {BIZ["phone_display"]}.</p></li>
 <li><span class="plan-ico">{ICON["pin"]}</span><h3>We take a look</h3><p>Sometimes the photo is all we need. Most of the time it shows us which trees you mean, and we stop by to see them in person.</p></li>
 <li><span class="plan-ico">{ICON["chat"]}</span><h3>Get a fair price</h3><p>We text or call you back with a free quote. No pressure and no obligation.</p></li>
 <li><span class="plan-ico">{ICON["home"]}</span><h3>Enjoy your yard</h3><p>We show up when we say we will, do the job safely, and clean up like we were never there.</p></li>
@@ -634,8 +597,6 @@ PHONE_CHATS = {
                      "Thanks for the photo! We can take that down in sections and haul it all off. We'll swing by to take a look and get you a free quote."),
     "tree-trimming": ("trimming", "Hi! These oaks are hanging low over the yard. Can you trim them up?",
                       "Thanks for the photo! We can lift and thin those and clean everything up. We'll swing by to take a look and get you a free quote."),
-    "stump-grinding": ("stump", "Hi! How much to grind this stump? It's in the backyard and the gate is about 4 ft wide.",
-                       "Thanks for the photo and the gate size! We'll swing by to take a look and get you a free quote."),
     "palm-tree-trimming": ("palm", "Hi! Can you trim the dead fronds and seed pods off this palm?",
                            "Thanks for the photo! We can clean that up and haul off the fronds. We'll swing by to take a look and get you a free quote."),
     "debris-hauling": ("debris", "Hi! A tree came down in our yard. Can you cut it up and haul it all away?",
@@ -659,7 +620,7 @@ def phone(slug=None):
 PHONE = phone()
 
 
-PICKS = ["Tree removal", "Trimming", "Stump grinding", "Storm cleanup", "Debris hauling", "Palms & bushes"]
+PICKS = ["Tree removal", "Trimming", "Storm cleanup", "Debris hauling", "Palms & bushes"]
 
 
 def ticker():
@@ -686,7 +647,6 @@ def quote_section(pre=None, slug=None):
 PICK_ICONS = {
     "Tree removal": '<path d="M12 2 6 10h3l-4 6h5v6h4v-6h5l-4-6h3z"/>',
     "Trimming": '<path d="M6 3a3 3 0 1 0 2.2 5l2.4 2.4L4 17l1.4 1.4L12 12l6.6 6.6L20 17 8.2 5.2A3 3 0 0 0 6 3zm0 2a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm9.4 2.2L13.4 9.2l1.4 1.4 5.6-5.6L19 3.6z"/>',
-    "Stump grinding": '<path d="M12 4C7 4 3 5.8 3 8v8c0 2.2 4 4 9 4s9-1.8 9-4V8c0-2.2-4-4-9-4zm0 2c4.4 0 7 1.4 7 2s-2.6 2-7 2-7-1.4-7-2 2.6-2 7-2zm0 1.2c-2 0-3.4.4-3.4.8s1.4.8 3.4.8 3.4-.4 3.4-.8-1.4-.8-3.4-.8z"/>',
     "Storm cleanup": '<path d="M7 11a5 5 0 0 1 9.6-1.9A4 4 0 1 1 17 17H7a3 3 0 0 1 0-6zm6 7-2 4h2l-1 3 4-5h-2l1-2z"/>',
     "Debris hauling": '<path d="M2 6h12v9H2zm13 3h4l3 3v3h-7zM5.5 16a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm12 0a2 2 0 1 1 0 4 2 2 0 0 1 0-4z"/>',
     "Palms & bushes": '<path d="M12 9c-1.5-3-5-4-8-3 2 .3 4 1.5 5 3-2-.5-5 0-7 2 2.5-.8 5-.6 7 .3L8 22h3l1.2-10.5C14 10.6 17 10.4 20 11c-2-2-5-2.5-7-2 1-1.5 3-2.7 5-3-3-1-6.5 0-6 3z"/>',
@@ -694,7 +654,7 @@ PICK_ICONS = {
 
 
 PICK_MSG = {"Trimming": "tree trimming", "Palms & bushes": "palm and bush trimming"}
-SLUG_PICK = {"tree-removal": "Tree removal", "tree-trimming": "Trimming", "stump-grinding": "Stump grinding",
+SLUG_PICK = {"tree-removal": "Tree removal", "tree-trimming": "Trimming",
              "storm-cleanup": "Storm cleanup", "palm-tree-trimming": "Palms & bushes", "debris-hauling": "Debris hauling"}
 
 
@@ -763,13 +723,12 @@ HOME_FAQ = [
     ("How do I get a quote?", "Text a photo of the tree or job and your address to (850) 426-4220, or give us a call. Sometimes we can quote right from the photo. Most of the time, the photo shows us which trees you mean, and we stop by to look at them in person before we text or call you back with a price. Quotes are free and there's no obligation."),
     ("Are you licensed and insured?", "Yes. Log Hog Tree Service is licensed and insured."),
     ("Do you clean up after the job?", "Always. We haul away the branches and debris and rake up, so your yard is clean when we leave."),
-    ("Can you grind the stump when you remove a tree?", "Yes. Stump grinding can be added to any tree removal. Just mention it when you ask for your quote."),
     ("What are your hours?", "Monday through Saturday, 8am to 5pm."),
     ("What areas do you serve?", "Pensacola and our neighbors nearby, including Gulf Breeze, Innerarity Point, Perdido Key, Cantonment, Pace, Milton, Navarre, and Lillian and Seminole, AL. See the full list on our service areas page."),
 ]
 
 
-CARD_IMG = {'tree-removal': ('card-lift', [480, 800]), 'tree-trimming': ('card-trimming', [480, 800]), 'stump-grinding': ('stump-ready-to-grind', [480, 900]), 'storm-cleanup': ('storm-damaged-oak', [480, 900]), 'palm-tree-trimming': ('trimmed-palms-front-yard', [480, 900]), 'debris-hauling': ('debris-trailer', [480, 900])}
+CARD_IMG = {'tree-removal': ('card-lift', [480, 800]), 'tree-trimming': ('card-trimming', [480, 800]), 'storm-cleanup': ('storm-damaged-oak', [480, 900]), 'palm-tree-trimming': ('trimmed-palms-front-yard', [480, 900]), 'debris-hauling': ('debris-trailer', [480, 900])}
 
 
 def home():
@@ -809,7 +768,7 @@ def home():
 <section class="section pains-sec"><div class="wrap pains">
 <div class="pains-intro">
 <h2 class="hd">Sound <em>familiar?</em></h2>
-<p class="statement">The big limb hanging over the roof. The pine that leans a little more after every storm. The stump you've been mowing around for three years.</p>
+<p class="statement">The big limb hanging over the roof. The pine that leans a little more after every storm.</p>
 <p class="muted">We get it, and you shouldn't have to climb a ladder with a chainsaw to deal with it.</p>
 <a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text us a photo of yours</a>
 </div>
@@ -868,7 +827,6 @@ def home():
 <h2 class="hd">Picture your yard <em>next weekend</em></h2>
 <ul class="checks">
 <li>No more watching that dead limb every time the wind picks up</li>
-<li>A smooth lawn where that old stump used to be</li>
 <li>Trees that look healthy and cared for</li>
 <li>No brush pile left behind. We haul it all away.</li>
 </ul>
@@ -894,7 +852,7 @@ def home():
 {band()}
 """
     return page("/", "Tree Removal & Trimming in Pensacola, FL | Log Hog Tree Service",
-                "Veteran-owned tree service in Pensacola, FL. Tree removal, trimming, stump grinding, storm cleanup and palm trimming. Licensed & insured. Text a photo to (850) 426-4220 for a free quote.",
+                "Veteran-owned tree service in Pensacola, FL. Tree removal, trimming, storm cleanup and palm trimming. Licensed & insured. Text a photo to (850) 426-4220 for a free quote.",
                 body, current="/", extra_schema=[schema_faq(HOME_FAQ)] + schema_videos(HOME_VIDEOS), body_class="home")
 
 
@@ -1111,7 +1069,7 @@ def about():
 {band("Ready to get your <em>yard back?</em>", "Text us a photo of the job and your address. You'll get a fair, free quote, with no pressure.")}
 """
     return page("/about-us", "About Log Hog | Veteran-Owned Tree Service in Pensacola, FL",
-                "Log Hog Tree Service is a local, veteran-owned tree company in Pensacola, FL, owned by retired Navy Chief Dave Lau. Licensed and insured tree removal, trimming and stump grinding.",
+                "Log Hog Tree Service is a local, veteran-owned tree company in Pensacola, FL, owned by retired Navy Chief Dave Lau. Licensed and insured tree removal, trimming and storm cleanup.",
                 body, current="/about-us", extra_schema=[schema_breadcrumbs(trail)] + schema_videos([v for v, _, _ in TIMELAPSES]))
 
 
@@ -1134,10 +1092,10 @@ def contact():
 <p class="muted">Photos show us exactly which trees you mean before we come take a look. Here's the shot list:</p>
 <ol class="shots">
 <li>A photo of the whole tree, from far enough back to see the top</li>
-<li>A photo of the base or stump</li>
+<li>A photo of the base of the tree</li>
 <li>Anything close by: the house, fence, pool, driveway or power lines</li>
 <li>Your address</li>
-<li>What you'd like done: removed, trimmed, stump ground or hauled</li>
+<li>What you'd like done: removed, trimmed or hauled</li>
 <li>Anything we should know, like a locked gate and how wide it is</li>
 </ol>
 <a class="btn btn-primary" href="{SMS}">{ICON["text"]}Text us your photos</a>
@@ -1153,7 +1111,7 @@ def contact():
 {reviews_block("service", 3, "Why your neighbors call <em>Log Hog</em>")}
 """
     return page("/contact", "Free Tree Service Quote | Call or Text Log Hog in Pensacola, FL",
-                "Text a photo of your tree and your address to (850) 426-4220 for a fast, free quote. Tree removal, trimming and stump grinding in Pensacola. Mon–Sat 8am–5pm.",
+                "Text a photo of your tree and your address to (850) 426-4220 for a fast, free quote. Tree removal, trimming and storm cleanup in Pensacola. Mon–Sat 8am–5pm.",
                 body, current="/contact", extra_schema=[schema_breadcrumbs(trail)])
 
 
@@ -1244,7 +1202,7 @@ def town_page(t):
         "url": f"{SITE}/service-areas/{t['slug']}", "provider": {"@id": f"{SITE}/#business"},
         "areaServed": [{"@type": "City", "name": a if "," in a else f"{a}, FL"} for a in t["areas"]],
     }
-    desc = f"Tree removal, trimming, stump grinding and storm cleanup in {full}. Veteran-owned, licensed & insured. Text a photo to (850) 426-4220 for a free quote."
+    desc = f"Tree removal, trimming and storm cleanup in {full}. Veteran-owned, licensed & insured. Text a photo to (850) 426-4220 for a free quote."
     return page(f"/service-areas/{t['slug']}", f"Tree Service in {full} | Log Hog Tree Service", desc, body,
                 current="/service-areas", extra_schema=[svc_schema, schema_breadcrumbs(trail), schema_faq(t["faq"])])
 
@@ -1317,7 +1275,7 @@ def main():
     (OUT / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n")
     (OUT / "_redirects").write_text(
         "/home / 301\n/index.html / 301\n/about /about-us 301\n/services / 301\n"
-        "/tree-removal /services/tree-removal 301\n/stump-grinding /services/stump-grinding 301\n"
+        "/tree-removal /services/tree-removal 301\n/stump-grinding / 301\n/services/stump-grinding / 301\n"
         "/service-areas/pensacola-beach /service-areas/pensacola 301\n")
     print("wrote sitemap.xml, robots.txt, _redirects")
 

@@ -29,6 +29,7 @@ export function allFiveStar(live, builtIn) {
   const seen = new Set();
   return [...(live || []), ...(builtIn || [])].filter((r) => {
     if (Number(r.rating) !== 5 || !r.text) return false;
+    if (/stump/i.test(r.text)) return false; // we no longer offer stump grinding
     const k = key(r.name);
     if (seen.has(k)) return false;
     seen.add(k);

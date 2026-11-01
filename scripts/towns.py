@@ -18,7 +18,6 @@ TOWNS = [
             ("Old live oaks", "Big, older oaks that need deadwood out and limbs raised off the roof, driveway and power drop."),
             ("Pines near the house", "Tall pines that lean toward the house or have been weakened by storms or beetles."),
             ("Storm damage", "Split trunks, hanging limbs and fallen trees after a storm, cut up and hauled off."),
-            ("Stumps", "Old stumps ground below ground level so the yard can go back to grass."),
         ],
         "faq": [
             ("Are you local to Pensacola?", "Yes. Log Hog is based in Pensacola, and most of our jobs are right here in town. Text us a photo and your address for a free quote."),
@@ -81,13 +80,12 @@ TOWNS = [
         "lede": "Tall pines and water oaks over fences, sheds and newer homes. We take down, trim and clean up trees all over Pace.",
         "intro": [
             "Pace has grown fast, and a lot of homes were built right in among tall pines and water oaks. Those trees look great, until one starts leaning toward the house or a storm snaps the top out of a pine.",
-            "We get a lot of calls from Pace for trees over fences and sheds, pines too close to the house, and stumps left behind after a lot was cleared.",
+            "We get a lot of calls from Pace for trees over fences and sheds, pines too close to the house, and lots that need clearing.",
         ],
         "issues": [
             ("Tall pines near the house", "Pines that have grown taller than the house and lean or sway too close for comfort."),
             ("Water oaks", "Water oaks don't live as long as live oaks and often start dropping big limbs or rotting at the base."),
             ("Backyard access", "Trees behind fences and sheds that need to come down in sections, without damaging what's under them."),
-            ("Leftover stumps", "Stumps from lot clearing or old removals, ground down so the yard can be lawn again."),
         ],
         "faq": [
             ("Do you serve Pace?", "Yes. Pace is a regular part of our service area. Text us a photo and your address for a free quote."),
@@ -170,8 +168,8 @@ TOWNS = [
         "state": "AL",
         "areas": ["Lillian, AL", "Seminole, AL"],
         "county": "in Baldwin County, Alabama",
-        "photo": ("stump-ready-to-grind", "A freshly cut stump ready for grinding", [480, 900]),
-        "lede": "Just across the Perdido from Pensacola. We trim, take down, grind stumps and clean up for homes in Lillian and Seminole, Alabama.",
+        "photo": ("storm-damaged-oak", "A large oak limb that split and fell beside a house after a storm", [480, 900]),
+        "lede": "Just across the Perdido from Pensacola. We trim, take down and clean up for homes in Lillian and Seminole, Alabama.",
         "intro": [
             "Lillian and Seminole sit on the Alabama side of the Perdido, a short drive from Pensacola. Lillian runs along Perdido Bay, and Seminole is up along Highway 90.",
             "Properties out here tend to be a little bigger and a little more wooded, with pines, oaks and plenty of brush. We're glad to cross the state line, and it's the same crew and the same care you'd get in Pensacola.",
@@ -179,7 +177,6 @@ TOWNS = [
         "issues": [
             ("Pines and oaks on bigger lots", "Tall trees that need to come down or be trimmed back from the house and driveway."),
             ("Waterfront trees", "Trees along Perdido Bay that take more wind and need regular trimming."),
-            ("Stumps", "Old stumps ground below ground level so the spot can go back to grass."),
             ("Storm cleanup", "Fallen trees and limbs cut up and hauled off after a storm."),
         ],
         "faq": [

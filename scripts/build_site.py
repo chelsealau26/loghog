@@ -104,7 +104,7 @@ SERVICES = [
 <p>Text a photo of the whole tree and your address to <a href="{SMS}">(850) 426-4220</a>. A second photo of the base and of anything it's close to (house, fence, wires) shows us exactly which tree you mean. Sometimes that's enough for a price. Most of the time we'll stop by to look at it in person, then text or call you back with a free quote.</p>
 """,
         "faq": [
-            ("Do you grind stumps?", "We don't offer stump grinding ourselves, but we can point you to a stump grinding company we trust. Just ask when you text us about your tree."),
+            ("Do you grind stumps?", "We don't offer stump grinding ourselves, but we can put you in touch with a local stump grinder we work with and trust. Just ask when you text us about your tree."),
             ("Can you take down a tree near my house or power lines?", "Trees near houses and fences are routine: we take them down in sections and lower the pieces. If a tree is touching or tangled in power lines, the utility may need to make it safe first. Send a photo and we'll tell you."),
         ],
     },
@@ -723,7 +723,7 @@ def work_gallery():
 HOME_FAQ = [
     ("How do I get a quote?", "Text a photo of the tree or job and your address to (850) 426-4220, or give us a call. Sometimes we can quote right from the photo. Most of the time, the photo shows us which trees you mean, and we stop by to look at them in person before we text or call you back with a price. Quotes are free and there's no obligation."),
     ("Are you licensed and insured?", "Yes. Log Hog Tree Service is licensed and insured."),
-    ("Do you grind stumps?", "We don't offer stump grinding ourselves, but we can point you to a stump grinding company we trust. Just ask when you text us about your tree."),
+    ("Do you grind stumps?", "We don't offer stump grinding ourselves, but we can put you in touch with a local stump grinder we work with and trust. Just ask when you text us about your tree."),
     ("Do you clean up after the job?", "Always. We haul away the branches and debris and rake up, so your yard is clean when we leave."),
     ("What are your hours?", "Monday through Saturday, 8am to 5pm."),
     ("What areas do you serve?", "Pensacola and our neighbors nearby, including Gulf Breeze, Innerarity Point, Perdido Key, Cantonment, Pace, Milton, Navarre, and Lillian and Seminole, AL. See the full list on our service areas page."),
